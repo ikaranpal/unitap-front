@@ -29,6 +29,7 @@ import {MulticallUpdater} from 'lib/state/multicall';
 import ScrollToTop from 'components/basic/ScrollToTop/scrollToTop';
 import PrizeTap from 'pages/prize-tap';
 import {ErrorsProvider} from "./context/ErrorsProvider";
+import UserProfileModal from "./pages/home/components/UserProfileModal/UserProfileModal";
 
 require('typeface-jetbrains-mono');
 
@@ -71,6 +72,7 @@ function App() {
                       <BrightConnectionModal/>
                       <ConnectMetamaskModal/>
                       <CreateBrightIdAccountModal/>
+                      <UserProfileModal />
                     </BlockNumberProvider>
                   </BrowserRouter>
                 </ClaimProvider>
