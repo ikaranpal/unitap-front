@@ -22,8 +22,8 @@ export const UserProfileContext = createContext<{
   userProfileLoading: boolean;
   nonEVMWalletAddress: string;
   setNonEVMWalletAddress: (address: string) => void;
-  userProfileModalIsOpen: boolean;
-  closeUserProfileModal: () => void;
+  isUserProfileModalOpen: boolean;
+  setIsUserProfileModalOpenState: (state: boolean) => void;
 }>({
   userProfile: null,
   refreshUserProfile: null,
@@ -33,8 +33,8 @@ export const UserProfileContext = createContext<{
   userProfileLoading: false,
   nonEVMWalletAddress: "",
   setNonEVMWalletAddress: () => {},
-  userProfileModalIsOpen: false,
-  closeUserProfileModal: () => {}
+  isUserProfileModalOpen: false,
+  setIsUserProfileModalOpenState: () => {}
 });
 
 export function UserProfileProvider({ children }: PropsWithChildren<{}>) {
@@ -47,8 +47,11 @@ export function UserProfileProvider({ children }: PropsWithChildren<{}>) {
   const [userProfileLoading, setUserProfileLoading] = useState(false);
   const [nonEVMWalletAddress, setNonEVMWalletAddress] = useState("");
 
-  const [userProfileModalIsOpen, setUserProfileModalIsOpen] = useState(true);
-  const closeUserProfileModal = () => setUserProfileModalIsOpen(false);
+  const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState<boolean>(true);
+
+  const setIsUserProfileModalOpenState = (state: boolean) => {
+    setIsUserProfileModalOpen(state);
+  }
 
   const { fastRefresh } = useContext(RefreshContext);
 
@@ -133,8 +136,8 @@ export function UserProfileProvider({ children }: PropsWithChildren<{}>) {
         userProfileLoading,
         nonEVMWalletAddress,
         setNonEVMWalletAddress,
-        userProfileModalIsOpen,
-        closeUserProfileModal,
+        isUserProfileModalOpen,
+        setIsUserProfileModalOpenState
       }}>
       {children}
     </UserProfileContext.Provider>

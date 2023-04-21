@@ -20,6 +20,7 @@ import ConnectBrightIdModal from 'pages/home/components/ConnectBrightIdModal/con
 import BrightConnectionModal from 'pages/home/components/BrightConnectionModal/brightConnectionModal';
 import ConnectMetamaskModal from 'pages/home/components/ConnectMetamaskModal/connectMetamaskModal';
 import CreateBrightIdAccountModal from 'pages/home/components/CreateBrightIdAccountModal/createBrightIdAccountModal';
+import UserProfileModal from "./pages/home/components/UserProfileModal/UserProfileModal";
 import {BlockNumberProvider} from 'lib/hooks/useBlockNumber';
 
 import ApplicationUpdater from 'state/application/updater';
@@ -29,7 +30,6 @@ import {MulticallUpdater} from 'lib/state/multicall';
 import ScrollToTop from 'components/basic/ScrollToTop/scrollToTop';
 import PrizeTap from 'pages/prize-tap';
 import {ErrorsProvider} from "./context/ErrorsProvider";
-import UserProfileModal from "./pages/home/components/UserProfileModal/UserProfileModal";
 
 require('typeface-jetbrains-mono');
 

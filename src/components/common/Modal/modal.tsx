@@ -26,7 +26,7 @@ const Modal = ({ spaceman, title, titleLeft, children, isOpen, closeModalHandler
       {isOpen && (
         <ModalWrapper className={className} onClick={(_e) => closeModalHandler()} data-testid="modal-wrapper">
           <ModalContent
-            className={`bg-gray20 rounded-2xl border-2 border-gray40 ${errorSource && getError(errorSource) ? '!border-error ' : ''}`}
+            className={`bg-gray30 rounded-2xl border-2 border-gray40 ${errorSource && getError(errorSource) ? '!border-error ' : ''}`}
             onClick={(e) => e.stopPropagation()}
             data-testid="modal-content"
             size={size}
@@ -40,7 +40,7 @@ const Modal = ({ spaceman, title, titleLeft, children, isOpen, closeModalHandler
             >
               <Icon iconSrc="assets/images/modal/exit.svg" />
             </span>
-            <ModalChildrenWrapper className="bg-gray20 max-h-[70vh] !rounded-none styled-scroll" size={size}>
+            <ModalChildrenWrapper className="bg-gray30 max-h-[70vh] !rounded-none styled-scroll" size={size}>
               {children}
             </ModalChildrenWrapper>
           </ModalContent>
