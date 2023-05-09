@@ -3,7 +3,7 @@ import { ModalChildrenWrapper, ModalContent, ModalWrapper } from 'components/com
 import { Spaceman } from 'constants/spaceman';
 import Icon from 'components/basic/Icon/Icon';
 import {APIErrorsSource} from "../../../types";
-import {ErrorsContext} from "../../../context/ErrorsProvider";
+import {ErrorsMessagesContext} from "../../../context/ErrorsMessagesProvider";
 
 type props = {
   title?: string;
@@ -19,7 +19,7 @@ type props = {
 
 const Modal = ({ spaceman, title, titleLeft, children, isOpen, closeModalHandler, className, size, errorSource }: props) => {
 
-  const {getError} = React.useContext(ErrorsContext);
+  const {getError} = React.useContext(ErrorsMessagesContext);
 
   return (
     <>

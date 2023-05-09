@@ -12,12 +12,12 @@ import {ClaimContext} from 'hooks/useChainList';
 import Icon from 'components/basic/Icon/Icon';
 import useGenerateKeys from 'hooks/useGenerateKeys';
 import {sponsorAPI} from 'api';
-import {ErrorsContext} from "../../../../context/ErrorsProvider";
+import {ErrorsMessagesContext} from "../../../../context/ErrorsMessagesProvider";
 
 const BrightConnectionModalBody = () => {
   const {userProfile, refreshUserProfile, loading} = useContext(UserProfileContext);
   const [tried] = useState(false);
-  const {errors, getError, deleteError} = useContext(ErrorsContext);
+  const {errors, getError, deleteError} = useContext(ErrorsMessagesContext);
 
   const {keys, signPrivateKey} = useGenerateKeys();
   const [signedPrivateKey, setSignedPrivateKey] = useState<string | null>(null);

@@ -29,7 +29,7 @@ import UserUpdater from 'state/user/updater';
 import {MulticallUpdater} from 'lib/state/multicall';
 import ScrollToTop from 'components/basic/ScrollToTop/scrollToTop';
 import PrizeTap from 'pages/prize-tap';
-import {ErrorsProvider} from "./context/ErrorsProvider";
+import {ErrorsMessagesProvider} from "./context/ErrorsMessagesProvider";
 
 require('typeface-jetbrains-mono');
 
@@ -50,7 +50,7 @@ function App() {
       <Provider store={store}>
         <Web3Provider>
           <RefreshContextProvider>
-            <ErrorsProvider>
+            <ErrorsMessagesProvider>
               <UserProfileProvider>
                 <ClaimProvider>
                   <BrowserRouter>
@@ -77,7 +77,7 @@ function App() {
                   </BrowserRouter>
                 </ClaimProvider>
               </UserProfileProvider>
-            </ErrorsProvider>
+            </ErrorsMessagesProvider>
           </RefreshContextProvider>
         </Web3Provider>
       </Provider>

@@ -137,6 +137,7 @@ export enum ChainType {
 export enum APIErrorsSource {
   TEST = 'TEST',
   BRIGHTID_CONNECTION_ERROR = 'BRIGHTID_CONNECTION_ERROR',
+  USER_PROFILE_ERROR= 'USER_PROFILE_ERROR',
 }
 
 export type APIError = {

@@ -95,3 +95,12 @@ export async function sponsorAPI(address: string) {
   const response = await axiosInstance.post('/api/auth/user/sponsor/', {address: address})
   return response.data;
 }
+
+export async function checkUsernameAPI(token: string, username: string) {
+  const response = await axiosInstance.post('/api/auth/user/check-username/', {username: username}, {
+    headers: {
+      'Authorization': `Token ${token}`,
+    }
+  })
+  return response.data;
+}
