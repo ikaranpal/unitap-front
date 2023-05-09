@@ -4,7 +4,7 @@ import {
 	getRemainingClaimsAPI,
 	getUserProfile,
 	getUserProfileWithTokenAPI,
-	getWeeklyChainClaimLimitAPI,
+	getWeeklyChainClaimLimitAPI, setUsernameAPI,
 	setWalletAPI
 } from "api";
 import {APIErrorsSource, UserProfile} from "types";
@@ -26,6 +26,7 @@ export const UserProfileContext = createContext<{
 	isUserProfileModalOpen: boolean;
 	setIsUserProfileModalOpenState: (state: boolean) => void;
 	checkUsername: (username: string) => Promise<void>;
+	setUsername: (username: string) => Promise<void>;
 }>({
 	userProfile: null,
 	refreshUserProfile: null,
@@ -39,7 +40,8 @@ export const UserProfileContext = createContext<{
 	isUserProfileModalOpen: false,
 	setIsUserProfileModalOpenState: () => {
 	},
-	checkUsername: () => Promise.resolve()
+	checkUsername: () => Promise.resolve(),
+	setUsername: () => Promise.resolve(),
 });
 
 export function UserProfileProvider({children}: PropsWithChildren<{}>) {
@@ -48,7 +50,7 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 	const [userToken, setToken] = useToken();
 	const [weeklyChainClaimLimit, setWeeklyChainClaimLimit] = useState<number | null>(null);
 	const [remainingClaims, setRemainingClaims] = useState<number | null>(null);
-	const {addError, addMessage} = useContext(ErrorsMessagesContext);
+	const {addError, addMessage, deleteMessage, deleteError} = useContext(ErrorsMessagesContext);
 	const [userProfileLoading, setUserProfileLoading] = useState(false);
 	const [nonEVMWalletAddress, setNonEVMWalletAddress] = useState("");
 
@@ -155,6 +157,29 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 		});
 	}
 
+	const setUsername = async (username: string) => {
+		if (!userProfile || !userProfile.token) return;
+
+		setLoading(true);
+		setUsernameAPI(userProfile.token, username).then((res) => {
+			setLoading(false);
+			deleteMessage(APIErrorsSource.USER_PROFILE_ERROR);
+			deleteError(APIErrorsSource.USER_PROFILE_ERROR);
+			setIsUserProfileModalOpen(false);
+			return res;
+		}).catch((ex: AxiosError) => {
+			setLoading(false);
+			if (ex.response?.status === 400 || ex.response?.status === 403) {
+				addError({
+					source: APIErrorsSource.USER_PROFILE_ERROR,
+					message: ex.response.data.message,
+					statusCode: ex.response.status
+				});
+			}
+			throw ex;
+		});
+	}
+
 	return (
 		<UserProfileContext.Provider
 			value={{
@@ -169,6 +194,7 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 				isUserProfileModalOpen,
 				setIsUserProfileModalOpenState,
 				checkUsername,
+				setUsername
 			}}>
 			{children}
 		</UserProfileContext.Provider>

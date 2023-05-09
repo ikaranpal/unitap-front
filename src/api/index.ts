@@ -104,3 +104,12 @@ export async function checkUsernameAPI(token: string, username: string) {
   })
   return response.data;
 }
+
+export async function setUsernameAPI(token: string, username: string) {
+  const response = await axiosInstance.post('/api/auth/user/set-username/', {username: username}, {
+    headers: {
+      'Authorization': `Token ${token}`,
+    }
+  })
+  return response.data;
+}

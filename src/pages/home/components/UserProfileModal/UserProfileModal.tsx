@@ -7,11 +7,11 @@ import {APIError, APIErrorsSource} from "../../../../types";
 import {ErrorsMessagesContext} from "../../../../context/ErrorsMessagesProvider";
 
 const UserProfileModalBody = () => {
-	const [username, setUsername] = useState('');
+	const [usernameInput, setUsernameInput] = useState('');
 	const [usernameError, setUsernameError] = useState<APIError | null>(null);
 	const [usernameMessage, setUsernameMessage] = useState<APIError | null>(null);
-	const {errors, getError, deleteError, messages, getMessage} = useContext(ErrorsMessagesContext);
-	const {checkUsername} = useContext(UserProfileContext);
+	const {errors, getError, deleteError, messages, getMessage, deleteMessage} = useContext(ErrorsMessagesContext);
+	const {checkUsername, setUsername} = useContext(UserProfileContext);
 	const [checkUsernameTimeout, setCheckUsernameTimeout] = useState<NodeJS.Timeout | null>(null);
 
 	useEffect(() => {
@@ -22,9 +22,11 @@ const UserProfileModalBody = () => {
 		setUsernameMessage(getMessage(APIErrorsSource.USER_PROFILE_ERROR));
 	}, [messages, getMessage]);
 
-	const setUsernameHandler = async (username: string) => {
-		if (!checkUsername || !username) return;
-		setUsername(username);
+	const setUsernameInputHandler = async (username: string) => {
+		if (!checkUsername) return;
+		setUsernameInput(username);
+		deleteError(APIErrorsSource.USER_PROFILE_ERROR);
+		deleteMessage(APIErrorsSource.USER_PROFILE_ERROR);
 
 		if (checkUsernameTimeout) {
 			clearTimeout(checkUsernameTimeout);
@@ -37,6 +39,11 @@ const UserProfileModalBody = () => {
 				}
 			}, 1000)
 		);
+	}
+
+	const handleSaveUsernamePressed = () => {
+		if (!usernameInput) return;
+		setUsername(usernameInput);
 	}
 
 	return (
@@ -52,14 +59,14 @@ const UserProfileModalBody = () => {
 				/>
 
 				<input type='text' className="input w-full mb-2" placeholder="@username"
-				       onChange={(event) => setUsernameHandler(event.target.value)}/>
+				       onChange={(event) => setUsernameInputHandler(event.target.value)}/>
 				{usernameError && (
-					<span className="notice flex mb-6 w-full">
+					<span className="notice flex mb-3 w-full">
 		        <p className="text-xs text-error font-light ml-1"> {usernameError.message} </p>
 		      </span>
 				)}
 				{usernameMessage && !usernameError && (
-					<span className="notice flex mb-6 w-full">
+					<span className="notice flex mb-3 w-full">
 						<p className="text-xs text-space-green font-light ml-1"> {usernameMessage.message} </p>
 					</span>
 				)}
@@ -72,8 +79,8 @@ const UserProfileModalBody = () => {
 				{/*    <Icon iconSrc="assets/images/modal/instagram.svg" className="w-5 h-auto" />*/}
 				{/*  </button>*/}
 				{/*</span>*/}
-				<ClaimButton className="!w-full" onClick={() => {
-				}}>
+				<ClaimButton className="!w-full mt-3" onClick={() => handleSaveUsernamePressed()}
+				             disabled={!!getError(APIErrorsSource.USER_PROFILE_ERROR) || !getMessage(APIErrorsSource.USER_PROFILE_ERROR)}>
 					Save
 				</ClaimButton>
 			</div>
