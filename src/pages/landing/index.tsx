@@ -9,6 +9,7 @@ import { ClaimContext } from 'hooks/useChainList';
 import { useUnitapBatchSale } from 'hooks/pass/useUnitapBatchSale';
 import { getTotalGasFeeClaims, getTotalTestNetworks } from 'utils';
 import { getTotalEVMNetworks } from '../../utils';
+import Header from "./components/header";
 
 const Landing: FC = () => {
   const { chainList } = useContext(ClaimContext);
@@ -89,18 +90,7 @@ const Landing: FC = () => {
     <>
       <Navbar />
       <main className={'flex flex-col gap-6 content-wrapper'}>
-        <section
-          id="home-header"
-          className={
-            'uni-card flex flex-col gap-4 after:rounded-2xl after:bg-home-header-texture h-40 text-white justify-center text-center sm:text-left sm:px-12 overflow-hidden'
-          }
-        >
-          <img src={'/assets/images/landing/uni-logo.svg'} className={'w-48 mx-auto sm:mx-0'} alt={'logo'} />
-          <h4 className={'text-gradient-primary'}>
-            Unitap is an onboarding tool for networks and communities and a gateway for users to web3
-          </h4>
-        </section>
-
+        <Header />
         <section
           id="home-nft"
           className={
