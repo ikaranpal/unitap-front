@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import {UserProfileContext} from "../../../hooks/useUserProfile";
 
 const Header = () => {
-	const {userProfile} = useContext(UserProfileContext);
+	const {userProfile, setIsUserProfileModalOpenState} = useContext(UserProfileContext);
 
 	return (
 		<section
@@ -14,7 +14,7 @@ const Header = () => {
 			{userProfile?.username && <span className="home-header__left flex-1 flex flex-row gap-5">
 				<img src="/assets/images/landing/profile-avatar.svg" className="w-14 h-16" alt='avatar'/>
 				<span className='flex flex-col'>
-					<p className='username font-bold mb-5'>@{userProfile.username}</p>
+					<p className='username font-bold mb-5 cursor-pointer' onClick={() => setIsUserProfileModalOpenState(true)}>@{userProfile.username}</p>
 					<p className='level text-xs text-gray90'>Level: [Coming soon]</p>
 				</span>
 			</span>}

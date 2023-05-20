@@ -19,6 +19,7 @@ export const UserProfileContext = createContext<{
 	refreshUserProfile: ((address: string, signature: string) => Promise<void>) | null;
 	loading: boolean;
 	usernameLoading: boolean;
+	setUsernameLoading: (state: boolean) => void;
 	weeklyChainClaimLimit: number | null;
 	remainingClaims: number | null;
 	userProfileLoading: boolean;
@@ -33,6 +34,7 @@ export const UserProfileContext = createContext<{
 	refreshUserProfile: null,
 	loading: false,
 	usernameLoading: false,
+	setUsernameLoading: () => {},
 	weeklyChainClaimLimit: null,
 	remainingClaims: null,
 	userProfileLoading: false,
@@ -197,6 +199,7 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 				refreshUserProfile,
 				loading,
 				usernameLoading,
+				setUsernameLoading,
 				weeklyChainClaimLimit,
 				remainingClaims,
 				userProfileLoading,

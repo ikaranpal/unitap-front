@@ -11,7 +11,7 @@ const UserProfileModalBody = () => {
   const [usernameError, setUsernameError] = useState<APIError | null>(null);
   const [usernameMessage, setUsernameMessage] = useState<APIError | null>(null);
   const {errors, getError, deleteError, messages, getMessage, deleteMessage} = useContext(ErrorsMessagesContext);
-  const {checkUsername, setUsername, usernameLoading} = useContext(UserProfileContext);
+  const {checkUsername, setUsername, usernameLoading, setUsernameLoading} = useContext(UserProfileContext);
   const [checkUsernameTimeout, setCheckUsernameTimeout] = useState<NodeJS.Timeout | null>(null);
   const {userProfile} = useContext(UserProfileContext);
 
@@ -35,10 +35,11 @@ const UserProfileModalBody = () => {
     setUsernameInput(username);
     if (checkUsernameTimeout) {
       clearTimeout(checkUsernameTimeout);
+      setUsernameLoading(false);
     }
 
-    if (username.length < 3) return;
-
+    if (!username) return;
+    setUsernameLoading(true);
     setCheckUsernameTimeout(
       setTimeout(async () => {
         if (username) {
@@ -72,7 +73,7 @@ const UserProfileModalBody = () => {
         />
         <span className='min-h-[100px] w-full'>
 
-        <input disabled={usernameLoading} type='text' className="input w-full mb-2" placeholder="username" autoFocus
+        <input type='text' className="input w-full mb-2" placeholder="username" autoFocus
                ref={(input) => {
                  textInput = input;
                }}
