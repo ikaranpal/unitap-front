@@ -49,6 +49,7 @@ type UserWallet = {
 }
 
 export type UserProfile = {
+  username: string;
   isMeetVerified: boolean;
   isAuraVerified: boolean;
   initial_context_id: string;

@@ -18,6 +18,7 @@ export const UserProfileContext = createContext<{
 	userProfile: UserProfile | null;
 	refreshUserProfile: ((address: string, signature: string) => Promise<void>) | null;
 	loading: boolean;
+	usernameLoading: boolean;
 	weeklyChainClaimLimit: number | null;
 	remainingClaims: number | null;
 	userProfileLoading: boolean;
@@ -31,6 +32,7 @@ export const UserProfileContext = createContext<{
 	userProfile: null,
 	refreshUserProfile: null,
 	loading: false,
+	usernameLoading: false,
 	weeklyChainClaimLimit: null,
 	remainingClaims: null,
 	userProfileLoading: false,
@@ -47,6 +49,7 @@ export const UserProfileContext = createContext<{
 export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 	const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 	const [loading, setLoading] = useState(false);
+	const [usernameLoading, setUsernameLoading] = useState(false);
 	const [userToken, setToken] = useToken();
 	const [weeklyChainClaimLimit, setWeeklyChainClaimLimit] = useState<number | null>(null);
 	const [remainingClaims, setRemainingClaims] = useState<number | null>(null);
@@ -54,7 +57,7 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 	const [userProfileLoading, setUserProfileLoading] = useState(false);
 	const [nonEVMWalletAddress, setNonEVMWalletAddress] = useState("");
 
-	const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState<boolean>(true);
+	const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState<boolean>(false);
 
 	const setIsUserProfileModalOpenState = (state: boolean) => {
 		setIsUserProfileModalOpen(state);
@@ -67,6 +70,12 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 	const setNewUserProfile = useCallback((newUserProfile: UserProfile) => {
 		setUserProfile(newUserProfile);
 	}, []);
+
+	useEffect(() => {
+		if (userProfile && userProfile.token && !userProfile.username) {
+			setIsUserProfileModalOpen(true);
+		}
+	}, [userProfile]);
 
 	const refreshUserProfile = async (address: string, signature: string) => {
 		setLoading(true);
@@ -135,9 +144,9 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 	const checkUsername = async (username: string) => {
 		if (!userProfile || !userProfile.token) return;
 
-		setLoading(true);
+		setUsernameLoading(true);
 		checkUsernameAPI(userProfile.token, username).then((res) => {
-			setLoading(false);
+			setUsernameLoading(false);
 			addMessage({
 				source: APIErrorsSource.USER_PROFILE_ERROR,
 				message: res.message,
@@ -145,8 +154,8 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 			})
 			return res;
 		}).catch((ex: AxiosError) => {
-			setLoading(false);
-			if (ex.response?.status === 400 || ex.response?.status === 403) {
+			setUsernameLoading(false);
+			if (ex.response?.status === 400 || ex.response?.status === 403 || ex.response?.status === 409) {
 				addError({
 					source: APIErrorsSource.USER_PROFILE_ERROR,
 					message: ex.response.data.message,
@@ -160,15 +169,16 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 	const setUsername = async (username: string) => {
 		if (!userProfile || !userProfile.token) return;
 
-		setLoading(true);
+		setUsernameLoading(true);
 		setUsernameAPI(userProfile.token, username).then((res) => {
-			setLoading(false);
+			setUsernameLoading(false);
+			userProfile.username = username;
 			deleteMessage(APIErrorsSource.USER_PROFILE_ERROR);
 			deleteError(APIErrorsSource.USER_PROFILE_ERROR);
 			setIsUserProfileModalOpen(false);
 			return res;
 		}).catch((ex: AxiosError) => {
-			setLoading(false);
+			setUsernameLoading(false);
 			if (ex.response?.status === 400 || ex.response?.status === 403) {
 				addError({
 					source: APIErrorsSource.USER_PROFILE_ERROR,
@@ -186,6 +196,7 @@ export function UserProfileProvider({children}: PropsWithChildren<{}>) {
 				userProfile,
 				refreshUserProfile,
 				loading,
+				usernameLoading,
 				weeklyChainClaimLimit,
 				remainingClaims,
 				userProfileLoading,
