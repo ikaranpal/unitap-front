@@ -255,6 +255,222 @@ export const ClaimButton = styled(PrimaryOutlinedButton)`
 	}
 `;
 
+export const PrimaryOutlinedButtonDashboard = styled(Button)`
+	/* border: 1px solid ${DV.colors.primary}; */
+	color: ${({ disabled }) => (disabled ? '#C0AFC7' : 'white')};
+	background: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.bgGradient.primary)};
+	position: relative;
+	z-index: 1;
+
+	&::before {
+		content: '';
+		display: block;
+		z-index: -1;
+		position: absolute;
+		background: #212130;
+		inset: 0;
+		margin: 1px;
+		border-radius: 5px;
+	}
+`;
+
+export const ProviderDashboardButton = styled(PrimaryOutlinedButtonDashboard)`
+	width: 100%;
+	padding: 0px 5.3em;
+	font-weight: 500;
+	height: 24px;
+	max-width: 100px;
+	font-size: 10px;
+	border-radius: 6px;
+	&:not(:disabled) p {
+		background: ${DV.bgGradient.primary};
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	::before {
+		// background: ${DV.colors.gray50} !important;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+
+		background: ${DV.colors.gary50};
+
+		p {
+			-webkit-background-clip: none !important;
+			-webkit-text-fill-color: none !important;
+			color: ${DV.colors.gray10};
+		}
+
+		::before {
+			background: none !important;
+		}
+	}
+`;
+
+export const PrimaryOutlinedButtonDashboardSuccess = styled(Button)`
+	/* border: 1px solid ${DV.colors.primary}; */
+	color: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.space_green)};
+	background: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.space_green)};
+	position: relative;
+	z-index: 1;
+
+	&::before {
+		content: '';
+		display: block;
+		z-index: -1;
+		position: absolute;
+		background: ${DV.colors.darkgreen};
+		inset: 0;
+		margin: 1px;
+		border-radius: 5px;
+	}
+`;
+
+export const ProviderDashboardButtonSuccess = styled(PrimaryOutlinedButtonDashboardSuccess)`
+	width: 100%;
+	padding: 0px 5.3em;
+	font-weight: 500;
+	height: 24px;
+	max-width: 100px;
+	font-size: 10px;
+	border-radius: 6px;
+	&:not(:disabled) p {
+		background: ${DV.colors.space_green};
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	::before {
+		// background: ${DV.colors.gray50} !important;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+
+		background: ${DV.colors.darkgreen};
+
+		p {
+			-webkit-background-clip: none !important;
+			-webkit-text-fill-color: none !important;
+			color: ${DV.colors.gray10};
+		}
+
+		::before {
+			background: none !important;
+		}
+	}
+`;
+
+export const PrimaryOutlinedButtonDashboardRejected = styled(Button)`
+	/* border: 1px solid ${DV.colors.primary}; */
+	color: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.warningRed)};
+	background: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.warningRed)};
+	position: relative;
+	z-index: 1;
+
+	&::before {
+		content: '';
+		display: block;
+		z-index: -1;
+		position: absolute;
+		background: ${DV.colors.DarkWarningRed};
+		inset: 0;
+		margin: 1px;
+		border-radius: 5px;
+	}
+`;
+
+export const ProviderDashboardButtonRejected = styled(PrimaryOutlinedButtonDashboardRejected)`
+	width: 100%;
+	padding: 0px 5.3em;
+	font-weight: 500;
+	height: 24px;
+	max-width: 100px;
+	font-size: 10px;
+	border-radius: 6px;
+	&:not(:disabled) p {
+		background: ${DV.colors.warningRed};
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	::before {
+		// background: ${DV.colors.gray50} !important;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+
+		background: ${DV.colors.DarkWarningRed};
+
+		p {
+			-webkit-background-clip: none !important;
+			-webkit-text-fill-color: none !important;
+			color: ${DV.colors.warningRed};
+		}
+
+		::before {
+			background: none !important;
+		}
+	}
+`;
+
+export const PrimaryOutlinedButtonDashboardCheck = styled(Button)`
+	/* border: 1px solid ${DV.colors.primary}; */
+	color: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.warningRed)};
+	background: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.warningRed)};
+	position: relative;
+	z-index: 1;
+
+	&::before {
+		content: '';
+		display: block;
+		z-index: -1;
+		position: absolute;
+		background: #212130;
+		inset: 0;
+		margin: 1px;
+		border-radius: 12px;
+	}
+`;
+
+export const ProviderDashboardButtonCheck = styled(PrimaryOutlinedButtonDashboardCheck)`
+	font-size: 10px;
+	width: 100%;
+	padding: 0px 5.3em;
+	font-weight: 600;
+	height: 48px;
+	font-size: 10px;
+	border-radius: 12px;
+	&:not(:disabled) p {
+		background: ${DV.colors.dark};
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	::before {
+		// background: ${DV.colors.gray50} !important;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+
+		background: ${DV.colors.dark};
+
+		p {
+			-webkit-background-clip: none !important;
+			-webkit-text-fill-color: none !important;
+			color: ${DV.colors.warningRed};
+		}
+
+		::before {
+			background: none !important;
+		}
+	}
+`;
+
 export const NoCurrencyButton = styled(Button)`
 	background: ${DV.colors.gray90};
 	color: ${DV.colors.gray70};

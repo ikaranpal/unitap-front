@@ -7,6 +7,7 @@ enum RoutePath {
   PRIZE = '/prize-tap',
   ABOUT = '/about',
   NFT = '/pass',
+  PROVIDERDASHBOARD ='provider-dashboard'
 }
 
 export default RoutePath;
