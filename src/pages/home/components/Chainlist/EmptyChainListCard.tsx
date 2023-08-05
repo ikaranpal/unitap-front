@@ -1,5 +1,3 @@
-import React from 'react';
-
 const EmptyChainListCard = () => {
 	return (
 		// <div className="empty-chain-list-card flex flex-col rounded-xl w-full overflow-hidden">
@@ -28,7 +26,7 @@ const EmptyChainListCard = () => {
 		// 		</span>
 		// 	</div>
 		// </div>
-		<div className="mt-5">
+		<div data-testid="chains-not-found" className="mt-5">
 			<div className="bg-gray30 text-white shadow-lg rounded-lg p-6 mx-auto">
 				<div className="flex justify-center items-center h-20">
 					<h1 className="text-4xl bg-primaryGradient text-transparent bg-clip-text font-semibold">404</h1>

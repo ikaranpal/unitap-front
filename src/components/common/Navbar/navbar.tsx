@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import {
 	BrightConnectedButton,
 	BrightPrimaryButton,
@@ -10,17 +10,17 @@ import { shortenAddress } from 'utils';
 import { DesktopNav, MobileNav } from './navbar.style';
 import { useNavigate } from 'react-router-dom';
 import RoutePath from 'routes';
-import { ClaimContext } from 'hooks/useChainList';
 import useWalletActivation from '../../../hooks/useWalletActivation';
 import { useWeb3React } from '@web3-react/core';
 import Icon from 'components/basic/Icon/Icon';
 import NavbarDropdown from './navbarDropdown';
 import { useUnitapPass } from '../../../hooks/pass/useUnitapPass';
+import { GlobalContext } from 'hooks/useGlobalContext';
 
 const Navbar = () => {
 	const { tryActivation } = useWalletActivation();
 
-	const { openBrightIdModal } = useContext(ClaimContext);
+	const { openBrightIdModal } = useContext(GlobalContext);
 	const { account, chainId } = useWeb3React();
 	const isUserConnected = !!account;
 	const { userProfile } = useContext(UserProfileContext);
@@ -40,6 +40,7 @@ const Navbar = () => {
 	return (
 		<div className="navbar w-full sticky flex items-center top-0 z-100 bg-gray10 py-3 px-8">
 			<Icon
+				alt="unitap"
 				className="navbar__logo cursor-pointer"
 				iconSrc="assets/images/navbar/navbar_logo_v1.3.svg"
 				width="auto"
@@ -76,7 +77,6 @@ const Navbar = () => {
 						</BrightConnectedButton>
 					) : (
 						<BrightPrimaryButton
-							data-testid="brightid-show-modal"
 							mb={2}
 							fontSize="12px"
 							fontWeight="800"
@@ -105,7 +105,13 @@ const RenderUnipassCount = () => {
 		<div className="up-count flex p-2 pr-3 mr-3 h-8 bg-gray40 items-center rounded-lg">
 			{account ? (
 				<>
-					<Icon className="mr-5" iconSrc="assets/images/navbar/up-icon.svg" width="auto" height="23px" />
+					<Icon
+						alt="unitap-pass"
+						className="mr-5"
+						iconSrc="assets/images/navbar/up-icon.svg"
+						width="auto"
+						height="23px"
+					/>
 					<p className="text-white text-xs font-bold">
 						{unitapPassBalance?.toNumber() || 0} PASS
 						{unitapPassBalance?.toNumber() ? (unitapPassBalance?.toNumber() > 1 ? 'ES' : '') : ''}
@@ -113,7 +119,13 @@ const RenderUnipassCount = () => {
 				</>
 			) : (
 				<>
-					<Icon className="mr-5" iconSrc="assets/images/navbar/up-icon-disable.svg" width="auto" height="23px" />
+					<Icon
+						className="mr-5"
+						alt="unitap-pass-disabled"
+						iconSrc="assets/images/navbar/up-icon-disable.svg"
+						width="auto"
+						height="23px"
+					/>
 					<p className="text-gray100 text-xs font-bold pl-2">-</p>
 				</>
 			)}
@@ -166,13 +178,14 @@ const RenderNavbarConnectionStatus = () => {
 };
 
 const RenderNavbarLoginBrightIdButton = () => {
-	const { openBrightIdModal } = useContext(ClaimContext);
+	const { openBrightIdModal } = useContext(GlobalContext);
 	const { userProfileLoading } = useContext(UserProfileContext);
 
 	return (
 		<>
 			<button
 				className="btn btn--sm btn--bright !w-36 h-[28px] !py-0 align-baseline"
+				data-testid="brightid-show-modal"
 				onClick={() => !userProfileLoading && openBrightIdModal()}
 			>
 				{userProfileLoading ? 'Connecting...' : 'Connect BrightID'}
@@ -186,7 +199,11 @@ const RenderNavbarConnectWalletButton = () => {
 
 	return (
 		<>
-			<button className="btn btn--sm btn--primary !w-36 h-[28px] !py-0 align-baseline" onClick={tryActivation}>
+			<button
+				data-testid="wallet-connect"
+				className="btn btn--sm btn--primary !w-36 h-[28px] !py-0 align-baseline"
+				onClick={tryActivation}
+			>
 				Connect Wallet
 			</button>
 		</>
@@ -206,6 +223,7 @@ const RenderNavbarWalletAddress = ({ active }: { active: boolean }) => {
 	return (
 		<>
 			<button
+				data-testid="wallet-address"
 				className={`btn btn--sm btn--address ${active && 'btn--address--active'} !w-36 h-[28px] !py-0 align-baseline`}
 				onClick={tryActivation}
 			>

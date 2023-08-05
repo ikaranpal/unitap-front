@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/';
 import { DV } from 'components/basic/designVariables';
 import { ClaimButton, ClaimedButton, SecondaryButton } from 'components/basic/Button/button';
@@ -9,9 +9,9 @@ import useSelectChain from '../../../../hooks/useSelectChain';
 import { useWeb3React } from '@web3-react/core';
 import { Chain, ChainType, ClaimReceipt, ClaimReceiptState, Network, PK } from 'types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import RoutePath from '../../../../routes';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import EmptyChainListCard from './EmptyChainListCard';
+import { FundContext } from 'pages/home/context/fundContext';
 
 const AddMetamaskButton = styled(SecondaryButton)`
 	display: flex;
@@ -103,21 +103,21 @@ type ChainCardProps = {
 
 const ChainCard = ({ chain, isHighlighted }: ChainCardProps) => {
 	const { openClaimModal } = useContext(ClaimContext);
-
+	const { setChainId, setIsOpen } = useContext(FundContext);
 	const addAndSwitchToChain = useSelectChain();
 	const { account } = useWeb3React();
 	const active = !!account;
 
-	const navigate = useNavigate();
-
 	const handleRefillButtonClicked = (chainId: PK) => {
-		navigate(RoutePath.FUND + `?chain=${chainId}`);
+		setChainId(chainId);
+		setIsOpen(true);
+		// navigate(RoutePath.FUND + `?chain=${chainId}`);
 	};
 
 	const { activeClaimHistory } = useContext(ClaimContext);
 
 	return (
-		<div key={chain.chainId}>
+		<div>
 			<div
 				className={`chain-card ${
 					isHighlighted ? 'before:!inset-[1.5px] p-0 gradient-outline-card mb-20' : 'mb-4'
