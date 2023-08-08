@@ -513,7 +513,7 @@ body {
 
 .provider-dashboard__tabs {
 	border-radius: 12px 12px 0px 0px;
-	@apply border-b-2 border-b-gray80 border-solid ;
+	// @apply border-b-2 border-b-gray80 border-solid ;
 }
 
 .provider-dashboard__status {
@@ -523,4 +523,68 @@ body {
 	& div:not(:last-child) {
 		@apply border-r-2 border-r-gray30;
 	}
+}
+
+.providePrize__amount {
+	position: relative;
+	@apply text-gray20;
+	background:radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2A3837 0%, #3F2B44 42.19%, #322837 100%);
+	-webkit-text-stroke: 7px transparent;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 2.5em;
+	font-weight: 600;
+	padding: 10px;
+
+
+	&:after {
+		content: attr(data-amount);
+		position: absolute;
+		// top:50px;
+		z-index: 9;
+		background:linear-gradient(91.35deg, #4BF2A2 -4.66%, #A89FE7 56.06%, #E1C4F4 73.07%, #DD40CD 111.44%);
+		@apply text-gray20;
+		-webkit-text-stroke:2px transparent;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color:#13131E;
+		left:10px;
+	}
+
+	// &:before {
+	// 	content: attr(data-amount);
+	// 	position: absolute;
+	// 	top:50px;
+	// 	// left:12px;
+  //   background: radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2A3837 0%, #3F2B44 42.19%, #322837 100%);
+	// 	-webkit-background-clip:text;
+	// 	-webkit-text-stroke:3px #13131E;
+	// 	-webkit-text-fill-color:transparent;
+	// 	z-index: 99999;
+
+	// }
+}
+
+.offerPrize-Steps {
+	border-radius: 12px;
+	opacity: 0.8;
+	@apply bg-cover bg-no-repeat;
+	background:url('/public/assets/images/provider-dashboard/prize-offer-step-bg.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.chines-list-dropDown::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.chines-list-dropDown {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+
+.prizeForm-current-step-icon {
+	@apply rounded-full w-[26px]  h-[26px] bg-gray30 overflow-hidden w-[26px] h-[26px] rounded-full;
 }

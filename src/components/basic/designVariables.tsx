@@ -22,6 +22,9 @@ interface designVariable {
 		gray00: string;
 		gray10: string;
 		gray20: string;
+		gray30: string;
+		gray40: string;
+		gray50: string;
 		gray70: string;
 		gray80: string;
 		gray90: string;
@@ -72,6 +75,9 @@ export const DV: designVariable = {
 		gray00: '#0C0C17',
 		gray10: '#11111C',
 		gray20: '#13131E',
+		gray30: '#1B1B29',
+		gray40: '#1E1E2C',
+		gray50: '#212130',
 		gray70: '#30303A',
 		gray80: '#4C4C5C',
 		gray90: '#67677B',
