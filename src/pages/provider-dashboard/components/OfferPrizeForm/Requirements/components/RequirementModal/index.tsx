@@ -353,7 +353,7 @@ const RequirementModalBody = () => {
 		);
 	}
 
-	function renderopAttestationRequirement() {
+	function renderOpAttestationRequirement() {
 		return (
 			<div className="flex flex-col gap-2 mt-5">
 				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
@@ -532,13 +532,13 @@ const RequirementModalBody = () => {
 		if (requirementModalItems.token) return renderTokenRequirement();
 		if (requirementModalItems.allowList) return renderAllowListRequirement();
 		if (requirementModalItems.contractQuery) return renderContractQueryRequirement();
-		if (requirementModalItems.discord) return renderContractQueryRequirement();
-		if (requirementModalItems.twitter) return renderContractQueryRequirement();
-		if (requirementModalItems.poap) return renderContractQueryRequirement();
-		if (requirementModalItems.github) return renderContractQueryRequirement();
-		if (requirementModalItems.mirror) return renderContractQueryRequirement();
-		if (requirementModalItems.opAttestation) return renderContractQueryRequirement();
-		if (requirementModalItems.lens) return renderContractQueryRequirement();
+		if (requirementModalItems.discord) return renderDiscordRequirement();
+		if (requirementModalItems.twitter) return renderTwitterRequirement();
+		if (requirementModalItems.poap) return renderPoapRequirement();
+		if (requirementModalItems.github) return renderGithubRequirement();
+		if (requirementModalItems.mirror) return renderMirrorRequirement();
+		if (requirementModalItems.opAttestation) return renderOpAttestationRequirement();
+		if (requirementModalItems.lens) return renderLensRequirement();
 
 		return renderInitialBody();
 	};
