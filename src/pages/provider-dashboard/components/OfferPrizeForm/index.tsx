@@ -9,7 +9,7 @@ import {
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import PrizeInfo from './PrizeInfo';
 import TimeEnrollLimitation from './TimeEnrollLimitation';
-import Requirements from './Reuirements';
+import Requirements from './Requirements';
 import ContactInformation from './ContactInformation';
 import DepositPrize from './DepositPrize';
 import InformationVerification from './InformationVerification';

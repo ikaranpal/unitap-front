@@ -17,15 +17,40 @@ interface DataProp {
 	necessaryInfo: string;
 }
 
+interface RequirementModalItems {
+	nft: boolean;
+	token: boolean;
+	allowList: boolean;
+	walletActivity: boolean;
+	contractQuery: boolean;
+	captcha: boolean;
+	learnTap: boolean;
+	gasTap: boolean;
+	discord: boolean;
+	twitter: boolean;
+	poap: boolean;
+	github: boolean;
+	mirror: boolean;
+	opAttestation: boolean;
+	lens: boolean;
+}
+
 const PrizeOfferFormContext = createContext<{
 	page: number;
 	setPage: (page: number) => void;
 	data: DataProp;
+	requirementModalItems: RequirementModalItems;
 	title: any;
 	canSubmit: boolean;
 	handleChange: (e: any) => void;
 	handleSelectTokenOrNft: (e: boolean) => void;
 	handleSelectLimitEnrollPeopleCheck: () => void;
+	closeRequirementModal: () => void;
+	openRequirementModal: () => void;
+	handleSelectRequirementModal: (e: string, title: string) => void;
+	isModalOpen: boolean;
+	requirementTitle: string | null;
+	handleBackToRequirementModal: () => void;
 }>({
 	page: 0,
 	setPage: () => {},
@@ -45,6 +70,23 @@ const PrizeOfferFormContext = createContext<{
 		telegram: '',
 		necessaryInfo: '',
 	},
+	requirementModalItems: {
+		nft: false,
+		token: false,
+		allowList: false,
+		walletActivity: false,
+		contractQuery: false,
+		captcha: false,
+		learnTap: false,
+		gasTap: false,
+		discord: false,
+		twitter: false,
+		poap: false,
+		github: false,
+		mirror: false,
+		opAttestation: false,
+		lens: false,
+	},
 	title: {
 		0: 'Prize Info',
 		1: 'Time Limitation',
@@ -57,6 +99,12 @@ const PrizeOfferFormContext = createContext<{
 	handleChange: () => {},
 	handleSelectTokenOrNft: () => {},
 	handleSelectLimitEnrollPeopleCheck: () => {},
+	closeRequirementModal: () => {},
+	openRequirementModal: () => {},
+	handleSelectRequirementModal: () => {},
+	isModalOpen: false,
+	requirementTitle: null,
+	handleBackToRequirementModal: () => {},
 });
 
 export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -70,6 +118,8 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	const [page, setPage] = useState<number>(0);
+
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 	const [data, setData] = useState({
 		provider: '',
@@ -87,6 +137,44 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		telegram: '',
 		necessaryInfo: '',
 	});
+
+	const baseRequirementModalItems: RequirementModalItems = {
+		nft: false,
+		token: false,
+		allowList: false,
+		walletActivity: false,
+		contractQuery: false,
+		captcha: false,
+		learnTap: false,
+		gasTap: false,
+		discord: false,
+		twitter: false,
+		poap: false,
+		github: false,
+		mirror: false,
+		opAttestation: false,
+		lens: false,
+	};
+
+	const [requirementModalItems, setRequirementModalItems] = useState<RequirementModalItems>({
+		nft: false,
+		token: false,
+		allowList: false,
+		walletActivity: false,
+		contractQuery: false,
+		captcha: false,
+		learnTap: false,
+		gasTap: false,
+		discord: false,
+		twitter: false,
+		poap: false,
+		github: false,
+		mirror: false,
+		opAttestation: false,
+		lens: false,
+	});
+
+	const [requirementTitle, setRequirementTitle] = useState<string | null>(null);
 
 	const handleSelectTokenOrNft = (e: boolean) => {
 		setData((prevData) => ({
@@ -113,9 +201,34 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		}));
 	};
 
+	const handleSelectRequirementModal = (e: string, title: string | null) => {
+		setRequirementTitle(title);
+		setRequirementModalItems({
+			...baseRequirementModalItems,
+			[e]: true,
+		});
+	};
+
+	const handleBackToRequirementModal = () => {
+		setRequirementModalItems({
+			...baseRequirementModalItems,
+		});
+		setRequirementTitle(null);
+	};
 	const { ...requiredInputs } = data;
 
 	const canSubmit = [...Object.values(requiredInputs)].every(Boolean) && page === Object.keys(title).length - 1;
+
+	const closeRequirementModal = () => {
+		setRequirementModalItems({
+			...baseRequirementModalItems,
+		});
+		setRequirementTitle(null);
+		setIsModalOpen(false);
+	};
+	const openRequirementModal = () => {
+		setIsModalOpen(true);
+	};
 
 	return (
 		<PrizeOfferFormContext.Provider
@@ -128,6 +241,13 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 				handleChange,
 				handleSelectTokenOrNft,
 				handleSelectLimitEnrollPeopleCheck,
+				openRequirementModal,
+				closeRequirementModal,
+				isModalOpen,
+				requirementModalItems,
+				handleSelectRequirementModal,
+				requirementTitle,
+				handleBackToRequirementModal,
 			}}
 		>
 			{children}
