@@ -1,11 +1,5 @@
 import Icon from 'components/basic/Icon/Icon';
 
-import {
-	ProviderDashboardButtonNext,
-	ProviderDashboardButtonPrevious,
-	ProviderDashboardButtonSubmit,
-	ProviderDashboardGoToDashBoard,
-} from 'components/basic/Button/button';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import PrizeInfo from './PrizeInfo';
 import TimeEnrollLimitation from './TimeEnrollLimitation';
@@ -16,22 +10,34 @@ import InformationVerification from './InformationVerification';
 
 const OfferPrizeForm = () => {
 	const { page, setPage } = usePrizeOfferFormContext();
+
 	interface Display {
 		[key: number]: JSX.Element;
 	}
-	const handleChangeFormPageNext = () => {
+
+	const handleChangeFormPageNext = (page: number) => {
 		if (page >= 5) return;
 		setPage(page + 1);
 	};
 
-	const handleChangeFormPagePrev = () => {
+	const handleChangeFormPagePrev = (page: number) => {
 		if (page <= 0) return;
 		setPage(page - 1);
 	};
 
 	const display: Display = {
-		0: <PrizeInfo />,
-		1: <TimeEnrollLimitation />,
+		0: (
+			<PrizeInfo
+				handleChangeFormPagePrev={() => handleChangeFormPagePrev(page)}
+				handleChangeFormPageNext={() => handleChangeFormPageNext(page)}
+			/>
+		),
+		1: (
+			<TimeEnrollLimitation
+				handleChangeFormPagePrev={() => handleChangeFormPagePrev(page)}
+				handleChangeFormPageNext={() => handleChangeFormPageNext(page)}
+			/>
+		),
 		2: <Requirements />,
 		3: <ContactInformation />,
 		4: <DepositPrize />,
@@ -117,28 +123,6 @@ const OfferPrizeForm = () => {
 			</div>
 			<div className="offerPrize-form bg-gray20 w-full rounded-xl py-[4em] min-h-[504px] flex flex-col items-center px-5">
 				<div className="w-full flex  justify-center min-h-[320px]">{display[page]}</div>
-				<div className="flex flex-col lg:flex-row w-full max-w-[452px] mt-5 items-center ">
-					{page == 5 ? (
-						<ProviderDashboardGoToDashBoard className="opacity-[.3]">Go To Dashboard</ProviderDashboardGoToDashBoard>
-					) : (
-						<div className="flex flex-col sm:flex-row w-full gap-5">
-							<ProviderDashboardButtonPrevious
-								disabled={page == 0 ? true : false}
-								className="w-full"
-								onClick={handleChangeFormPagePrev}
-							>
-								Previous
-							</ProviderDashboardButtonPrevious>
-							{page == 4 ? (
-								<ProviderDashboardButtonSubmit className="text-[14px] md:text-[12px] lg:text-[14px] ">
-									<p>Submit Contribution</p>
-								</ProviderDashboardButtonSubmit>
-							) : (
-								<ProviderDashboardButtonNext onClick={handleChangeFormPageNext}>NEXT</ProviderDashboardButtonNext>
-							)}
-						</div>
-					)}
-				</div>
 			</div>
 		</div>
 	);

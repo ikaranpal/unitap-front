@@ -3,12 +3,12 @@ import { createContext, useState, useEffect, PropsWithChildren, useCallback, Set
 import { Chain } from 'types';
 
 export interface DataProp {
-	provider: string;
-	description: string;
+	provider: string | null;
+	description: string | null;
 	isNft: boolean;
 	selectedChain: Chain | null;
-	startTime: string;
-	endTime: string;
+	startTime: string | null;
+	endTime: string | null;
 	limitEnrollPeopleCheck: boolean;
 	maximumNumberEnroll: string;
 	requirement: string;
@@ -75,16 +75,18 @@ const PrizeOfferFormContext = createContext<{
 	handleChangeNftReq: (value: number, logic: string) => void;
 	allowListPrivate: boolean;
 	handleSelectAllowListPrivate: () => void;
+	canGoStepTwo: () => void;
+	canGoStepThree: () => void;
 }>({
 	page: 0,
 	setPage: () => {},
 	data: {
-		provider: '',
-		description: '',
+		provider: null,
+		description: null,
 		isNft: false,
 		selectedChain: null,
-		startTime: '',
-		endTime: '',
+		startTime: null,
+		endTime: null,
 		limitEnrollPeopleCheck: false,
 		maximumNumberEnroll: '',
 		requirement: '',
@@ -151,6 +153,8 @@ const PrizeOfferFormContext = createContext<{
 	handleChangeNftReq: () => {},
 	allowListPrivate: false,
 	handleSelectAllowListPrivate: () => {},
+	canGoStepTwo: () => {},
+	canGoStepThree: () => {},
 });
 
 export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -161,6 +165,22 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		4: 'Contact Info',
 		5: 'Deposit Prize',
 		6: 'Information Verification',
+	};
+
+	const canGoStepTwo = () => {
+		const { provider, description, selectedChain } = { ...data };
+
+		if (!provider || !description || !selectedChain) return false;
+
+		return true;
+	};
+
+	const canGoStepThree = () => {
+		const { startTime, endTime } = { ...data };
+
+		if (!startTime || !endTime) return false;
+
+		return true;
 	};
 
 	const [searchPhrase, setSearchPhrase] = useState<string>('');
@@ -383,6 +403,8 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 				handleChangeNftReq,
 				allowListPrivate,
 				handleSelectAllowListPrivate,
+				canGoStepTwo,
+				canGoStepThree,
 			}}
 		>
 			{children}
