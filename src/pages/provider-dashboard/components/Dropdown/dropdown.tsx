@@ -1,40 +1,33 @@
 import Icon from 'components/basic/Icon/Icon';
 import Label from 'components/basic/Label/label';
 import { DropdownWrapper } from './dropdownWrapper';
-import { useEffect, useState } from 'react';
 
 interface DropdownProps {
 	label?: string;
 	icon?: string;
-	value: string;
-	setShowItems: (showItems: boolean) => void;
+	value?: string;
+	onClick: () => void;
+	handleSearchChain: () => void;
 	showItems: boolean;
-	onClick?: () => void;
 	'data-testid'?: string;
 }
 
 const Dropdown = (props: DropdownProps) => {
-	const { label, value, icon, onClick, setShowItems, showItems } = props;
-	const [inputValue, setInputValue] = useState(value);
-	useEffect(() => {
-		setInputValue(value);
-	}, [value]);
-	const handleChange = (e: string) => {
-		setInputValue(e);
-	};
+	const { label, value, icon, onClick, showItems, handleSearchChain } = props;
 	return (
-		<DropdownWrapper data-testid={props['data-testid']}>
+		<DropdownWrapper onClick={onClick} data-testid={props['data-testid']}>
 			{label ? <Label>{label}</Label> : null}
-			<div className="dropdown" onClick={() => setShowItems((previous: boolean) => !previous)}>
+			<div className="dropdown">
 				{icon ? <Icon iconSrc={icon} width="24px" /> : null}
 				<input
-					className="dropdown-value bg-transparent"
+					className="w-full bg-transparent text-white px-2"
+					type="text"
+					value={value}
 					placeholder="Search for Chain"
-					value={inputValue}
-					onChange={(e) => handleChange(e.target.value)}
+					onChange={handleSearchChain}
 				/>
 				<Icon
-					iconSrc={showItems ? 'assets/images/provider-dashboard/arrow-top.svg' : 'assets/images/fund/arrow-down.png'}
+					iconSrc={!showItems ? 'assets/images/fund/arrow-down.png' : 'assets/images/provider-dashboard/arrow-top.svg'}
 					width="14px"
 					height="auto"
 				></Icon>

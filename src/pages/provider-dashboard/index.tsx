@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Header from './components/Header/header';
 import Icon from 'components/basic/Icon/Icon';
 import Footer from 'components/common/Footer/footer';
@@ -37,7 +37,7 @@ const ProviderDashboardTabs = ({ onSelectTab, selectedTab }: SelectedTabProps) =
 				}`}
 				onClick={() => onSelectTab(tabs.gasTap)}
 			>
-				Gas Tap Providers{' '}
+				Gas Tap{' '}
 				{selectedTab == tabs.gasTap ? (
 					<Icon iconSrc="assets/images/provider-dashboard/gas-tap.svg" />
 				) : (
@@ -50,7 +50,7 @@ const ProviderDashboardTabs = ({ onSelectTab, selectedTab }: SelectedTabProps) =
 				}`}
 				onClick={() => onSelectTab(tabs.tokenTap)}
 			>
-				Token Tap Providers{' '}
+				Token Tap{' '}
 				{selectedTab == tabs.tokenTap ? (
 					<Icon iconSrc="assets/images/provider-dashboard/token-tap.svg" />
 				) : (
@@ -63,7 +63,7 @@ const ProviderDashboardTabs = ({ onSelectTab, selectedTab }: SelectedTabProps) =
 				}`}
 				onClick={() => onSelectTab(tabs.prizeTap)}
 			>
-				Prize Tap Providers
+				Prize Tap
 				{selectedTab == tabs.prizeTap ? (
 					<Icon iconSrc="assets/images/provider-dashboard/prize-tap.svg" />
 				) : (

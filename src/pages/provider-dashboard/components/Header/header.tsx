@@ -1,6 +1,3 @@
-import Icon from 'components/basic/Icon/Icon';
-import React from 'react';
-
 const Header = () => {
 	return (
 		<div className="header providerDashboard__header w-full h-[202px] rounded-2xl flex items-center overflow-hidden p-5 mb-6  ">

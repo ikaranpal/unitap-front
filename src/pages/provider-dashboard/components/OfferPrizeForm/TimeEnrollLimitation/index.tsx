@@ -13,7 +13,7 @@ const TimeEnrollLimitation = () => {
 				<input
 					type="text"
 					placeholder="23/07/2023 - 09:00:00"
-					className="bg-transparent placeholder-gray80 w-full"
+					className="provider-dashboard-input"
 					name="startTime"
 					onChange={handleChange}
 					value={data.startTime}
@@ -26,13 +26,13 @@ const TimeEnrollLimitation = () => {
 				<input
 					type="text"
 					placeholder="23/07/2023 - 09:00:00"
-					className="bg-transparent placeholder-gray80 w-full"
+					className="provider-dashboard-input"
 					name="endTime"
 					onChange={handleChange}
 					value={data.endTime}
 				/>
 			</div>
-			<div className="flex w-full gap-2 items-center">
+			<div className="flex w-full gap-2 items-center cursor-pointer" onClick={handleSelectLimitEnrollPeopleCheck}>
 				<Icon
 					iconSrc={
 						!data.limitEnrollPeopleCheck
@@ -42,16 +42,15 @@ const TimeEnrollLimitation = () => {
 					width="16px"
 					height="16px"
 					hoverable={true}
-					onClick={handleSelectLimitEnrollPeopleCheck}
 				/>
 				<p className="text-gray100 text-[14px]">Also use maximum number of enrolling people limitation.</p>
 			</div>
 
-			<div className="flex gap-2 text-gray80 text-[12px] bg-gray40 border border-gray50 rounded-[12px] h-[44px] items-center justify-between w-full max-w-[452px] overflow-hidden px-4">
+			<div className="flex gap-2  text-gray80 text-[12px] bg-gray40 border border-gray50 rounded-[12px] h-[44px] items-center justify-between w-full max-w-[452px] overflow-hidden px-4">
 				<input
-					type="text"
+					type="number"
 					placeholder="Maximum Number of enrolling people"
-					className="bg-transparent placeholder-gray80 w-full"
+					className="provider-dashboard-input"
 					name="maximumNumberEnroll"
 					onChange={handleChange}
 					value={data.maximumNumberEnroll}

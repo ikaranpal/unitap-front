@@ -1,10 +1,12 @@
-import { createContext, useState, useEffect, PropsWithChildren } from 'react';
+import { getChainList } from 'api';
+import { createContext, useState, useEffect, PropsWithChildren, useCallback, SetStateAction, useMemo } from 'react';
+import { Chain } from 'types';
 
-interface DataProp {
+export interface DataProp {
 	provider: string;
 	description: string;
 	isNft: boolean;
-	selectedChain: string;
+	selectedChain: Chain | null;
 	startTime: string;
 	endTime: string;
 	limitEnrollPeopleCheck: boolean;
@@ -15,6 +17,15 @@ interface DataProp {
 	discord: string;
 	telegram: string;
 	necessaryInfo: string;
+	satisfy: string;
+	nftRequirementMax: any;
+	nftRequirementMin: any;
+	tokenRequirementMax: any;
+	tokenRequirementMin: any;
+	nftRequirementCustomID: any;
+	nftAddress: string;
+	tokenAddress: string;
+	allowListPrivate: boolean;
 }
 
 interface RequirementModalItems {
@@ -51,6 +62,19 @@ const PrizeOfferFormContext = createContext<{
 	isModalOpen: boolean;
 	requirementTitle: string | null;
 	handleBackToRequirementModal: () => void;
+	chainList: Chain[];
+	selectedChain: Chain | null;
+	setSelectedChain: (chain: Chain) => void;
+	chainName: string;
+	handleSearchChain: (e: any) => void;
+	setChainName: (e: string) => void;
+	filterChainList: Chain[];
+	setSearchPhrase: (e: string) => void;
+	handleSelectChain: (chain: Chain) => void;
+	handleSelectSatisfy: (satisfy: string) => void;
+	handleChangeNftReq: (value: number, logic: string) => void;
+	allowListPrivate: boolean;
+	handleSelectAllowListPrivate: () => void;
 }>({
 	page: 0,
 	setPage: () => {},
@@ -58,7 +82,7 @@ const PrizeOfferFormContext = createContext<{
 		provider: '',
 		description: '',
 		isNft: false,
-		selectedChain: '',
+		selectedChain: null,
 		startTime: '',
 		endTime: '',
 		limitEnrollPeopleCheck: false,
@@ -69,6 +93,15 @@ const PrizeOfferFormContext = createContext<{
 		discord: '',
 		telegram: '',
 		necessaryInfo: '',
+		satisfy: 'satisfyAll',
+		nftRequirementMax: 0,
+		nftRequirementMin: 0,
+		tokenRequirementMax: 0,
+		tokenRequirementMin: 0,
+		nftRequirementCustomID: 0,
+		nftAddress: '',
+		tokenAddress: '',
+		allowListPrivate: false,
 	},
 	requirementModalItems: {
 		nft: false,
@@ -105,6 +138,19 @@ const PrizeOfferFormContext = createContext<{
 	isModalOpen: false,
 	requirementTitle: null,
 	handleBackToRequirementModal: () => {},
+	chainList: [],
+	selectedChain: null,
+	setSelectedChain: () => {},
+	chainName: '',
+	handleSearchChain: () => {},
+	setChainName: () => {},
+	filterChainList: [],
+	setSearchPhrase: () => {},
+	handleSelectChain: () => {},
+	handleSelectSatisfy: () => {},
+	handleChangeNftReq: () => {},
+	allowListPrivate: false,
+	handleSelectAllowListPrivate: () => {},
 });
 
 export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -117,15 +163,21 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		6: 'Information Verification',
 	};
 
+	const [searchPhrase, setSearchPhrase] = useState<string>('');
+
+	const [selectedChain, setSelectedChain] = useState<Chain | null>(null);
+
+	const [chainName, setChainName] = useState<string>('');
+
 	const [page, setPage] = useState<number>(0);
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-	const [data, setData] = useState({
+	const [data, setData] = useState<DataProp>({
 		provider: '',
 		description: '',
 		isNft: false,
-		selectedChain: '',
+		selectedChain: null,
 		startTime: '',
 		endTime: '',
 		limitEnrollPeopleCheck: false,
@@ -136,7 +188,28 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		discord: '',
 		telegram: '',
 		necessaryInfo: '',
+		satisfy: 'satisfyAll',
+		nftRequirementMax: 0,
+		nftRequirementMin: 0,
+		tokenRequirementMax: 0,
+		tokenRequirementMin: 0,
+		nftRequirementCustomID: 0,
+		nftAddress: '',
+		tokenAddress: '',
+		allowListPrivate: false,
 	});
+
+	const [chainList, setChainList] = useState<Chain[]>([]);
+
+	const [allowListPrivate, setAllowListPrivate] = useState<boolean>(false);
+
+	const filterChainList = useMemo(() => {
+		return chainList.filter((chain) => chain.chainName.toLocaleLowerCase().includes(searchPhrase.toLocaleLowerCase()));
+	}, [chainName]);
+
+	const handleSelectAllowListPrivate = () => {
+		setAllowListPrivate(!allowListPrivate);
+	};
 
 	const baseRequirementModalItems: RequirementModalItems = {
 		nft: false,
@@ -154,6 +227,13 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		mirror: false,
 		opAttestation: false,
 		lens: false,
+	};
+
+	const handleChangeNftReq = (value: number, logic: string) => {
+		setData((prevData) => ({
+			...prevData,
+			[logic]: value,
+		}));
 	};
 
 	const [requirementModalItems, setRequirementModalItems] = useState<RequirementModalItems>({
@@ -183,6 +263,45 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		}));
 	};
 
+	const updateChainList = useCallback(async () => {
+		try {
+			const newChainList = await getChainList();
+			setChainList(newChainList);
+		} catch (e) {}
+	}, []);
+
+	const handleSearchChain = (e: { target: { value: SetStateAction<string> } }) => {
+		setChainName(e.target.value);
+		setSearchPhrase(e.target.value);
+	};
+
+	const handleSelectChain = (chain: Chain) => {
+		setSelectedChain(chain);
+		setChainName(chain.chainName);
+		setSearchPhrase('');
+	};
+
+	const handleSelectSatisfy = (satisfy: string) => {
+		setData((prevData) => ({
+			...prevData,
+			['satisfy']: satisfy,
+		}));
+	};
+
+	useEffect(() => {
+		if (selectedChain) {
+			setChainName(selectedChain?.chainName);
+			setData((prevData) => ({
+				...prevData,
+				['selectedChain']: selectedChain,
+			}));
+		}
+	}, [selectedChain]);
+
+	useEffect(() => {
+		updateChainList();
+	}, [updateChainList]);
+
 	const handleSelectLimitEnrollPeopleCheck = () => {
 		setData((prevData) => ({
 			...prevData,
@@ -194,7 +313,9 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		const type = e.target.type;
 		const name = e.target.name;
 		const value = type == 'checkbox' ? e.target.checked : e.target.value;
-		console.log(e);
+		if (name == 'provider' && value.length > 10) return;
+		if (name == 'description' && value.length > 100) return;
+		if (name == 'necessaryInfo' && value.length > 100) return;
 		setData((prevData) => ({
 			...prevData,
 			[name]: value,
@@ -226,6 +347,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		setRequirementTitle(null);
 		setIsModalOpen(false);
 	};
+
 	const openRequirementModal = () => {
 		setIsModalOpen(true);
 	};
@@ -248,6 +370,19 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 				handleSelectRequirementModal,
 				requirementTitle,
 				handleBackToRequirementModal,
+				chainList,
+				selectedChain,
+				setSelectedChain,
+				chainName,
+				handleSearchChain,
+				setChainName,
+				filterChainList,
+				setSearchPhrase,
+				handleSelectChain,
+				handleSelectSatisfy,
+				handleChangeNftReq,
+				allowListPrivate,
+				handleSelectAllowListPrivate,
 			}}
 		>
 			{children}

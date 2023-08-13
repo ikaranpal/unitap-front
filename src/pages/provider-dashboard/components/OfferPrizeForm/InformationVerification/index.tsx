@@ -1,5 +1,4 @@
 import Icon from 'components/basic/Icon/Icon';
-import React from 'react';
 
 const InformationVerification = () => {
 	return (

@@ -1,6 +1,5 @@
 import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import React from 'react';
 
 const ContactInformation = () => {
 	const { handleChange, data } = usePrizeOfferFormContext();
@@ -13,7 +12,7 @@ const ContactInformation = () => {
 				<input
 					type="text"
 					placeholder="example@email.com"
-					className="bg-transparent placeholder-gray80 w-full"
+					className="provider-dashboard-input"
 					name="email"
 					onChange={handleChange}
 					value={data.email}
@@ -26,7 +25,7 @@ const ContactInformation = () => {
 				<input
 					type="text"
 					placeholder="@providerUsername"
-					className="bg-transparent placeholder-gray80 w-full"
+					className="provider-dashboard-input"
 					name="twitter"
 					onChange={handleChange}
 					value={data.twitter}
@@ -39,7 +38,7 @@ const ContactInformation = () => {
 				<input
 					type="text"
 					placeholder="@providerUsername"
-					className="bg-transparent placeholder-gray80 w-full"
+					className="provider-dashboard-input"
 					name="discord"
 					onChange={handleChange}
 					value={data.discord}
@@ -52,7 +51,7 @@ const ContactInformation = () => {
 				<input
 					type="text"
 					placeholder="@yourTelegramUsername"
-					className="bg-transparent placeholder-gray80 w-full"
+					className="provider-dashboard-input"
 					name="telegram"
 					onChange={handleChange}
 					value={data.telegram}
@@ -63,7 +62,7 @@ const ContactInformation = () => {
 				<input
 					type="text"
 					placeholder="Please provide any necessary information"
-					className="bg-transparent placeholder-gray80 w-full"
+					className="provider-dashboard-input"
 					name="necessaryInfo"
 					onChange={handleChange}
 					value={data.necessaryInfo}
