@@ -12,6 +12,7 @@ export default ({ mode }) => {
 		define: {
 			'process.env': env,
 		},
+
 		build: {
 			outDir: 'build',
 		},

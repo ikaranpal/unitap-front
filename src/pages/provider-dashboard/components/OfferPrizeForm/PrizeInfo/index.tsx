@@ -156,9 +156,6 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 			</div>
 
 			<div className="flex flex-col lg:flex-row w-full max-w-[452px] mt-5 items-center ">
-				{/* {page == 5 ? (
-					<ProviderDashboardGoToDashBoard className="opacity-[.3]">Go To Dashboard</ProviderDashboardGoToDashBoard>
-				) : ( */}
 				<div className="flex flex-col sm:flex-row w-full gap-5">
 					<ProviderDashboardButtonPrevious
 						disabled={page == 0 ? true : false}
@@ -168,15 +165,7 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 						Previous
 					</ProviderDashboardButtonPrevious>
 					<ProviderDashboardButtonNext onClick={handleNextPage}>NEXT</ProviderDashboardButtonNext>
-					{/* {page == 4 ? (
-							<ProviderDashboardButtonSubmit className="text-[14px] md:text-[12px] lg:text-[14px] ">
-								<p>Submit Contribution</p> */}
-					{/* </ProviderDashboardButtonSubmit> */}
-					{/* ) : ( */}
-
-					{/* )} */}
 				</div>
-				{/* )} */}
 			</div>
 		</div>
 	);

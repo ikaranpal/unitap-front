@@ -30,7 +30,6 @@ import ScrollToTop from 'components/basic/ScrollToTop/scrollToTop';
 import PrizeTap from 'pages/prize-tap';
 import ProviderDashboard from 'pages/provider-dashboard';
 import { ErrorsProvider } from './context/ErrorsProvider';
-
 import 'typeface-jetbrains-mono';
 import Navbar from 'components/common/Navbar/navbar';
 import GlobalContextProvider from 'hooks/useGlobalContext';

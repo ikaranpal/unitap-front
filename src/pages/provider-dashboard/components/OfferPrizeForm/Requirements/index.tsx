@@ -2,13 +2,30 @@ import Icon from 'components/basic/Icon/Icon';
 import { useState } from 'react';
 import RequirementModal from './components/RequirementModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { ProviderDashboardButtonNext, ProviderDashboardButtonPrevious } from 'components/basic/Button/button';
 
-const Requirements = () => {
-	const { openRequirementModal, handleSelectSatisfy, data } = usePrizeOfferFormContext();
+interface PrizeInfoProp {
+	handleChangeFormPagePrev: (page: number) => void;
+	handleChangeFormPageNext: (page: number) => void;
+}
+const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
+	const { openRequirementModal, handleSelectSatisfy, data, page, canGoStepThree } = usePrizeOfferFormContext();
 	const [showItems, setShowItems] = useState<boolean>(false);
+	const [showErrors, setShowErrors] = useState<boolean>(false);
+
 	const onSelect = (e: string) => {
 		handleSelectSatisfy(e);
 		setShowItems(false);
+	};
+
+	const handleNextPage = () => {
+		// const res = canGoStepThree();
+		// if (res != null && res) {
+		// setShowErrors(false);
+		handleChangeFormPageNext(page);
+		// } else {
+		// 	setShowErrors(true);
+		// }
 	};
 	const satisfy = { satisfySome: 'satisfySome', satisfyAll: 'satisfyAll' };
 	return (
@@ -48,6 +65,22 @@ const Requirements = () => {
 				<p>Add requirement</p>
 			</div>
 			<RequirementModal />
+
+			<div className="flex flex-col lg:flex-row w-full max-w-[452px] mt-5 items-center ">
+				{/* {page == 5 ? (
+					<ProviderDashboardGoToDashBoard className="opacity-[.3]">Go To Dashboard</ProviderDashboardGoToDashBoard>
+				) : ( */}
+				<div className="flex flex-col sm:flex-row w-full gap-5">
+					<ProviderDashboardButtonPrevious
+						disabled={page == 0 ? true : false}
+						className="w-full"
+						onClick={() => handleChangeFormPagePrev(page)}
+					>
+						Previous
+					</ProviderDashboardButtonPrevious>
+					<ProviderDashboardButtonNext onClick={handleNextPage}>NEXT</ProviderDashboardButtonNext>
+				</div>
+			</div>
 		</div>
 	);
 };

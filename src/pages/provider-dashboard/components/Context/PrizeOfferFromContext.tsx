@@ -12,10 +12,10 @@ export interface DataProp {
 	limitEnrollPeopleCheck: boolean;
 	maximumNumberEnroll: string;
 	requirement: string;
-	email: string;
+	email: string | null;
 	twitter: string;
 	discord: string;
-	telegram: string;
+	telegram: string | null;
 	necessaryInfo: string;
 	satisfy: string;
 	nftRequirementMax: any;
@@ -26,6 +26,9 @@ export interface DataProp {
 	nftAddress: string;
 	tokenAddress: string;
 	allowListPrivate: boolean;
+	setDuration: boolean;
+	numberOfDuration: number;
+	durationUnitTime: string;
 }
 
 interface RequirementModalItems {
@@ -77,6 +80,11 @@ const PrizeOfferFormContext = createContext<{
 	handleSelectAllowListPrivate: () => void;
 	canGoStepTwo: () => void;
 	canGoStepThree: () => void;
+	canGoStepFive: () => void;
+	setDuration: boolean;
+	handleSetDuration: (e: boolean) => void;
+	handleSetDurationManually: () => void;
+	handleSelectDurationUnitTime: (unit: string) => void;
 }>({
 	page: 0,
 	setPage: () => {},
@@ -104,6 +112,9 @@ const PrizeOfferFormContext = createContext<{
 		nftAddress: '',
 		tokenAddress: '',
 		allowListPrivate: false,
+		setDuration: false,
+		numberOfDuration: 0,
+		durationUnitTime: 'Month',
 	},
 	requirementModalItems: {
 		nft: false,
@@ -155,6 +166,11 @@ const PrizeOfferFormContext = createContext<{
 	handleSelectAllowListPrivate: () => {},
 	canGoStepTwo: () => {},
 	canGoStepThree: () => {},
+	canGoStepFive: () => {},
+	setDuration: false,
+	handleSetDuration: () => {},
+	handleSetDurationManually: () => {},
+	handleSelectDurationUnitTime: () => {},
 });
 
 export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -167,11 +183,24 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		6: 'Information Verification',
 	};
 
+	const [setDuration, setSetDuration] = useState<boolean>(false);
+
+	const handleSetDuration = (e: boolean) => {
+		setSetDuration(e);
+	};
+
 	const canGoStepTwo = () => {
 		const { provider, description, selectedChain } = { ...data };
 
 		if (!provider || !description || !selectedChain) return false;
 
+		return true;
+	};
+
+	const canGoStepFive = () => {
+		const { email, telegram } = data;
+
+		if (!email || !telegram) return false;
 		return true;
 	};
 
@@ -217,6 +246,9 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		nftAddress: '',
 		tokenAddress: '',
 		allowListPrivate: false,
+		setDuration: false,
+		numberOfDuration: 0,
+		durationUnitTime: 'Month',
 	});
 
 	const [chainList, setChainList] = useState<Chain[]>([]);
@@ -226,6 +258,13 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 	const filterChainList = useMemo(() => {
 		return chainList.filter((chain) => chain.chainName.toLocaleLowerCase().includes(searchPhrase.toLocaleLowerCase()));
 	}, [chainName]);
+
+	const handleSelectDurationUnitTime = (unit: string) => {
+		setData((prevData) => ({
+			...prevData,
+			['durationUnitTime']: unit,
+		}));
+	};
 
 	const handleSelectAllowListPrivate = () => {
 		setAllowListPrivate(!allowListPrivate);
@@ -253,6 +292,13 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		setData((prevData) => ({
 			...prevData,
 			[logic]: value,
+		}));
+	};
+
+	const handleSetDurationManually = () => {
+		setData((prevData) => ({
+			...prevData,
+			['setDuration']: !data.setDuration,
 		}));
 	};
 
@@ -405,6 +451,11 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 				handleSelectAllowListPrivate,
 				canGoStepTwo,
 				canGoStepThree,
+				canGoStepFive,
+				setDuration,
+				handleSetDuration,
+				handleSetDurationManually,
+				handleSelectDurationUnitTime,
 			}}
 		>
 			{children}

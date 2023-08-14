@@ -38,8 +38,18 @@ const OfferPrizeForm = () => {
 				handleChangeFormPageNext={() => handleChangeFormPageNext(page)}
 			/>
 		),
-		2: <Requirements />,
-		3: <ContactInformation />,
+		2: (
+			<Requirements
+				handleChangeFormPagePrev={() => handleChangeFormPagePrev(page)}
+				handleChangeFormPageNext={() => handleChangeFormPageNext(page)}
+			/>
+		),
+		3: (
+			<ContactInformation
+				handleChangeFormPagePrev={() => handleChangeFormPagePrev(page)}
+				handleChangeFormPageNext={() => handleChangeFormPageNext(page)}
+			/>
+		),
 		4: <DepositPrize />,
 		5: <InformationVerification />,
 	};
@@ -74,8 +84,8 @@ const OfferPrizeForm = () => {
 			prevIcon: 'assets/images/provider-dashboard/step-3-green.svg',
 			activeIcon: 'assets/images/provider-dashboard/step-3-active.svg',
 			nextIcon: 'assets/images/provider-dashboard/step-3-off.svg',
-			title: 'Contact Information',
-			description: 'Username of discord & twitter & ...',
+			title: 'Social Media  & Contact Info',
+			description: 'Add your contact info & Social Media ',
 		},
 		{
 			id: 4,
