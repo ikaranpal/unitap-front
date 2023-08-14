@@ -1,6 +1,9 @@
 import Icon from 'components/basic/Icon/Icon';
+import ShowPreviewModal from './component/ShowPreviewModal';
+import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 
 const DepositPrize = () => {
+	const { openShowPreviewModal } = usePrizeOfferFormContext();
 	return (
 		<div className="flex flex-col gap-5 w-full max-w-[452px] min-w-[300px]">
 			<Icon iconSrc="assets/images/provider-dashboard/Subtract.svg" className="mb-5" />
@@ -12,7 +15,10 @@ const DepositPrize = () => {
 					designated wallet.
 				</p>
 			</div>
-			<div className="flex items-center gap-2 text-white font-semibold">
+			<div
+				onClick={openShowPreviewModal}
+				className="flex items-center gap-2 text-white font-semibold cursor-pointer max-w-[130px]"
+			>
 				<p>Show preview</p>
 				<Icon iconSrc="assets/images/provider-dashboard/ic_link_white.svg" />
 			</div>
@@ -26,6 +32,7 @@ const DepositPrize = () => {
 					<p>Kolah Qermezi</p>
 				</div>
 			</div>
+			<ShowPreviewModal />
 		</div>
 	);
 };

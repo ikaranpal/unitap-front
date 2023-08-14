@@ -59,8 +59,10 @@ const PrizeOfferFormContext = createContext<{
 	handleChange: (e: any) => void;
 	handleSelectTokenOrNft: (e: boolean) => void;
 	handleSelectLimitEnrollPeopleCheck: () => void;
-	closeRequirementModal: () => void;
 	openRequirementModal: () => void;
+	closeRequirementModal: () => void;
+	openShowPreviewModal: () => void;
+	closeShowPreviewModal: () => void;
 	handleSelectRequirementModal: (e: string, title: string) => void;
 	isModalOpen: boolean;
 	requirementTitle: string | null;
@@ -171,6 +173,8 @@ const PrizeOfferFormContext = createContext<{
 	handleSetDuration: () => {},
 	handleSetDurationManually: () => {},
 	handleSelectDurationUnitTime: () => {},
+	openShowPreviewModal: () => {},
+	closeShowPreviewModal: () => {},
 });
 
 export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -402,6 +406,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		});
 		setRequirementTitle(null);
 	};
+
 	const { ...requiredInputs } = data;
 
 	const canSubmit = [...Object.values(requiredInputs)].every(Boolean) && page === Object.keys(title).length - 1;
@@ -415,6 +420,14 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	const openRequirementModal = () => {
+		setIsModalOpen(true);
+	};
+
+	const closeShowPreviewModal = () => {
+		setIsModalOpen(false);
+	};
+
+	const openShowPreviewModal = () => {
 		setIsModalOpen(true);
 	};
 
@@ -456,6 +469,8 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 				handleSetDuration,
 				handleSetDurationManually,
 				handleSelectDurationUnitTime,
+				closeShowPreviewModal,
+				openShowPreviewModal,
 			}}
 		>
 			{children}
