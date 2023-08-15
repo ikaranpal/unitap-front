@@ -491,7 +491,7 @@ export const PrimaryOutlinedButtonGoToDashboard = styled(Button)`
 
 export const ProviderDashboardGoToDashBoard = styled(PrimaryOutlinedButtonGoToDashboard)`
 	width: 100%;
-	padding: 0px 5.3em;
+	//padding: 0px 5.3em;
 	font-weight: 700;
 	height: 44px;
 	font-size: 14px;

@@ -33,7 +33,6 @@ import { ErrorsProvider } from './context/ErrorsProvider';
 import 'typeface-jetbrains-mono';
 import Navbar from 'components/common/Navbar/navbar';
 import GlobalContextProvider from 'hooks/useGlobalContext';
-import { PrizeOfferFromProvider } from 'pages/provider-dashboard/components/Context/PrizeOfferFromContext';
 
 const Fund = React.lazy(() => import('./pages/fund'));
 const Donate = React.lazy(() => import('./pages/donate'));
@@ -101,14 +100,7 @@ function App() {
 													/>
 													<Route path={RoutePath.ABOUT} element={<About />} />
 													<Route path={RoutePath.PRIZE} element={<PrizeTap />} />
-													<Route
-														path={RoutePath.PROVIDERDASHBOARD}
-														element={
-															<PrizeOfferFromProvider>
-																<ProviderDashboard />
-															</PrizeOfferFromProvider>
-														}
-													/>
+													<Route path={RoutePath.PROVIDERDASHBOARD} element={<ProviderDashboard />} />
 													<Route
 														path={RoutePath.TOKEN}
 														element={

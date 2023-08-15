@@ -50,8 +50,18 @@ const OfferPrizeForm = () => {
 				handleChangeFormPageNext={() => handleChangeFormPageNext(page)}
 			/>
 		),
-		4: <DepositPrize />,
-		5: <InformationVerification />,
+		4: (
+			<DepositPrize
+				handleChangeFormPagePrev={() => handleChangeFormPagePrev(page)}
+				handleChangeFormPageNext={() => handleChangeFormPageNext(page)}
+			/>
+		),
+		5: (
+			<InformationVerification
+				handleChangeFormPagePrev={() => handleChangeFormPagePrev(page)}
+				handleChangeFormPageNext={() => handleChangeFormPageNext(page)}
+			/>
+		),
 	};
 
 	const displaySteps = [

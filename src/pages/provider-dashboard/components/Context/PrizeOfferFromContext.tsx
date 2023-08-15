@@ -10,11 +10,11 @@ export interface DataProp {
 	startTime: string | null;
 	endTime: string | null;
 	limitEnrollPeopleCheck: boolean;
-	maximumNumberEnroll: string;
+	maximumNumberEnroll: number | null;
 	requirement: string;
 	email: string | null;
-	twitter: string;
-	discord: string;
+	twitter: string | null;
+	discord: string | null;
 	telegram: string | null;
 	necessaryInfo: string;
 	satisfy: string;
@@ -87,6 +87,9 @@ const PrizeOfferFormContext = createContext<{
 	handleSetDuration: (e: boolean) => void;
 	handleSetDurationManually: () => void;
 	handleSelectDurationUnitTime: (unit: string) => void;
+	selectNewOffer: boolean;
+	handleSelectNewOffer: (select: boolean) => void;
+	handleGOToDashboard: () => void;
 }>({
 	page: 0,
 	setPage: () => {},
@@ -98,12 +101,12 @@ const PrizeOfferFormContext = createContext<{
 		startTime: null,
 		endTime: null,
 		limitEnrollPeopleCheck: false,
-		maximumNumberEnroll: '',
+		maximumNumberEnroll: null,
 		requirement: '',
-		email: '',
-		twitter: '',
-		discord: '',
-		telegram: '',
+		email: null,
+		twitter: null,
+		discord: null,
+		telegram: null,
 		necessaryInfo: '',
 		satisfy: 'satisfyAll',
 		nftRequirementMax: 0,
@@ -175,6 +178,9 @@ const PrizeOfferFormContext = createContext<{
 	handleSelectDurationUnitTime: () => {},
 	openShowPreviewModal: () => {},
 	closeShowPreviewModal: () => {},
+	selectNewOffer: false,
+	handleSelectNewOffer: () => {},
+	handleGOToDashboard: () => {},
 });
 
 export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -185,6 +191,12 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		4: 'Contact Info',
 		5: 'Deposit Prize',
 		6: 'Information Verification',
+	};
+
+	const [selectNewOffer, setSelectNewOffer] = useState<boolean>(false);
+
+	const handleSelectNewOffer = (select: boolean) => {
+		setSelectNewOffer(select);
 	};
 
 	const [setDuration, setSetDuration] = useState<boolean>(false);
@@ -208,12 +220,116 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		return true;
 	};
 
+	const convertStringToDate = (userDate: string) => {
+		let dateParts = userDate.split('/');
+		let timeParts = dateParts[2].split(' - ')[1].split(':');
+		let dateObject = new Date(
+			+dateParts[2].split(' - ')[0],
+			+dateParts[1] - 1,
+			+dateParts[0],
+			+timeParts[0],
+			+timeParts[1],
+			+timeParts[2],
+		);
+
+		return dateObject;
+	};
+
+	const checkStartDate = (userDate: Date) => {
+		const today = new Date();
+		const nextWeek = new Date(today);
+		nextWeek.setDate(today.getDate() + 7);
+		return userDate > nextWeek;
+	};
+
+	const checkEndDate = (end: Date, start: Date) => {
+		return end > start;
+	};
+
+	interface ErrorObjectProp {
+		startDateStatus: null | boolean;
+		statDateStatusMessage: null | string;
+		endDateStatus: null | boolean;
+		endDateStatusMessage: null | string;
+		numberOfDurationStatus: null | boolean;
+		numberOfDurationMessage: null | string;
+		maximumLimitationStatus: null | boolean;
+		maximumLimitationMessage: null | string;
+	}
+
 	const canGoStepThree = () => {
 		const { startTime, endTime } = { ...data };
 
-		if (!startTime || !endTime) return false;
+		const errorObject: ErrorObjectProp = {
+			startDateStatus: true,
+			statDateStatusMessage: null,
+			endDateStatus: true,
+			endDateStatusMessage: null,
+			numberOfDurationStatus: true,
+			numberOfDurationMessage: null,
+			maximumLimitationStatus: true,
+			maximumLimitationMessage: null,
+		};
 
-		return true;
+		const regex = /^(?:0[1-9]|[12]\d|3[01])\/(?:0[1-9]|1[0-2])\/\d{4} - (?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/;
+
+		if (!startTime) {
+			errorObject.startDateStatus = false;
+			errorObject.statDateStatusMessage = 'Require';
+		}
+
+		const dateTimeStringStartTime = startTime;
+
+		if (dateTimeStringStartTime) {
+			if (!regex.test(dateTimeStringStartTime)) {
+				errorObject.startDateStatus = false;
+				errorObject.statDateStatusMessage = 'Invalid time format.';
+			}
+
+			if (!errorObject.statDateStatusMessage) {
+				let isDateStartDateValid = checkStartDate(convertStringToDate(startTime));
+				if (!isDateStartDateValid) {
+					errorObject.startDateStatus = false;
+					errorObject.statDateStatusMessage = 'The start time must be at least 1 week after now.';
+				}
+			}
+		}
+
+		if (!setDuration && !endTime) {
+			errorObject.endDateStatus = false;
+			errorObject.endDateStatusMessage = 'Require';
+		}
+
+		if (setDuration && !data.numberOfDuration) {
+			errorObject.numberOfDurationStatus = false;
+			errorObject.numberOfDurationMessage = 'Require';
+		}
+
+		const dateTimeStringEndTime = endTime;
+
+		if (!setDuration && dateTimeStringEndTime) {
+			if (!regex.test(dateTimeStringEndTime)) {
+				errorObject.endDateStatus = false;
+				errorObject.endDateStatusMessage = 'Invalid time format';
+			}
+			if (!errorObject.endDateStatusMessage && dateTimeStringStartTime) {
+				let isDateEndDateValid = checkEndDate(
+					convertStringToDate(dateTimeStringEndTime),
+					convertStringToDate(dateTimeStringStartTime),
+				);
+				if (!isDateEndDateValid) {
+					errorObject.endDateStatus = false;
+					errorObject.endDateStatusMessage = 'End date is unacceptable.';
+				}
+			}
+		}
+
+		if (data.limitEnrollPeopleCheck && !data.maximumNumberEnroll) {
+			errorObject.maximumLimitationStatus = false;
+			errorObject.maximumLimitationMessage = 'Require';
+		}
+
+		return errorObject;
 	};
 
 	const [searchPhrase, setSearchPhrase] = useState<string>('');
@@ -226,7 +342,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-	const [data, setData] = useState<DataProp>({
+	const initData: DataProp = {
 		provider: '',
 		description: '',
 		isNft: false,
@@ -234,7 +350,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		startTime: '',
 		endTime: '',
 		limitEnrollPeopleCheck: false,
-		maximumNumberEnroll: '',
+		maximumNumberEnroll: null,
 		requirement: '',
 		email: '',
 		twitter: '',
@@ -253,6 +369,10 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		setDuration: false,
 		numberOfDuration: 0,
 		durationUnitTime: 'Month',
+	};
+
+	const [data, setData] = useState<DataProp>({
+		...initData,
 	});
 
 	const [chainList, setChainList] = useState<Chain[]>([]);
@@ -431,6 +551,12 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		setIsModalOpen(true);
 	};
 
+	const handleGOToDashboard = () => {
+		setSelectNewOffer(false);
+		setPage(0);
+		setData(initData);
+	};
+
 	return (
 		<PrizeOfferFormContext.Provider
 			value={{
@@ -471,6 +597,9 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 				handleSelectDurationUnitTime,
 				closeShowPreviewModal,
 				openShowPreviewModal,
+				selectNewOffer,
+				handleSelectNewOffer,
+				handleGOToDashboard,
 			}}
 		>
 			{children}

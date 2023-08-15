@@ -2,11 +2,8 @@ import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { ProviderDashboardButtonNext, ProviderDashboardButtonPrevious } from 'components/basic/Button/button';
 import { useState } from 'react';
+import { PrizeInfoProp } from 'types';
 
-interface PrizeInfoProp {
-	handleChangeFormPagePrev: (page: number) => void;
-	handleChangeFormPageNext: (page: number) => void;
-}
 const ContactInformation = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
 	const { handleChange, data, page, canGoStepFive } = usePrizeOfferFormContext();
 	const [showErrors, setShowErrors] = useState<boolean>(false);
@@ -65,7 +62,7 @@ const ContactInformation = ({ handleChangeFormPagePrev, handleChangeFormPageNext
 					className="provider-dashboard-input"
 					name="twitter"
 					onChange={handleChange}
-					value={data.twitter}
+					value={data.twitter ? data.twitter : ''}
 				/>
 			</div>
 			<div className="flex gap-5 overflow-hidden text-gray80 text-[12px] bg-gray40 border border-gray50 rounded-[12px] h-[44px] items-center justify-between w-full max-w-[452px]">
@@ -78,7 +75,7 @@ const ContactInformation = ({ handleChangeFormPagePrev, handleChangeFormPageNext
 					className="provider-dashboard-input"
 					name="discord"
 					onChange={handleChange}
-					value={data.discord}
+					value={data.discord ? data.discord : ''}
 				/>
 			</div>
 
@@ -91,12 +88,9 @@ const ContactInformation = ({ handleChangeFormPagePrev, handleChangeFormPageNext
 					onChange={handleChange}
 					value={data.necessaryInfo}
 				/>
-				<p>0/100</p>
+				<p>{data.necessaryInfo?.length}/100</p>
 			</div>
 			<div className="flex flex-col lg:flex-row w-full max-w-[452px] mt-5 items-center ">
-				{/* {page == 5 ? (
-					<ProviderDashboardGoToDashBoard className="opacity-[.3]">Go To Dashboard</ProviderDashboardGoToDashBoard>
-				) : ( */}
 				<div className="flex flex-col sm:flex-row w-full gap-5">
 					<ProviderDashboardButtonPrevious
 						disabled={page == 0 ? true : false}
@@ -106,15 +100,7 @@ const ContactInformation = ({ handleChangeFormPagePrev, handleChangeFormPageNext
 						Previous
 					</ProviderDashboardButtonPrevious>
 					<ProviderDashboardButtonNext onClick={handleNextPage}>NEXT</ProviderDashboardButtonNext>
-					{/* {page == 4 ? (
-							<ProviderDashboardButtonSubmit className="text-[14px] md:text-[12px] lg:text-[14px] ">
-								<p>Submit Contribution</p> */}
-					{/* </ProviderDashboardButtonSubmit> */}
-					{/* ) : ( */}
-
-					{/* )} */}
 				</div>
-				{/* )} */}
 			</div>
 		</div>
 	);

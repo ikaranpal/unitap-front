@@ -568,7 +568,7 @@ body {
 	border-radius: 12px;
 	opacity: 0.8;
 	@apply bg-cover bg-no-repeat;
-	background:url('/public/assets/images/provider-dashboard/prize-offer-step-bg.png');
+	background:url('/assets/images/provider-dashboard/prize-offer-step-bg.png');
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -604,11 +604,16 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }
 
+input:-webkit-autofill {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+		caret-color: white;
+
+}
 
 .provider-dashboard-input {
 	@apply placeholder-gray80 text-white w-full bg-transparent h-[100%] ;

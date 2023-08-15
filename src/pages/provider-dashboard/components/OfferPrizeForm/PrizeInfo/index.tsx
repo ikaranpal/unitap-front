@@ -3,10 +3,7 @@ import { useState } from 'react';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { ProviderDashboardButtonNext, ProviderDashboardButtonPrevious } from 'components/basic/Button/button';
 
-interface PrizeInfoProp {
-	handleChangeFormPagePrev: (page: number) => void;
-	handleChangeFormPageNext: (page: number) => void;
-}
+import { PrizeInfoProp } from 'types';
 
 const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
 	const {
@@ -49,7 +46,7 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 						onChange={handleChange}
 						value={data.provider ? data.provider : ''}
 					/>
-					<p>0/10</p>
+					<p>{data.provider?.length}/10</p>
 				</div>
 				{showErrors && !data.provider && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Require</p>}
 			</div>
@@ -63,7 +60,7 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 						onChange={handleChange}
 						value={data.description ? data.description : ''}
 					/>
-					<p>0/100</p>
+					<p>{data.description?.length}/100</p>
 				</div>
 				{showErrors && !data.description && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Require</p>}
 			</div>

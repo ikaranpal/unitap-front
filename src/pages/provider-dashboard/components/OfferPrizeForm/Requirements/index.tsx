@@ -4,14 +4,11 @@ import RequirementModal from './components/RequirementModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { ProviderDashboardButtonNext, ProviderDashboardButtonPrevious } from 'components/basic/Button/button';
 
-interface PrizeInfoProp {
-	handleChangeFormPagePrev: (page: number) => void;
-	handleChangeFormPageNext: (page: number) => void;
-}
+import { PrizeInfoProp } from 'types';
+
 const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
-	const { openRequirementModal, handleSelectSatisfy, data, page, canGoStepThree } = usePrizeOfferFormContext();
+	const { openRequirementModal, handleSelectSatisfy, data, page } = usePrizeOfferFormContext();
 	const [showItems, setShowItems] = useState<boolean>(false);
-	const [showErrors, setShowErrors] = useState<boolean>(false);
 
 	const onSelect = (e: string) => {
 		handleSelectSatisfy(e);
@@ -19,13 +16,7 @@ const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 	};
 
 	const handleNextPage = () => {
-		// const res = canGoStepThree();
-		// if (res != null && res) {
-		// setShowErrors(false);
 		handleChangeFormPageNext(page);
-		// } else {
-		// 	setShowErrors(true);
-		// }
 	};
 	const satisfy = { satisfySome: 'satisfySome', satisfyAll: 'satisfyAll' };
 	return (

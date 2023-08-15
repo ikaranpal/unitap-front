@@ -5,10 +5,10 @@ import {
 	ProviderDashboardButtonSuccess,
 } from 'components/basic/Button/button';
 import Icon from 'components/basic/Icon/Icon';
-import { useState } from 'react';
 import SearchInput from '../SearchInput/searchInput';
 import OfferPrizeForm from '../OfferPrizeForm';
 import CardTimer from '../CardTimer';
+import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 
 interface PrizeInfo {
 	chianName: string;
@@ -74,6 +74,7 @@ const PrizeCard = ({ prize }: PrizeCardProp) => {
 };
 
 const PrizeTapContent = () => {
+	const { selectNewOffer, handleSelectNewOffer } = usePrizeOfferFormContext();
 	const prizeCardsInfos = [
 		{
 			chianName: 'Polygon',
@@ -106,10 +107,10 @@ const PrizeTapContent = () => {
 			status: 'Rejected',
 		},
 	];
-	const [onSelectNewOffer, setOnSelectNewOffer] = useState(false);
+
 	return (
 		<div>
-			{!onSelectNewOffer ? (
+			{!selectNewOffer ? (
 				<div>
 					<div className="flex flex-col md:flex-row  items-center justify-between ">
 						<SearchInput className="w-full md:w-1/3" />
@@ -131,11 +132,10 @@ const PrizeTapContent = () => {
 								<Icon
 									className="absolute left-0 sm:right-[-45px] top-[-17px]  h-[150px] sm:h-[80px]"
 									iconSrc="assets/images/provider-dashboard/prize-bg.png"
-									// height="80px"
 								/>
 							</div>
 							<div
-								onClick={() => setOnSelectNewOffer(true)}
+								onClick={() => handleSelectNewOffer(true)}
 								className="flex mt-5 sm:mt-0 items-center justify-center cursor-pointer border-2 border-white rounded-[12px] bg-[#0C0C17] w-[226px] h-[46px]"
 							>
 								+ Provide a New Prize

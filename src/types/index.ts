@@ -219,3 +219,9 @@ export type APIError = {
 	source: APIErrorsSource;
 	statusCode: number;
 };
+
+
+export type PrizeInfoProp = {
+	handleChangeFormPagePrev: (page: number) => void;
+	handleChangeFormPageNext: (page: number) => void;
+}

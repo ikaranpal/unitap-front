@@ -1,6 +1,10 @@
 import Icon from 'components/basic/Icon/Icon';
+import { ProviderDashboardButtonPrevious, ProviderDashboardGoToDashBoard } from 'components/basic/Button/button';
+import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { PrizeInfoProp } from 'types';
 
-const InformationVerification = () => {
+const InformationVerification = ({ handleChangeFormPagePrev }: PrizeInfoProp) => {
+	const { page, handleGOToDashboard } = usePrizeOfferFormContext();
 	return (
 		<div className="flex flex-col gap-5 w-full max-w-[452px] min-w-[300px] text-gray100 font-medium text-[12px] text-center">
 			<Icon iconSrc="assets/images/provider-dashboard/diamond.svg" />
@@ -8,12 +12,28 @@ const InformationVerification = () => {
 				<p>Validating</p>
 				<Icon iconSrc="assets/images/provider-dashboard/warn-loading.svg" />
 			</div>
-			<p>
-				Your request has been sent . thank you for your patience while we validate your request. you can cancel your
-				request any time.
-			</p>
-			<p>if validating your request took longer than 1 week , you can contact us using the following email address</p>
-			<p>hehe@gmail.com</p>
+			<p>Your request has been sent . thank you for your patience while we validate your request.</p>
+			<div>
+				<p>
+					It usually takes around 1 week for us to validate your request. If you haven't heard from us by then, we
+					encourage you to contact us via this email address:
+				</p>
+				<p className="text-white">unitap.support@gmail.com</p>
+			</div>
+			<div className="flex flex-col lg:flex-row w-full max-w-[452px] mt-5 items-center gap-5">
+				<div className="flex flex-col sm:flex-row w-full gap-5">
+					<ProviderDashboardButtonPrevious
+						disabled={page == 0 ? true : false}
+						className="w-full"
+						onClick={() => handleChangeFormPagePrev(page)}
+					>
+						Previous
+					</ProviderDashboardButtonPrevious>
+				</div>
+				<ProviderDashboardGoToDashBoard onClick={handleGOToDashboard} className="opacity-[.3]">
+					Go To Dashboard
+				</ProviderDashboardGoToDashBoard>
+			</div>
 		</div>
 	);
 };
