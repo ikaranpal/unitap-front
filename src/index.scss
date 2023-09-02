@@ -500,9 +500,8 @@ body {
 	}
 }
 
-
 .providerDashboard__header {
-	@apply bg-no-repeat bg-cover ;
+	@apply bg-no-repeat bg-cover;
 	background-image: url('../public/assets/images/provider-dashboard/bg-header.svg');
 }
 
@@ -528,7 +527,7 @@ body {
 .providePrize__amount {
 	position: relative;
 	@apply text-gray20;
-	background:radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2A3837 0%, #3F2B44 42.19%, #322837 100%);
+	background: radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2a3837 0%, #3f2b44 42.19%, #322837 100%);
 	-webkit-text-stroke: 7px transparent;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -536,18 +535,17 @@ body {
 	font-weight: 600;
 	padding: 10px;
 
-
 	&:after {
 		content: attr(data-amount);
 		position: absolute;
 		// top:50px;
 		z-index: 9;
-		background:linear-gradient(91.35deg, #4BF2A2 -4.66%, #A89FE7 56.06%, #E1C4F4 73.07%, #DD40CD 111.44%);
+		background: linear-gradient(91.35deg, #4bf2a2 -4.66%, #a89fe7 56.06%, #e1c4f4 73.07%, #dd40cd 111.44%);
 		@apply text-gray20;
-		-webkit-text-stroke:2px transparent;
+		-webkit-text-stroke: 2px transparent;
 		-webkit-background-clip: text;
-		-webkit-text-fill-color:#13131E;
-		left:10px;
+		-webkit-text-fill-color: #13131e;
+		left: 10px;
 	}
 
 	// &:before {
@@ -555,7 +553,7 @@ body {
 	// 	position: absolute;
 	// 	top:50px;
 	// 	// left:12px;
-  //   background: radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2A3837 0%, #3F2B44 42.19%, #322837 100%);
+	//   background: radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2A3837 0%, #3F2B44 42.19%, #322837 100%);
 	// 	-webkit-background-clip:text;
 	// 	-webkit-text-stroke:3px #13131E;
 	// 	-webkit-text-fill-color:transparent;
@@ -568,27 +566,24 @@ body {
 	border-radius: 12px;
 	opacity: 0.8;
 	@apply bg-cover bg-no-repeat;
-	background:url('/public/assets/images/provider-dashboard/prize-offer-step-bg.png');
+	background: url('/public/assets/images/provider-dashboard/prize-offer-step-bg.png');
 	background-repeat: no-repeat;
 	background-size: cover;
 }
 
 .chines-list-dropDown::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .chines-list-dropDown {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
 }
-
-
 
 .prizeForm-current-step-icon {
 	@apply rounded-full w-[26px]  h-[26px] bg-gray30 overflow-hidden w-[26px] h-[26px] rounded-full;
 }
-
 
 .requireModal {
 	@apply text-[14px] font-semibold flex flex-col gap-2 items-center justify-center cursor-pointer max-w-[184px] h-[84px] bg-gray40 border border-gray70 rounded-xl;
@@ -600,16 +595,67 @@ body {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 /* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
+input[type='number'] {
+	-moz-appearance: textfield;
 }
-
 
 .provider-dashboard-input {
 	@apply placeholder-gray80 text-white w-full bg-transparent h-[100%];
+}
+.prize-card-bg-1 {
+	@apply lg:bg-[url("../public/assets/images/prize-tap/nft-cover.svg")] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;
+}
+
+.prize-card-bg-2 {
+	@apply lg:bg-[url("../public/assets/images/prize-tap/cover.svg")] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;
+}
+
+.prize-tap-header-bg {
+	background-image: url('../public/assets/images/prize-tap/header-bg.svg');
+	@apply bg-no-repeat bg-cover bg-center;
+}
+
+.prize-tap-enrolled:hover {
+	&:before {
+		background: radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2a3837 0%, #3f2b44 42.19%, #322837 100%) !important;
+	}
+}
+
+.winner-box-bg {
+	background-image: url('../public/assets/images/prize-tap/winner_bg.svg');
+	@apply bg-no-repeat bg-cover bg-center;
+}
+
+.claimed-prize {
+	p {
+		background: linear-gradient(91.35deg, #4bf2a2 0.66%, #a89fe7 10.06%, #e1c4f4 20.07%, #dd40cd 28.44%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		font-size: 14px;
+		font-weight: 600;
+		margin-left: 10px;
+	}
+	@apply bg-g-primary relative z-10 before:content-[''];
+	@apply before:block before:rounded-lg before:-z-10 before:absolute before:inset-[2px] before:bg-[radial-gradient(174.04%_3217.67%_at_17.05%_37.02%,#2A3837_0%,#3F2B44_42.19%,#322837_100%)];
+	@apply text-white text-[14px];
+	@apply p-3 rounded-[10px];
+}
+
+.prize-success-stroke {
+	h1 {
+		padding: 2px;
+		text-align: center;
+		// text-transform: uppercase;
+		/* Warning: no fallback */
+		margin: 2em 0 2em 0;
+		background: -webkit-linear-gradient(12deg, #4bf2a2 -4.66%, #a89fe7 56.06%, #e1c4f4 73.07%, #dd40cd 111.44%);
+		-webkit-background-clip: text;
+		-webkit-text-stroke: 3px transparent;
+		color: inherit;
+	}
 }
