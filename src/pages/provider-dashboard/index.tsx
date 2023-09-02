@@ -37,7 +37,7 @@ const ProviderDashboardTabs = ({ onSelectTab, selectedTab }: SelectedTabProps) =
 	return (
 		<div className="mb-6  provider-dashboard__tabs flex bg-gray20 justify-between text-center text-gray80 font-semibold ">
 			<div
-				className={`w-full p-3 flex flex-col flex-col-reverse sm:flex-row gap-2 items-center cursor-pointer justify-center border-b-3  ${
+				className={`w-full p-3 flex flex-col-reverse sm:flex-row gap-2 items-center cursor-pointer justify-center border-b-3  ${
 					selectedTab == tabs.gasTap ? 'borer-b-white text-white' : 'border-b-gray60'
 				}`}
 				onClick={() => onSelectTab(tabs.gasTap)}
@@ -50,7 +50,7 @@ const ProviderDashboardTabs = ({ onSelectTab, selectedTab }: SelectedTabProps) =
 				)}
 			</div>
 			<div
-				className={`w-full p-3 flex flex-col flex-col-reverse sm:flex-row gap-2  gap-2 items-center cursor-pointer justify-center border-b-3  ${
+				className={`w-full p-3 flex flex-col-reverse sm:flex-row  gap-2 items-center cursor-pointer justify-center border-b-3  ${
 					selectedTab == tabs.tokenTap ? 'borer-b-white text-white' : 'border-b-gray60'
 				}`}
 				onClick={() => onSelectTab(tabs.tokenTap)}
@@ -63,7 +63,7 @@ const ProviderDashboardTabs = ({ onSelectTab, selectedTab }: SelectedTabProps) =
 				)}
 			</div>
 			<div
-				className={`w-full p-3 flex flex-col flex-col-reverse sm:flex-row gap-2  gap-2 items-center cursor-pointer justify-center border-b-3  ${
+				className={`w-full p-3 flex flex-col-reverse sm:flex-row  gap-2 items-center cursor-pointer justify-center border-b-3  ${
 					selectedTab == tabs.prizeTap ? 'borer-b-white text-white' : 'border-b-gray60'
 				}`}
 				onClick={() => onSelectTab(tabs.prizeTap)}

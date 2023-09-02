@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import Home from 'pages/home';
+import GasTapWrapper from 'pages/home';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Landing from 'pages/landing';
@@ -29,10 +29,12 @@ import { MulticallUpdater } from 'lib/state/multicall';
 import ScrollToTop from 'components/basic/ScrollToTop/scrollToTop';
 import PrizeTap from 'pages/prize-tap';
 import ProviderDashboard from 'pages/provider-dashboard';
+import PrizeTapProvider from 'hooks/prizeTap/prizeTapContext';
 import { ErrorsProvider } from './context/ErrorsProvider';
 import 'typeface-jetbrains-mono';
 import Navbar from 'components/common/Navbar/navbar';
 import GlobalContextProvider from 'hooks/useGlobalContext';
+import { PrizeOfferFromProvider } from 'pages/provider-dashboard/components/Context/PrizeOfferFromContext';
 
 const Fund = React.lazy(() => import('./pages/fund'));
 const Donate = React.lazy(() => import('./pages/donate'));
@@ -67,7 +69,7 @@ function App() {
 														path={RoutePath.FAUCET}
 														element={
 															<ClaimProvider>
-																<Home />
+																<GasTapWrapper />
 															</ClaimProvider>
 														}
 													/>
@@ -99,8 +101,22 @@ function App() {
 														}
 													/>
 													<Route path={RoutePath.ABOUT} element={<About />} />
-													<Route path={RoutePath.PRIZE} element={<PrizeTap />} />
-													<Route path={RoutePath.PROVIDERDASHBOARD} element={<ProviderDashboard />} />
+													<Route
+														path={RoutePath.PRIZE}
+														element={
+															<PrizeTapProvider>
+																<PrizeTap />
+															</PrizeTapProvider>
+														}
+													/>
+													<Route
+														path={RoutePath.PROVIDERDASHBOARD}
+														element={
+															<PrizeOfferFromProvider>
+																<ProviderDashboard />
+															</PrizeOfferFromProvider>
+														}
+													/>
 													<Route
 														path={RoutePath.TOKEN}
 														element={

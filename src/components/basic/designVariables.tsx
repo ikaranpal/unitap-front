@@ -28,6 +28,7 @@ interface designVariable {
 		gray70: string;
 		gray80: string;
 		gray90: string;
+		gray100: string;
 		placeholderGray: string;
 		second_gray_light: string;
 		transparent_black: string;
@@ -42,6 +43,7 @@ interface designVariable {
 	bgGradient: {
 		primary: string;
 		primaryDisabled: string;
+		primary_2: string;
 		dark: string;
 	};
 	breakpoints: {
@@ -94,6 +96,7 @@ export const DV: designVariable = {
 	},
 	bgGradient: {
 		primary: 'linear-gradient(91.35deg, #4BF2A2 -4.66%, #A89FE7 56.06%, #E1C4F4 73.07%, #DD40CD 111.44%);',
+		primary_2: 'linear-gradient(91.35deg,#4BF2A2 35.66%,#A89FE7 50.06%,#E1C4F4 7.07%,#DD40CD 70.44%)',
 		primaryDisabled: 'radial-gradient(124.04% 1117.67% at 17.05% 37.02%, #98bdab 0%, #726d8e 42.19%, #c498bf 100%)',
 		dark: 'radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2A3837 0%, #3F2B44 42.19%, #322837 100%)',
 	},
