@@ -3,6 +3,9 @@ import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import Modal from 'components/common/Modal/modal';
 import { DataProp } from 'pages/provider-dashboard/components/Context/PrizeOfferFromContext';
+import BrightIdRequirementDropDown from 'pages/provider-dashboard/components/brightIdRequirementDropDown';
+import useAddRequirement from 'hooks/useAddRequirement';
+import RenderNftRequirement from '../../RenderNftRequirement';
 
 // @ts-ignore
 
@@ -67,30 +70,7 @@ const RequirementModalBody = () => {
 		data,
 	} = usePrizeOfferFormContext();
 
-	function renderNftRequirement() {
-		const methods = [
-			{
-				method: 'maximum',
-				text: 'Maximum Amount',
-				element: <Counter label="Maximum Amount" logic="nftRequirementMax" />,
-			},
-			{
-				method: 'minimum',
-				text: 'Minium Amount',
-				element: <Counter label="Minium Amount" logic="nftRequirementMin" />,
-			},
-			{
-				method: 'maximumAndMinimum',
-				text: 'Maximum and Minimum',
-				element: (
-					<div className="flex flex-col gap-2  h-[180px]">
-						<Counter label="Maximum" logic="nftRequirementMax" />
-						<Counter label="Minimum" logic="nftRequirementMin" />
-					</div>
-				),
-			},
-			{ method: 'customID', text: 'Custom ID', element: <CustomID label="Custom ID" logic="nftRequirementCustomID" /> },
-		];
+	function renderBrightIdRequirement() {
 		return (
 			<div className="flex flex-col gap-2 mt-5 ">
 				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
@@ -103,24 +83,7 @@ const RequirementModalBody = () => {
 							Should not satisfy
 						</div>
 					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
-
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							onChange={(e) => handleChange(e)}
-							value={data.nftAddress}
-							name="nftAddress"
-							className="bg-transparent w-full h-[100%]  placeholder-gray80"
-							placeholder="Paste NFT address"
-						/>
-					</div>
-					<SelectMethodDropDown methods={methods} />
+					<BrightIdRequirementDropDown />
 				</div>
 				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
 					Add Requirement
@@ -596,7 +559,11 @@ const RequirementModalBody = () => {
 						<Icon iconSrc="assets/images/provider-dashboard/modalIcon/chainlink-(link).svg" />
 						NFT
 					</div>
-					<div className="requireModal" onClick={() => handleSelectRequirementModal('token', 'Token')}>
+					<div className="requireModal" onClick={() => handleSelectRequirementModal('brightId', 'BrightId')}>
+						<Icon iconSrc="assets/images/bright-icon.png" width="32px" height="32px" />
+						BrightId
+					</div>
+					{/* <div className="requireModal" onClick={() => handleSelectRequirementModal('token', 'Token')}>
 						<Icon iconSrc="assets/images/provider-dashboard/modalIcon/dollar-circle.svg" />
 						Token
 					</div>
@@ -623,9 +590,9 @@ const RequirementModalBody = () => {
 					<div className="requireModal">
 						<Icon iconSrc="assets/images/provider-dashboard/modalIcon/gas-station.svg" />
 						Gas Tap
-					</div>
+					</div> */}
 				</div>
-				<p className="text-white text-[14px] font-medium mt-3">Integration</p>
+				{/* <p className="text-white text-[14px] font-medium mt-3">Integration</p>
 				<div className="requireModalIntegration" onClick={() => handleSelectRequirementModal('discord', 'Discord')}>
 					<div className="flex gap-2 items-center">
 						<Icon iconSrc="assets/images/provider-dashboard/discord-blue.svg" />
@@ -677,13 +644,14 @@ const RequirementModalBody = () => {
 						<p>Lens</p>
 					</div>
 					<Icon iconSrc="assets/images/provider-dashboard/arrow-right.svg" />
-				</div>
+				</div> */}
 			</div>
 		);
 	}
 
 	const getRequirementModalBody = () => {
-		if (requirementModalItems.nft) return renderNftRequirement();
+		if (requirementModalItems.nft) return <RenderNftRequirement />;
+		if (requirementModalItems.brightId) return renderBrightIdRequirement();
 		if (requirementModalItems.token) return renderTokenRequirement();
 		if (requirementModalItems.allowList) return renderAllowListRequirement();
 		if (requirementModalItems.contractQuery) return renderContractQueryRequirement();

@@ -18,21 +18,28 @@ export interface DataProp {
 	telegram: string | null;
 	necessaryInfo: string;
 	satisfy: string;
-	nftRequirementMax: any;
-	nftRequirementMin: any;
 	tokenRequirementMax: any;
 	tokenRequirementMin: any;
-	nftRequirementCustomID: any;
-	nftAddress: string;
 	tokenAddress: string;
 	allowListPrivate: boolean;
 	setDuration: boolean;
 	numberOfDuration: number;
 	durationUnitTime: string;
+	NftSatisfy: boolean;
+}
+
+interface NftRequirementProp {
+	nftRequirementSatisfy: boolean | null;
+	nftRequirementSelectedChain: Chain | null;
+	nftRequirementNftAddress: string | null;
+	nftRequirementMax: number | null;
+	nftRequirementMin: number | null;
+	nftRequirementCustomID: number | null;
 }
 
 interface RequirementModalItems {
 	nft: boolean;
+	brightId: boolean;
 	token: boolean;
 	allowList: boolean;
 	walletActivity: boolean;
@@ -47,6 +54,12 @@ interface RequirementModalItems {
 	mirror: boolean;
 	opAttestation: boolean;
 	lens: boolean;
+}
+
+interface SelectMethodRequirementNft {
+	maximumAmount: number | null;
+	minimumAmount: number | null;
+	customId: number | null;
 }
 
 const PrizeOfferFormContext = createContext<{
@@ -90,6 +103,8 @@ const PrizeOfferFormContext = createContext<{
 	selectNewOffer: boolean;
 	handleSelectNewOffer: (select: boolean) => void;
 	handleGOToDashboard: () => void;
+	nftRequirement: NftRequirementProp | null;
+	handleAddRequirementNft: (requirement: NftRequirementProp) => void;
 }>({
 	page: 0,
 	setPage: () => {},
@@ -109,20 +124,18 @@ const PrizeOfferFormContext = createContext<{
 		telegram: null,
 		necessaryInfo: '',
 		satisfy: 'satisfyAll',
-		nftRequirementMax: 0,
-		nftRequirementMin: 0,
 		tokenRequirementMax: 0,
 		tokenRequirementMin: 0,
-		nftRequirementCustomID: 0,
-		nftAddress: '',
 		tokenAddress: '',
 		allowListPrivate: false,
 		setDuration: false,
 		numberOfDuration: 0,
 		durationUnitTime: 'Month',
+		NftSatisfy: false,
 	},
 	requirementModalItems: {
 		nft: false,
+		brightId: false,
 		token: false,
 		allowList: false,
 		walletActivity: false,
@@ -181,6 +194,8 @@ const PrizeOfferFormContext = createContext<{
 	selectNewOffer: false,
 	handleSelectNewOffer: () => {},
 	handleGOToDashboard: () => {},
+	handleAddRequirementNft: () => {},
+	nftRequirement: null,
 });
 
 export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -191,6 +206,20 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		4: 'Contact Info',
 		5: 'Deposit Prize',
 		6: 'Information Verification',
+	};
+
+	const [nftRequirement, setNftRequirement] = useState<NftRequirementProp | null>(null);
+
+	const handleAddRequirementNft = (requirement: NftRequirementProp) => {
+		setNftRequirement({
+			...nftRequirement,
+			nftRequirementSatisfy: requirement.nftRequirementSatisfy,
+			nftRequirementSelectedChain: requirement.nftRequirementSelectedChain,
+			nftRequirementNftAddress: requirement.nftRequirementNftAddress,
+			nftRequirementCustomID: requirement.nftRequirementCustomID,
+			nftRequirementMax: requirement.nftRequirementMax,
+			nftRequirementMin: requirement.nftRequirementMin,
+		});
 	};
 
 	const [selectNewOffer, setSelectNewOffer] = useState<boolean>(false);
@@ -358,17 +387,14 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		telegram: '',
 		necessaryInfo: '',
 		satisfy: 'satisfyAll',
-		nftRequirementMax: 0,
-		nftRequirementMin: 0,
 		tokenRequirementMax: 0,
 		tokenRequirementMin: 0,
-		nftRequirementCustomID: 0,
-		nftAddress: '',
 		tokenAddress: '',
 		allowListPrivate: false,
 		setDuration: false,
 		numberOfDuration: 0,
 		durationUnitTime: 'Month',
+		NftSatisfy: false,
 	};
 
 	const [data, setData] = useState<DataProp>({
@@ -396,6 +422,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const baseRequirementModalItems: RequirementModalItems = {
 		nft: false,
+		brightId: false,
 		token: false,
 		allowList: false,
 		walletActivity: false,
@@ -428,6 +455,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const [requirementModalItems, setRequirementModalItems] = useState<RequirementModalItems>({
 		nft: false,
+		brightId: false,
 		token: false,
 		allowList: false,
 		walletActivity: false,
@@ -600,6 +628,8 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 				selectNewOffer,
 				handleSelectNewOffer,
 				handleGOToDashboard,
+				handleAddRequirementNft,
+				nftRequirement,
 			}}
 		>
 			{children}

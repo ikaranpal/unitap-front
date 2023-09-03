@@ -309,3 +309,27 @@ type userRaffle = {
 	pk: number;
 	raffleId: number
 }
+
+export interface SelectedMethodNftRqProps {
+	nftMaximum: number;
+	handleSetMaximum: (val: number) => void;
+	nftMinimum: number;
+	handleSetMinimum: (val: number) => void;
+	customId: number | null;
+	handleSetCustomId: (val: number) => void;
+}
+
+export interface MaxNftProp {
+	nftAmount: number;
+	handleSetMaximum: (val: number) => void;
+}
+
+export interface MinNftProp {
+	nftAmount: number;
+	handleSetMinimum: (val: number) => void;
+}
+
+export interface CustomIdProp {
+	customId: number | null;
+	handleSetCustomId: (val: number) => void;
+}
