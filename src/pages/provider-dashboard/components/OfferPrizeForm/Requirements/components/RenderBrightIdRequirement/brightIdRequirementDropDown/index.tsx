@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import Icon from 'components/basic/Icon/Icon';
 
-const BrightIdRequirementDropDown = () => {
+interface BrightIdRqDropDown {
+	selectedType: string | null;
+	onSelectType: (type: string) => void;
+}
+
+const BrightIdRequirementDropDown = ({ selectedType, onSelectType }: BrightIdRqDropDown) => {
 	const [showItems, setShowItems] = useState(false);
-	const [selectedType, setSelectedType] = useState<string | null>(null);
 	const handleSelectType = (type: string) => {
 		setShowItems(false);
-		setSelectedType(type);
+		onSelectType(type);
 	};
 	const types = [{ name: 'brightID meet' }];
 	const handleShowItems = () => {

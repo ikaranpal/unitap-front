@@ -37,6 +37,11 @@ interface NftRequirementProp {
 	nftRequirementCustomID: number | null;
 }
 
+interface BrightIdRequirementProp {
+	brightIdRequirementSatisfy: boolean | null;
+	brightIdRequirementType: string | null;
+}
+
 interface RequirementModalItems {
 	nft: boolean;
 	brightId: boolean;
@@ -54,12 +59,6 @@ interface RequirementModalItems {
 	mirror: boolean;
 	opAttestation: boolean;
 	lens: boolean;
-}
-
-interface SelectMethodRequirementNft {
-	maximumAmount: number | null;
-	minimumAmount: number | null;
-	customId: number | null;
 }
 
 const PrizeOfferFormContext = createContext<{
@@ -105,6 +104,10 @@ const PrizeOfferFormContext = createContext<{
 	handleGOToDashboard: () => void;
 	nftRequirement: NftRequirementProp | null;
 	handleAddRequirementNft: (requirement: NftRequirementProp) => void;
+	handleAddRequirementBrightId: (requirement: BrightIdRequirementProp) => void;
+	handleResetRequirementNft: () => void;
+	handleResetRequirementBrightId: () => void;
+	brightIdRequirement: BrightIdRequirementProp | null;
 }>({
 	page: 0,
 	setPage: () => {},
@@ -196,6 +199,10 @@ const PrizeOfferFormContext = createContext<{
 	handleGOToDashboard: () => {},
 	handleAddRequirementNft: () => {},
 	nftRequirement: null,
+	handleResetRequirementNft: () => {},
+	handleAddRequirementBrightId: () => {},
+	handleResetRequirementBrightId: () => {},
+	brightIdRequirement: null,
 });
 
 export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -210,6 +217,8 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const [nftRequirement, setNftRequirement] = useState<NftRequirementProp | null>(null);
 
+	const [brightIdRequirement, setBrightIdRequirement] = useState<BrightIdRequirementProp | null>(null);
+
 	const handleAddRequirementNft = (requirement: NftRequirementProp) => {
 		setNftRequirement({
 			...nftRequirement,
@@ -219,6 +228,34 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 			nftRequirementCustomID: requirement.nftRequirementCustomID,
 			nftRequirementMax: requirement.nftRequirementMax,
 			nftRequirementMin: requirement.nftRequirementMin,
+		});
+	};
+
+	const handleResetRequirementNft = () => {
+		setNftRequirement({
+			...nftRequirement,
+			nftRequirementSatisfy: null,
+			nftRequirementSelectedChain: null,
+			nftRequirementNftAddress: null,
+			nftRequirementCustomID: null,
+			nftRequirementMax: null,
+			nftRequirementMin: null,
+		});
+	};
+
+	const handleAddRequirementBrightId = (requirement: BrightIdRequirementProp) => {
+		setBrightIdRequirement({
+			...brightIdRequirement,
+			brightIdRequirementSatisfy: requirement.brightIdRequirementSatisfy,
+			brightIdRequirementType: requirement.brightIdRequirementType,
+		});
+	};
+
+	const handleResetRequirementBrightId = () => {
+		setBrightIdRequirement({
+			...brightIdRequirement,
+			brightIdRequirementSatisfy: null,
+			brightIdRequirementType: null,
 		});
 	};
 
@@ -630,6 +667,10 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 				handleGOToDashboard,
 				handleAddRequirementNft,
 				nftRequirement,
+				handleResetRequirementNft,
+				handleAddRequirementBrightId,
+				handleResetRequirementBrightId,
+				brightIdRequirement,
 			}}
 		>
 			{children}

@@ -5,9 +5,11 @@ import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { ProviderDashboardButtonNext, ProviderDashboardButtonPrevious } from 'components/basic/Button/button';
 
 import { PrizeInfoProp } from 'types';
+import NewAddedRequirements from '../../NewAddedRequirements';
 
 const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
-	const { openRequirementModal, handleSelectSatisfy, data, page } = usePrizeOfferFormContext();
+	const { openRequirementModal, handleSelectSatisfy, data, page, nftRequirement, brightIdRequirement } =
+		usePrizeOfferFormContext();
 	const [showItems, setShowItems] = useState<boolean>(false);
 
 	const onSelect = (e: string) => {
@@ -20,9 +22,9 @@ const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 	};
 	const satisfy = { satisfySome: 'satisfySome', satisfyAll: 'satisfyAll' };
 	return (
-		<div className="text-gray100 text-[12px] font-medium flex flex-col gap-5 w-full  max-w-[452px] min-w-[300px]">
+		<div className="text-gray100 text-[12px] font-medium flex flex-col w-full  max-w-[452px] min-w-[300px]">
 			<p>Add any requirements for Enrolling or leave it free.</p>
-			<div className="flex relative bg-gray40 rounded-xl cursor-pointer text-white text-[14px] font-medium">
+			<div className="flex relative bg-gray40 rounded-xl my-4 cursor-pointer text-white text-[14px] font-medium">
 				<div
 					className="flex items-center justify-between w-full h-[44px] px-4"
 					onClick={() => setShowItems(!showItems)}
@@ -48,9 +50,12 @@ const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 				)}
 			</div>
 
+			{nftRequirement?.nftRequirementNftAddress && <NewAddedRequirements name="nft" label="NFT" />}
+			{brightIdRequirement?.brightIdRequirementType && <NewAddedRequirements name="brightId" label="BrightId" />}
+
 			<div
 				onClick={openRequirementModal}
-				className="flex cursor-pointer items-center gap-2 bg-gray40 h-[44px] rounded-xl px-4 text-white text-[12px]"
+				className=" flex cursor-pointer items-center gap-2 bg-gray40 h-[44px] rounded-xl px-4 text-white text-[12px]"
 			>
 				<Icon iconSrc="assets/images/provider-dashboard/add-requirement.svg" height="16px" width="16px" />
 				<p>Add requirement</p>

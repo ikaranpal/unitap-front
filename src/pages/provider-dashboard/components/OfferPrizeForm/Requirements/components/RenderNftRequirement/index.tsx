@@ -53,7 +53,7 @@ const RenderNftRequirement = () => {
 		setCustomId(val);
 	};
 
-	const handleChange = (e: { target: { type: any; name: any; checked: any; value: any } }) => {
+	const handleChange = (e: { target: { value: string } }) => {
 		setNftAddress(e.target.value);
 	};
 
@@ -114,7 +114,7 @@ const RenderNftRequirement = () => {
 			</div>
 			<div
 				onClick={handleAddRequirement}
-				className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2"
+				className="flex cursor-pointer bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2"
 			>
 				Add Requirement
 			</div>

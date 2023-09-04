@@ -1,63 +1,50 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import Modal from 'components/common/Modal/modal';
 import { DataProp } from 'pages/provider-dashboard/components/Context/PrizeOfferFromContext';
-import BrightIdRequirementDropDown from 'pages/provider-dashboard/components/brightIdRequirementDropDown';
-import useAddRequirement from 'hooks/useAddRequirement';
-import RenderNftRequirement from '../../RenderNftRequirement';
+import RenderNftRequirement from '../RenderNftRequirement';
+import RenderBrightIdRequirement from '../RenderBrightIdRequirement';
 
-// @ts-ignore
+// const SelectMethodDropDown = ({ methods }: MethodsProp) => {
+// 	const [showItems, setShowItems] = useState<boolean>(false);
+// 	const [selectedMethod, setSelectedMethod] = useState<SelectedMethodProp | null>(null);
 
-interface SelectedMethodProp {
-	method: string;
-	text: string;
-	element: JSX.Element;
-}
+// 	const handleSelectMethod = (method: SelectedMethodProp) => {
+// 		setShowItems(false);
+// 		setSelectedMethod(method);
+// 	};
 
-interface MethodsProp {
-	methods: SelectedMethodProp[];
-}
-
-const SelectMethodDropDown = ({ methods }: MethodsProp) => {
-	const [showItems, setShowItems] = useState<boolean>(false);
-	const [selectedMethod, setSelectedMethod] = useState<SelectedMethodProp | null>(null);
-
-	const handleSelectMethod = (method: SelectedMethodProp) => {
-		setShowItems(false);
-		setSelectedMethod(method);
-	};
-
-	return (
-		<div>
-			<div className="flex w-full relative">
-				<div
-					onClick={() => setShowItems(!showItems)}
-					className="flex w-full bg-gray40 cursor-pointer text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2"
-				>
-					<div className="flex items-center gap-2">
-						<p>{selectedMethod ? selectedMethod.text : 'Select Method'}</p>
-					</div>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-				</div>
-				{showItems && (
-					<div className="flex flex-col gap-2 w-full absolute top-12 bg-gray40 border border-gray50 rounded-xl p-3">
-						{methods.map((method, index) => (
-							<div
-								onClick={() => handleSelectMethod(method)}
-								key={index}
-								className="cursor-pointer hover:bg-gray90 hover:text-white rounded-xl px-2"
-							>
-								{method.text}
-							</div>
-						))}
-					</div>
-				)}
-			</div>
-			<div className="w-full">{selectedMethod?.element}</div>
-		</div>
-	);
-};
+// 	return (
+// 		<div>
+// 			<div className="flex w-full relative">
+// 				<div
+// 					onClick={() => setShowItems(!showItems)}
+// 					className="flex w-full bg-gray40 cursor-pointer text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2"
+// 				>
+// 					<div className="flex items-center gap-2">
+// 						<p>{selectedMethod ? selectedMethod.text : 'Select Method'}</p>
+// 					</div>
+// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+// 				</div>
+// 				{showItems && (
+// 					<div className="flex flex-col gap-2 w-full absolute top-12 bg-gray40 border border-gray50 rounded-xl p-3">
+// 						{methods.map((method, index) => (
+// 							<div
+// 								onClick={() => handleSelectMethod(method)}
+// 								key={index}
+// 								className="cursor-pointer hover:bg-gray90 hover:text-white rounded-xl px-2"
+// 							>
+// 								{method.text}
+// 							</div>
+// 						))}
+// 					</div>
+// 				)}
+// 			</div>
+// 			<div className="w-full">{selectedMethod?.element}</div>
+// 		</div>
+// 	);
+// };
 
 const RequirementModalBody = () => {
 	const {
@@ -70,482 +57,465 @@ const RequirementModalBody = () => {
 		data,
 	} = usePrizeOfferFormContext();
 
-	function renderBrightIdRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5 ">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<BrightIdRequirementDropDown />
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderTokenRequirement() {
+	// 	const methods = [
+	// 		{
+	// 			method: 'maximum',
+	// 			text: 'Maximum Amount',
+	// 			element: <Counter label="Maximum Amount" logic="tokenRequirementMax" />,
+	// 		},
+	// 		{
+	// 			method: 'minimum',
+	// 			text: 'Minium Amount',
+	// 			element: <Counter label="Minium Amount" logic="tokenRequirementMin" />,
+	// 		},
+	// 		{
+	// 			method: 'maximumAndMinimum',
+	// 			text: 'Maximum and Minimum',
+	// 			element: (
+	// 				<div className="flex flex-col gap-2  h-[130px]">
+	// 					<Counter label="Maximum" logic="tokenRequirementMax" />
+	// 					<Counter label="Minimum" logic="tokenRequirementMin" />
+	// 				</div>
+	// 			),
+	// 		},
+	// 	];
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5  placeholder-gray80">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
+	// 						<p>Telos</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
 
-	function renderTokenRequirement() {
-		const methods = [
-			{
-				method: 'maximum',
-				text: 'Maximum Amount',
-				element: <Counter label="Maximum Amount" logic="tokenRequirementMax" />,
-			},
-			{
-				method: 'minimum',
-				text: 'Minium Amount',
-				element: <Counter label="Minium Amount" logic="tokenRequirementMin" />,
-			},
-			{
-				method: 'maximumAndMinimum',
-				text: 'Maximum and Minimum',
-				element: (
-					<div className="flex flex-col gap-2  h-[130px]">
-						<Counter label="Maximum" logic="tokenRequirementMax" />
-						<Counter label="Minimum" logic="tokenRequirementMin" />
-					</div>
-				),
-			},
-		];
-		return (
-			<div className="flex flex-col gap-2 mt-5  placeholder-gray80">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<input
+	// 						name="tokenAddress"
+	// 						className="bg-transparent w-full h-[100%]  placeholder-gray80"
+	// 						value={data.tokenAddress}
+	// 						placeholder="Paste Token address"
+	// 						onChange={(e) => handleChange(e)}
+	// 					/>
+	// 				</div>
+	// 				<SelectMethodDropDown methods={methods} />
+	// 			</div>
 
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							name="tokenAddress"
-							className="bg-transparent w-full h-[100%]  placeholder-gray80"
-							value={data.tokenAddress}
-							placeholder="Paste Token address"
-							onChange={(e) => handleChange(e)}
-						/>
-					</div>
-					<SelectMethodDropDown methods={methods} />
-				</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderAllowListRequirement() {
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
 
-	function renderAllowListRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
+	// 				<div className="flex bg-gray40 text-[12px] h-[44px] border border-gray50 rounded-xl items-center justify-between gap-3 px-3 mb-2">
+	// 					<Icon iconSrc="assets/images/provider-dashboard/upload.svg" />
+	// 					<input
+	// 						className="bg-transparent w-full h-[100%]  placeholder-gray80"
+	// 						placeholder="Upload from file. only .text or .csv"
+	// 					/>
+	// 				</div>
 
-					<div className="flex bg-gray40 text-[12px] h-[44px] border border-gray50 rounded-xl items-center justify-between gap-3 px-3 mb-2">
-						<Icon iconSrc="assets/images/provider-dashboard/upload.svg" />
-						<input
-							className="bg-transparent w-full h-[100%]  placeholder-gray80"
-							placeholder="Upload from file. only .text or .csv"
-						/>
-					</div>
+	// 				<div className="flex bg-gray40 text-[12px] h-[136px] border border-gray50 rounded-xl px-3 mb-2 pt-2">
+	// 					<textarea
+	// 						className="bg-transparent w-full h-[100%]"
+	// 						placeholder="... or paste addresses, each one in a new line"
+	// 					/>
+	// 				</div>
 
-					<div className="flex bg-gray40 text-[12px] h-[136px] border border-gray50 rounded-xl px-3 mb-2 pt-2">
-						<textarea
-							className="bg-transparent w-full h-[100%]"
-							placeholder="... or paste addresses, each one in a new line"
-						/>
-					</div>
+	// 				<div onClick={handleSelectAllowListPrivate} className="flex gap-2 w-full max-w-[160px] cursor-pointer">
+	// 					<Icon
+	// 						className="cursor-pointer"
+	// 						iconSrc={
+	// 							allowListPrivate
+	// 								? 'assets/images/provider-dashboard/check-true.svg'
+	// 								: 'assets/images/provider-dashboard/checkbox.svg'
+	// 						}
+	// 					/>
+	// 					<p>Make allowList private</p>
+	// 				</div>
+	// 			</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-					<div onClick={handleSelectAllowListPrivate} className="flex gap-2 w-full max-w-[160px] cursor-pointer">
-						<Icon
-							className="cursor-pointer"
-							iconSrc={
-								allowListPrivate
-									? 'assets/images/provider-dashboard/check-true.svg'
-									: 'assets/images/provider-dashboard/checkbox.svg'
-							}
-						/>
-						<p>Make allowList private</p>
-					</div>
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderContractQueryRequirement() {
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
+	// 						<p>Telos</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
 
-	function renderContractQueryRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<input
+	// 						name="contractAddress"
+	// 						className="bg-transparent w-full placeholder-gray80"
+	// 						placeholder="Contract address"
+	// 					/>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<p>Select Method</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
+	// 				<div className="flex w-full gap-2 h-[44px]">
+	// 					<div className="flex bg-gray40 justify-between rounded-xl w-full max-w-[120px] px-3">
+	// 						<input className="bg-transparent h-[100%] w-full placeholder-gray80" />
+	// 						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 					</div>
+	// 					<div className="bg-gray40 rounded-xl px-2 w-full">
+	// 						<input className="bg-transparent h-[100%] placeholder-gray80 " placeholder="input text" />
+	// 					</div>
+	// 				</div>
+	// 			</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							name="contractAddress"
-							className="bg-transparent w-full placeholder-gray80"
-							placeholder="Contract address"
-						/>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<p>Select Method</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
-					<div className="flex w-full gap-2 h-[44px]">
-						<div className="flex bg-gray40 justify-between rounded-xl w-full max-w-[120px] px-3">
-							<input className="bg-transparent h-[100%] w-full placeholder-gray80" />
-							<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-						</div>
-						<div className="bg-gray40 rounded-xl px-2 w-full">
-							<input className="bg-transparent h-[100%] placeholder-gray80 " placeholder="input text" />
-						</div>
-					</div>
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderDiscordRequirement() {
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
+	// 						<p>Telos</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
 
-	function renderDiscordRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<input
+	// 						name="nftAddress"
+	// 						className="bg-transparent w-full  placeholder-gray80"
+	// 						placeholder="Paste NFT address"
+	// 					/>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<p>Select Method</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
+	// 			</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							name="nftAddress"
-							className="bg-transparent w-full  placeholder-gray80"
-							placeholder="Paste NFT address"
-						/>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<p>Select Method</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderTwitterRequirement() {
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
+	// 						<p>Telos</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
 
-	function renderTwitterRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<input
+	// 						name="nftAddress"
+	// 						className="bg-transparent w-full  placeholder-gray80"
+	// 						placeholder="Paste NFT address"
+	// 					/>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<p>Select Method</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
+	// 			</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							name="nftAddress"
-							className="bg-transparent w-full  placeholder-gray80"
-							placeholder="Paste NFT address"
-						/>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<p>Select Method</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderPoapRequirement() {
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
+	// 						<p>Telos</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
 
-	function renderPoapRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<input
+	// 						name="nftAddress"
+	// 						className="bg-transparent w-full  placeholder-gray80"
+	// 						placeholder="Paste NFT address"
+	// 					/>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<p>Select Method</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
+	// 			</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							name="nftAddress"
-							className="bg-transparent w-full  placeholder-gray80"
-							placeholder="Paste NFT address"
-						/>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<p>Select Method</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderGithubRequirement() {
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
+	// 						<p>Telos</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
 
-	function renderGithubRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<input
+	// 						name="nftAddress"
+	// 						className="bg-transparent w-full  placeholder-gray80"
+	// 						placeholder="Paste NFT address"
+	// 					/>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<p>Select Method</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
+	// 			</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							name="nftAddress"
-							className="bg-transparent w-full  placeholder-gray80"
-							placeholder="Paste NFT address"
-						/>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<p>Select Method</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderMirrorRequirement() {
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
+	// 						<p>Telos</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
 
-	function renderMirrorRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<input
+	// 						name="nftAddress"
+	// 						className="bg-transparent w-full  placeholder-gray80"
+	// 						placeholder="Paste NFT address"
+	// 					/>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<p>Select Method</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
+	// 			</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							name="nftAddress"
-							className="bg-transparent w-full  placeholder-gray80"
-							placeholder="Paste NFT address"
-						/>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<p>Select Method</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderOpAttestationRequirement() {
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
+	// 						<p>Telos</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
 
-	function renderOpAttestationRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<input
+	// 						name="nftAddress"
+	// 						className="bg-transparent w-full  placeholder-gray80"
+	// 						placeholder="Paste NFT address"
+	// 					/>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<p>Select Method</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
+	// 			</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							name="nftAddress"
-							className="bg-transparent w-full  placeholder-gray80"
-							placeholder="Paste NFT address"
-						/>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<p>Select Method</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	// function renderLensRequirement() {
+	// 	return (
+	// 		<div className="flex flex-col gap-2 mt-5">
+	// 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
+	// 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
+	// 			</div>
+	// 			<div className="flex flex-col gap-2 min-h-[310px]">
+	// 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
+	// 					<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
+	// 						Should not satisfy
+	// 					</div>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
+	// 						<p>Telos</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
 
-	function renderLensRequirement() {
-		return (
-			<div className="flex flex-col gap-2 mt-5">
-				<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
-					<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
-				</div>
-				<div className="flex flex-col gap-2 min-h-[310px]">
-					<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">Should satisfy</div>
-						<div className="bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center">
-							Should not satisfy
-						</div>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<Icon iconSrc="assets/images/provider-dashboard/Telos.svg" />
-							<p>Telos</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<input
+	// 						name="nftAddress"
+	// 						className="bg-transparent w-full  placeholder-gray80"
+	// 						placeholder="Paste NFT address"
+	// 					/>
+	// 				</div>
+	// 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
+	// 					<div className="flex items-center gap-2">
+	// 						<p>Select Method</p>
+	// 					</div>
+	// 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
+	// 				</div>
+	// 			</div>
+	// 			<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
+	// 				Add Requirement
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<input
-							name="nftAddress"
-							className="bg-transparent w-full  placeholder-gray80"
-							placeholder="Paste NFT address"
-						/>
-					</div>
-					<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
-						<div className="flex items-center gap-2">
-							<p>Select Method</p>
-						</div>
-						<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" />
-					</div>
-				</div>
-				<div className="flex cursor-pointer  bg-gray40 text-[14px] font-semibold text-white h-[44px] border-2 border-gray70 rounded-xl items-center justify-center mb-2">
-					Add Requirement
-				</div>
-			</div>
-		);
-	}
+	const modalItems = [
+		{ id: 'nft', label: 'NFT' },
+		{ id: 'brightId', label: 'BrightId' },
+	];
 
 	function renderInitialBody() {
 		return (
@@ -555,14 +525,12 @@ const RequirementModalBody = () => {
 				</div>
 				<p className="text-white text-[14px] font-medium">General</p>
 				<div className="grid grid-cols-2 gap-2.5 row-gap-2 w-full">
-					<div className="requireModal" onClick={() => handleSelectRequirementModal('nft', 'NFT')}>
-						<Icon iconSrc="assets/images/provider-dashboard/modalIcon/chainlink-(link).svg" />
-						NFT
-					</div>
-					<div className="requireModal" onClick={() => handleSelectRequirementModal('brightId', 'BrightId')}>
-						<Icon iconSrc="assets/images/bright-icon.png" width="32px" height="32px" />
-						BrightId
-					</div>
+					{modalItems.map((modal) => (
+						<div className="requireModal" onClick={() => handleSelectRequirementModal(modal.id, modal.label)}>
+							<Icon iconSrc={`assets/images/provider-dashboard/modalIcon/${modal.id}.svg`} />
+							{modal.label}
+						</div>
+					))}
 					{/* <div className="requireModal" onClick={() => handleSelectRequirementModal('token', 'Token')}>
 						<Icon iconSrc="assets/images/provider-dashboard/modalIcon/dollar-circle.svg" />
 						Token
@@ -651,17 +619,17 @@ const RequirementModalBody = () => {
 
 	const getRequirementModalBody = () => {
 		if (requirementModalItems.nft) return <RenderNftRequirement />;
-		if (requirementModalItems.brightId) return renderBrightIdRequirement();
-		if (requirementModalItems.token) return renderTokenRequirement();
-		if (requirementModalItems.allowList) return renderAllowListRequirement();
-		if (requirementModalItems.contractQuery) return renderContractQueryRequirement();
-		if (requirementModalItems.discord) return renderDiscordRequirement();
-		if (requirementModalItems.twitter) return renderTwitterRequirement();
-		if (requirementModalItems.poap) return renderPoapRequirement();
-		if (requirementModalItems.github) return renderGithubRequirement();
-		if (requirementModalItems.mirror) return renderMirrorRequirement();
-		if (requirementModalItems.opAttestation) return renderOpAttestationRequirement();
-		if (requirementModalItems.lens) return renderLensRequirement();
+		if (requirementModalItems.brightId) return <RenderBrightIdRequirement />;
+		// if (requirementModalItems.token) return renderTokenRequirement();
+		// if (requirementModalItems.allowList) return renderAllowListRequirement();
+		// if (requirementModalItems.contractQuery) return renderContractQueryRequirement();
+		// if (requirementModalItems.discord) return renderDiscordRequirement();
+		// if (requirementModalItems.twitter) return renderTwitterRequirement();
+		// if (requirementModalItems.poap) return renderPoapRequirement();
+		// if (requirementModalItems.github) return renderGithubRequirement();
+		// if (requirementModalItems.mirror) return renderMirrorRequirement();
+		// if (requirementModalItems.opAttestation) return renderOpAttestationRequirement();
+		// if (requirementModalItems.lens) return renderLensRequirement();
 
 		return renderInitialBody();
 	};
@@ -704,21 +672,6 @@ const Counter = ({ label, logic }: CounterProp) => {
 					<Icon iconSrc="assets/images/provider-dashboard/arrow-down-dark.svg" width="14px" height="8px" />
 				</div>
 			</div>
-		</div>
-	);
-};
-
-const CustomID = ({ label, logic }: CounterProp) => {
-	const { data, handleChange } = usePrizeOfferFormContext();
-	return (
-		<div className="flex w-full items-center justify-between text-[14px] text-white bg-gray40 border border-gray50 h-[44px] pl-3 rounded-xl ">
-			<input
-				onChange={(e) => handleChange(e)}
-				placeholder={label}
-				value={data[logic as keyof DataProp]}
-				name={logic}
-				className="bg-transparent h-[100%]  placeholder-gray80"
-			/>
 		</div>
 	);
 };
