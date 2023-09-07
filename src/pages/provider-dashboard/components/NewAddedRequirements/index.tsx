@@ -7,15 +7,25 @@ interface Props {
 }
 
 const NewAddedRequirements = ({ name, label }: Props) => {
-	const { handleSelectRequirementModal, openRequirementModal, handleResetRequirementNft } = usePrizeOfferFormContext();
+	const {
+		handleSelectRequirementModal,
+		openRequirementModal,
+		handleResetRequirementNft,
+		handleResetRequirementBrightId,
+	} = usePrizeOfferFormContext();
 
 	const handleClick = () => {
 		handleSelectRequirementModal(name, label);
 		openRequirementModal();
 	};
 
-	const handleDeleteNftRequirement = () => {
-		handleResetRequirementNft();
+	const handleDeleteNftRequirement = (label: string) => {
+		if (label === 'NFT') {
+			handleResetRequirementNft();
+		}
+		if (label === 'BrightId') {
+			handleResetRequirementBrightId();
+		}
 	};
 
 	return (
@@ -33,7 +43,7 @@ const NewAddedRequirements = ({ name, label }: Props) => {
 						Edit
 					</div>
 					<Icon
-						onClick={handleDeleteNftRequirement}
+						onClick={() => handleDeleteNftRequirement(label)}
 						className="cursor-pointer"
 						iconSrc="assets/images/modal/exit.svg"
 						height="14px"

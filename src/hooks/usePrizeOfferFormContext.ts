@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import PrizeOfferFormContext from "pages/provider-dashboard/components/Context/PrizeOfferFromContext";
+import PrizeOfferFormContext from "pages/provider-dashboard/components/Context/PrizeOfferFormContext";
 
 
 function usePrizeOfferFormContext() {

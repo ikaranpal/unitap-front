@@ -333,3 +333,30 @@ export interface CustomIdProp {
 	customId: number | null;
 	handleSetCustomId: (val: number) => void;
 }
+
+
+export interface ProviderDashboardFormDataProp {
+	provider: string | null;
+	description: string | null;
+	isNft: boolean;
+	selectedChain: Chain | null;
+	startTime: string | null;
+	endTime: string | null;
+	limitEnrollPeopleCheck: boolean;
+	maximumNumberEnroll: number | null;
+	requirement: string;
+	email: string | null;
+	twitter: string | null;
+	discord: string | null;
+	telegram: string | null;
+	necessaryInfo: string;
+	satisfy: string;
+	tokenRequirementMax: any;
+	tokenRequirementMin: any;
+	tokenAddress: string;
+	allowListPrivate: boolean;
+	setDuration: boolean;
+	numberOfDuration: number;
+	durationUnitTime: string;
+	NftSatisfy: boolean;
+}

@@ -5,7 +5,7 @@ import Footer from 'components/common/Footer/footer';
 import PrizeTapContent from './components/PrizeTapContent';
 import GasTapContent from './components/GasTapContent';
 import TokenTapContent from './components/TokenTapContent';
-import { PrizeOfferFromProvider } from './components/Context/PrizeOfferFromContext';
+import { PrizeOfferFormProvider } from './components/Context/PrizeOfferFormContext';
 
 interface SelectedTabProps {
 	onSelectTab: (tab: string) => void;
@@ -23,9 +23,9 @@ const ProviderDashboard = () => {
 				{selectedTab == tabs.gasTap && <GasTapContent />}
 				{selectedTab == tabs.tokenTap && <TokenTapContent />}
 				{selectedTab == tabs.prizeTap && (
-					<PrizeOfferFromProvider>
+					<PrizeOfferFormProvider>
 						<PrizeTapContent />
-					</PrizeOfferFromProvider>
+					</PrizeOfferFormProvider>
 				)}
 			</div>
 			<Footer />

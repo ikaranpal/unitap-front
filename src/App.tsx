@@ -34,7 +34,7 @@ import { ErrorsProvider } from './context/ErrorsProvider';
 import 'typeface-jetbrains-mono';
 import Navbar from 'components/common/Navbar/navbar';
 import GlobalContextProvider from 'hooks/useGlobalContext';
-import { PrizeOfferFromProvider } from 'pages/provider-dashboard/components/Context/PrizeOfferFromContext';
+import { PrizeOfferFormProvider } from 'pages/provider-dashboard/components/Context/PrizeOfferFormContext';
 
 const Fund = React.lazy(() => import('./pages/fund'));
 const Donate = React.lazy(() => import('./pages/donate'));
@@ -112,9 +112,9 @@ function App() {
 													<Route
 														path={RoutePath.PROVIDERDASHBOARD}
 														element={
-															<PrizeOfferFromProvider>
+															<PrizeOfferFormProvider>
 																<ProviderDashboard />
-															</PrizeOfferFromProvider>
+															</PrizeOfferFormProvider>
 														}
 													/>
 													<Route

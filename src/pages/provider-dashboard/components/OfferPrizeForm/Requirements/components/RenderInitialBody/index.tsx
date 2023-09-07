@@ -15,8 +15,8 @@ const RenderInitialBody = () => {
 			</div>
 			<p className="text-white text-[14px] font-medium">General</p>
 			<div className="grid grid-cols-2 gap-2.5 row-gap-2 w-full">
-				{modalItems.map((modal) => (
-					<div className="requireModal" onClick={() => handleSelectRequirementModal(modal.id, modal.label)}>
+				{modalItems.map((modal, index) => (
+					<div key={index} className="requireModal" onClick={() => handleSelectRequirementModal(modal.id, modal.label)}>
 						<Icon iconSrc={`assets/images/provider-dashboard/modalIcon/${modal.id}.svg`} />
 						{modal.label}
 					</div>

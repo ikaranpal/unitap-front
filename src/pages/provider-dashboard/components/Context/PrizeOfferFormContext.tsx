@@ -1,32 +1,6 @@
 import { getChainList } from 'api';
 import { createContext, useState, useEffect, PropsWithChildren, useCallback, SetStateAction, useMemo } from 'react';
-import { Chain } from 'types';
-
-export interface DataProp {
-	provider: string | null;
-	description: string | null;
-	isNft: boolean;
-	selectedChain: Chain | null;
-	startTime: string | null;
-	endTime: string | null;
-	limitEnrollPeopleCheck: boolean;
-	maximumNumberEnroll: number | null;
-	requirement: string;
-	email: string | null;
-	twitter: string | null;
-	discord: string | null;
-	telegram: string | null;
-	necessaryInfo: string;
-	satisfy: string;
-	tokenRequirementMax: any;
-	tokenRequirementMin: any;
-	tokenAddress: string;
-	allowListPrivate: boolean;
-	setDuration: boolean;
-	numberOfDuration: number;
-	durationUnitTime: string;
-	NftSatisfy: boolean;
-}
+import { Chain, ProviderDashboardFormDataProp } from 'types';
 
 interface NftRequirementProp {
 	nftRequirementSatisfy: boolean | null;
@@ -42,30 +16,16 @@ interface BrightIdRequirementProp {
 	brightIdRequirementType: string | null;
 }
 
-interface RequirementModalItems {
+interface RequirementModalItemsProp {
 	nft: boolean;
 	brightId: boolean;
-	token: boolean;
-	allowList: boolean;
-	walletActivity: boolean;
-	contractQuery: boolean;
-	captcha: boolean;
-	learnTap: boolean;
-	gasTap: boolean;
-	discord: boolean;
-	twitter: boolean;
-	poap: boolean;
-	github: boolean;
-	mirror: boolean;
-	opAttestation: boolean;
-	lens: boolean;
 }
 
 const PrizeOfferFormContext = createContext<{
 	page: number;
 	setPage: (page: number) => void;
-	data: DataProp;
-	requirementModalItems: RequirementModalItems;
+	data: ProviderDashboardFormDataProp;
+	requirementModalItems: RequirementModalItemsProp;
 	title: any;
 	canSubmit: boolean;
 	handleChange: (e: any) => void;
@@ -92,7 +52,7 @@ const PrizeOfferFormContext = createContext<{
 	handleChangeNftReq: (value: number, logic: string) => void;
 	allowListPrivate: boolean;
 	handleSelectAllowListPrivate: () => void;
-	canGoStepTwo: () => void;
+	canGoStepTwo: () => boolean;
 	canGoStepThree: () => void;
 	canGoStepFive: () => void;
 	setDuration: boolean;
@@ -139,20 +99,6 @@ const PrizeOfferFormContext = createContext<{
 	requirementModalItems: {
 		nft: false,
 		brightId: false,
-		token: false,
-		allowList: false,
-		walletActivity: false,
-		contractQuery: false,
-		captcha: false,
-		learnTap: false,
-		gasTap: false,
-		discord: false,
-		twitter: false,
-		poap: false,
-		github: false,
-		mirror: false,
-		opAttestation: false,
-		lens: false,
 	},
 	title: {
 		0: 'Prize Info',
@@ -185,7 +131,7 @@ const PrizeOfferFormContext = createContext<{
 	handleChangeNftReq: () => {},
 	allowListPrivate: false,
 	handleSelectAllowListPrivate: () => {},
-	canGoStepTwo: () => {},
+	canGoStepTwo: () => false,
 	canGoStepThree: () => {},
 	canGoStepFive: () => {},
 	setDuration: false,
@@ -205,7 +151,7 @@ const PrizeOfferFormContext = createContext<{
 	brightIdRequirement: null,
 });
 
-export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
+export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const title = {
 		0: 'Prize Info',
 		1: 'Time Limitation',
@@ -272,21 +218,20 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	const canGoStepTwo = () => {
-		const { provider, description, selectedChain } = { ...data };
-
-		if (!provider || !description || !selectedChain) return false;
-
-		return true;
+		const { provider, description, selectedChain } = data;
+		//dubel bang
+		return !!(provider && description && selectedChain);
 	};
 
 	const canGoStepFive = () => {
 		const { email, telegram } = data;
-
-		if (!email || !telegram) return false;
-		return true;
+		return email && telegram;
 	};
 
 	const convertStringToDate = (userDate: string) => {
+		// let [data, time] = userDate.split('-').map(x => x.trim());
+		// let [y, m, d] = data.split('/')
+		// let [h, min, s] = time.split(':');
 		let dateParts = userDate.split('/');
 		let timeParts = dateParts[2].split(' - ')[1].split(':');
 		let dateObject = new Date(
@@ -312,6 +257,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		return end > start;
 	};
 
+	// if Error then show message . no need to check true or false;
 	interface ErrorObjectProp {
 		startDateStatus: null | boolean;
 		statDateStatusMessage: null | string;
@@ -324,7 +270,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 	}
 
 	const canGoStepThree = () => {
-		const { startTime, endTime } = { ...data };
+		const { startTime, endTime } = data;
 
 		const errorObject: ErrorObjectProp = {
 			startDateStatus: true,
@@ -337,22 +283,25 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 			maximumLimitationMessage: null,
 		};
 
+		//create a function regValidateTime
 		const regex = /^(?:0[1-9]|[12]\d|3[01])\/(?:0[1-9]|1[0-2])\/\d{4} - (?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/;
 
 		if (!startTime) {
 			errorObject.startDateStatus = false;
-			errorObject.statDateStatusMessage = 'Require';
+			errorObject.statDateStatusMessage = 'Required';
 		}
-
+		//use prefix
+		//can use else
 		const dateTimeStringStartTime = startTime;
-
+		//can check in function
 		if (dateTimeStringStartTime) {
 			if (!regex.test(dateTimeStringStartTime)) {
 				errorObject.startDateStatus = false;
 				errorObject.statDateStatusMessage = 'Invalid time format.';
 			}
 
-			if (!errorObject.statDateStatusMessage) {
+			// if (!errorObject.statDateStatusMessage) {
+			else {
 				let isDateStartDateValid = checkStartDate(convertStringToDate(startTime));
 				if (!isDateStartDateValid) {
 					errorObject.startDateStatus = false;
@@ -363,14 +312,14 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 
 		if (!setDuration && !endTime) {
 			errorObject.endDateStatus = false;
-			errorObject.endDateStatusMessage = 'Require';
+			errorObject.endDateStatusMessage = 'Required';
 		}
 
 		if (setDuration && !data.numberOfDuration) {
 			errorObject.numberOfDurationStatus = false;
 			errorObject.numberOfDurationMessage = 'Require';
 		}
-
+		//use prefix
 		const dateTimeStringEndTime = endTime;
 
 		if (!setDuration && dateTimeStringEndTime) {
@@ -380,6 +329,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 			}
 			if (!errorObject.endDateStatusMessage && dateTimeStringStartTime) {
 				let isDateEndDateValid = checkEndDate(
+					//regex can go to convertStringToDate func
 					convertStringToDate(dateTimeStringEndTime),
 					convertStringToDate(dateTimeStringStartTime),
 				);
@@ -392,7 +342,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 
 		if (data.limitEnrollPeopleCheck && !data.maximumNumberEnroll) {
 			errorObject.maximumLimitationStatus = false;
-			errorObject.maximumLimitationMessage = 'Require';
+			errorObject.maximumLimitationMessage = 'Required';
 		}
 
 		return errorObject;
@@ -408,7 +358,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-	const initData: DataProp = {
+	const initData: ProviderDashboardFormDataProp = {
 		provider: '',
 		description: '',
 		isNft: false,
@@ -434,7 +384,7 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		NftSatisfy: false,
 	};
 
-	const [data, setData] = useState<DataProp>({
+	const [data, setData] = useState<ProviderDashboardFormDataProp>({
 		...initData,
 	});
 
@@ -457,23 +407,9 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		setAllowListPrivate(!allowListPrivate);
 	};
 
-	const baseRequirementModalItems: RequirementModalItems = {
+	const baseRequirementModalItems: RequirementModalItemsProp = {
 		nft: false,
 		brightId: false,
-		token: false,
-		allowList: false,
-		walletActivity: false,
-		contractQuery: false,
-		captcha: false,
-		learnTap: false,
-		gasTap: false,
-		discord: false,
-		twitter: false,
-		poap: false,
-		github: false,
-		mirror: false,
-		opAttestation: false,
-		lens: false,
 	};
 
 	const handleChangeNftReq = (value: number, logic: string) => {
@@ -490,23 +426,9 @@ export const PrizeOfferFromProvider = ({ children }: PropsWithChildren<{}>) => {
 		}));
 	};
 
-	const [requirementModalItems, setRequirementModalItems] = useState<RequirementModalItems>({
+	const [requirementModalItems, setRequirementModalItems] = useState<RequirementModalItemsProp>({
 		nft: false,
 		brightId: false,
-		token: false,
-		allowList: false,
-		walletActivity: false,
-		contractQuery: false,
-		captcha: false,
-		learnTap: false,
-		gasTap: false,
-		discord: false,
-		twitter: false,
-		poap: false,
-		github: false,
-		mirror: false,
-		opAttestation: false,
-		lens: false,
 	});
 
 	const [requirementTitle, setRequirementTitle] = useState<string | null>(null);
