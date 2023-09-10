@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import { ProviderDashboardButtonNext, ProviderDashboardButtonPrevious } from 'components/basic/Button/button';
 import { PrizeInfoProp } from 'types';
 import SelectChainDropDown from './components/SelectChainDropDown';
 import SelectTokenDropDown from './components/SelectTokenDropDown';
+import Pagination from '../../PagInation';
 
 export const PrizeInfoDescription = {
 	id: 0,
@@ -21,7 +21,7 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 	const handleNextPage = () => {
 		const res = canGoStepTwo();
 		setShowErrors(!res);
-		res && handleChangeFormPageNext(page);
+		res && handleChangeFormPageNext();
 	};
 
 	return (
@@ -79,19 +79,7 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 
 			<SelectTokenDropDown />
 
-			<section className="flex flex-col lg:flex-row w-full max-w-[452px] mt-5 items-center ">
-				<div className="flex flex-col sm:flex-row w-full gap-5">
-					<ProviderDashboardButtonPrevious
-						// disabled={page === 0 ? true : false}
-						disabled={!page}
-						className="w-full"
-						onClick={() => handleChangeFormPagePrev(page)}
-					>
-						Previous
-					</ProviderDashboardButtonPrevious>
-					<ProviderDashboardButtonNext onClick={handleNextPage}>NEXT</ProviderDashboardButtonNext>
-				</div>
-			</section>
+			<Pagination handleChangeFormPagePrev={handleChangeFormPagePrev} handleNextPage={handleNextPage} page={page} />
 		</div>
 	);
 };

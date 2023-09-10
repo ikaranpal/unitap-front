@@ -212,8 +212,8 @@ export type APIError = {
 
 
 export type PrizeInfoProp = {
-	handleChangeFormPagePrev: (page: number) => void;
-	handleChangeFormPageNext: (page: number) => void;
+	handleChangeFormPagePrev: () => void;
+	handleChangeFormPageNext: () => void;
 }
 export type Prize = {
 	id: PK;
@@ -359,4 +359,16 @@ export interface ProviderDashboardFormDataProp {
 	numberOfDuration: number;
 	durationUnitTime: string;
 	NftSatisfy: boolean;
+}
+
+
+export type ErrorProps = {
+	startDateStatus: null | boolean;
+	statDateStatusMessage: null | string;
+	endDateStatus: null | boolean;
+	endDateStatusMessage: null | string;
+	numberOfDurationStatus: null | boolean;
+	numberOfDurationMessage: null | string;
+	maximumLimitationStatus: null | boolean;
+	maximumLimitationMessage: null | string;
 }

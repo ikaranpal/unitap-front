@@ -3,6 +3,15 @@ import { ProviderDashboardButtonPrevious, ProviderDashboardGoToDashBoard } from 
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { PrizeInfoProp } from 'types';
 
+export const InformationVerificationDes = {
+	id: 5,
+	prevIcon: 'assets/images/provider-dashboard/step-5-active.svg',
+	activeIcon: 'assets/images/provider-dashboard/step-5-active.svg',
+	nextIcon: 'assets/images/provider-dashboard/step-5-off.svg',
+	title: 'Information Verification',
+	description: 'Processing your request',
+};
+
 const InformationVerification = ({ handleChangeFormPagePrev }: PrizeInfoProp) => {
 	const { page, handleGOToDashboard } = usePrizeOfferFormContext();
 	return (

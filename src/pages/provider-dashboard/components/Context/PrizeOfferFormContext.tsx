@@ -54,7 +54,7 @@ const PrizeOfferFormContext = createContext<{
 	handleSelectAllowListPrivate: () => void;
 	canGoStepTwo: () => boolean;
 	canGoStepThree: () => void;
-	canGoStepFive: () => void;
+	canGoStepFive: () => boolean;
 	setDuration: boolean;
 	handleSetDuration: (e: boolean) => void;
 	handleSetDurationManually: () => void;
@@ -133,7 +133,7 @@ const PrizeOfferFormContext = createContext<{
 	handleSelectAllowListPrivate: () => {},
 	canGoStepTwo: () => false,
 	canGoStepThree: () => {},
-	canGoStepFive: () => {},
+	canGoStepFive: () => false,
 	setDuration: false,
 	handleSetDuration: () => {},
 	handleSetDurationManually: () => {},
@@ -219,13 +219,13 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const canGoStepTwo = () => {
 		const { provider, description, selectedChain } = data;
-		//dubel bang
+		//double bang
 		return !!(provider && description && selectedChain);
 	};
 
 	const canGoStepFive = () => {
 		const { email, telegram } = data;
-		return email && telegram;
+		return !!(email && telegram);
 	};
 
 	const convertStringToDate = (userDate: string) => {

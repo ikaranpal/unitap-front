@@ -3,9 +3,16 @@ import { useState } from 'react';
 import RequirementModal from './components/RequirementModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { ProviderDashboardButtonNext, ProviderDashboardButtonPrevious } from 'components/basic/Button/button';
-
 import { PrizeInfoProp } from 'types';
 import NewAddedRequirements from '../../NewAddedRequirements';
+export const RequirementDescription = {
+	id: 2,
+	prevIcon: 'assets/images/provider-dashboard/step-2-green.svg',
+	activeIcon: 'assets/images/provider-dashboard/step-2-active.svg',
+	nextIcon: 'assets/images/provider-dashboard/step-2-off.svg',
+	title: 'Requirements',
+	description: 'Add requirements for Enrollment',
+};
 
 const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
 	const { openRequirementModal, handleSelectSatisfy, data, page, nftRequirement, brightIdRequirement } =

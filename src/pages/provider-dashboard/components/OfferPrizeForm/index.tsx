@@ -1,13 +1,10 @@
-import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import PrizeInfo, { PrizeInfoDescription } from './PrizeInfo';
+import PrizeInfo from './PrizeInfo';
 import TimeEnrollLimitation from './TimeEnrollLimitation';
 import Requirements from './Requirements';
 import ContactInformation from './ContactInformation';
 import DepositPrize from './DepositPrize';
 import InformationVerification from './InformationVerification';
-import { useState } from 'react';
-import { Chain } from 'types';
 import DisplaySteps from './DisplaySteps';
 
 export const usePagination = () => {
@@ -24,20 +21,12 @@ export const usePagination = () => {
 	return { page, display };
 };
 
-interface PrizeInfoProps {
-	provider: string;
-	description: string;
-	isNft: boolean;
-	chain: Chain | null;
-}
-
 const getForm = (page: number) =>
 	[PrizeInfo, TimeEnrollLimitation, Requirements, ContactInformation, DepositPrize, InformationVerification][page];
 
 const OfferPrizeForm = () => {
 	const { page, display } = usePagination();
 
-	//create a new component for displaySteps
 	return (
 		<div className="flex flex-col md:flex-row gap-5">
 			<DisplaySteps page={page} />

@@ -3,6 +3,14 @@ import ShowPreviewModal from './component/ShowPreviewModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { ProviderDashboardButtonPrevious, ProviderDashboardButtonSubmit } from 'components/basic/Button/button';
 import { PrizeInfoProp } from 'types';
+export const DepositDescription = {
+	id: 4,
+	prevIcon: 'assets/images/provider-dashboard/step-4-green.svg',
+	activeIcon: 'assets/images/provider-dashboard/step-4-active.svg',
+	nextIcon: 'assets/images/provider-dashboard/step-4-off.svg',
+	title: 'Deposit Prize',
+	description: 'Deposit Token or Nft',
+};
 
 const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
 	const { openShowPreviewModal, data, page } = usePrizeOfferFormContext();
