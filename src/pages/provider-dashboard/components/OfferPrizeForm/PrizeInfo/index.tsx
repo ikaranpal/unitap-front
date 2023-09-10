@@ -38,7 +38,7 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 					/>
 					<p>{data.provider?.length}/10</p>
 				</div>
-				{showErrors && !data.provider && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Require</p>}
+				{showErrors && !data.provider && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Required</p>}
 			</section>
 
 			<section className="w-full relative">
@@ -53,7 +53,7 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 					/>
 					<p>{data.description?.length}/100</p>
 				</div>
-				{showErrors && !data.description && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Require</p>}
+				{showErrors && !data.description && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Required</p>}
 			</section>
 
 			<section className="flex text-gray80 text-[12px] bg-gray40 border border-gray30 rounded-[12px] h-[44px] items-center w-full max-w-[452px] overflow-hidden">

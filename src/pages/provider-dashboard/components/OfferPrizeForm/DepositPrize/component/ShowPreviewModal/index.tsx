@@ -24,9 +24,7 @@ const ShowPreviewModalBody = () => {
 							<div>
 								<div
 									className={`prize-card__container h-[212px] w-[212px] flex justify-center items-center p-5 rounded-xl`}
-								>
-									{/* <img src={imageUrl ? imageUrl : tokenImgLink} alt={name} /> */}
-								</div>
+								></div>
 							</div>
 							<div className="absolute bottom-[-10px] left-[40px] rounded-[6px] flex items-center bg-gray50  border-2 border-gray70 min-w-[130px] justify-center">
 								<Icon iconSrc={data.selectedChain ? data.selectedChain.logoUrl : ''} width="20px" height="16px" />
@@ -43,20 +41,24 @@ const ShowPreviewModalBody = () => {
 									{/* <p className="prize-card__title text-white text-sm">{name}</p> */}
 									<p className="prize-card__title text-white text-sm">test</p>
 									<div className="prize-card__links flex gap-4">
-										<Icon
-											iconSrc="assets/images/prize-tap/twitter-logo.svg"
-											onClick={() => window.open(data.twitter ? data.twitter : '', '_blank')}
-											width="20px"
-											height="16px"
-											hoverable
-										/>
-										<Icon
-											iconSrc="assets/images/prize-tap/discord-logo.svg"
-											onClick={() => window.open(data.discord ? data.discord : '', '_blank')}
-											width="20px"
-											height="16px"
-											hoverable
-										/>
+										{data.twitter && (
+											<Icon
+												iconSrc="assets/images/prize-tap/twitter-logo.svg"
+												onClick={() => window.open(data.twitter ? data.twitter : '', '_blank')}
+												width="20px"
+												height="16px"
+												hoverable
+											/>
+										)}
+										{data.discord && (
+											<Icon
+												iconSrc="assets/images/prize-tap/discord-logo.svg"
+												onClick={() => window.open(data.discord ? data.discord : '', '_blank')}
+												width="20px"
+												height="16px"
+												hoverable
+											/>
+										)}
 									</div>
 								</span>
 								<span className="flex justify-between w-full mb-4">
@@ -82,26 +84,10 @@ const ShowPreviewModalBody = () => {
 										<div className="flex flex-col sm:flex-row gap-4 justify-between items-baseline w-full items-center bg-gray40 px-5 py-1 rounded-xl">
 											<div className="flex flex-col gap-1">
 												<p className="text-[10px] text-white">Winner in:</p>
-												<p className="text-[10px] text-gray100">
-													{/* {remainingPeople} people remains */}
-													20 people remains
-												</p>
+												<p className="text-[10px] text-gray100">20 people remains</p>
 											</div>
-											{/* <RaffleCardTimer startTime={createdAt} FinishTime={deadline} /> */}
 										</div>
 										<button>Enroll</button>
-										{/* <ClaimAndEnrollButton height="48px" fontSize="14px" className="min-w-[552px] md:!w-[352px] !w-full">
-										{' '}
-										<div className="relative w-full">
-											<p> Enroll</p>{' '}
-											<Icon
-												className="absolute right-0 top-[-2px]"
-												iconSrc="assets/images/prize-tap/header-prize-logo.svg"
-												width="27px"
-												height="24px"
-											/>
-										</div>
-									</ClaimAndEnrollButton> */}
 									</span>
 								</Action>
 							</div>

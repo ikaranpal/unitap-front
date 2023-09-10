@@ -67,7 +67,7 @@ const SelectChainDropDown = ({ showErrors }: Prop) => {
 					</div>
 				)}
 			</div>
-			{showErrors && !data.selectedChain && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Require</p>}
+			{showErrors && !data.selectedChain && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Required</p>}
 		</div>
 	);
 };

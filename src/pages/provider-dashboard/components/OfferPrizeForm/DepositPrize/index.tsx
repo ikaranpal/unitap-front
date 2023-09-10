@@ -3,6 +3,9 @@ import ShowPreviewModal from './component/ShowPreviewModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { ProviderDashboardButtonPrevious, ProviderDashboardButtonSubmit } from 'components/basic/Button/button';
 import { PrizeInfoProp } from 'types';
+import DepositContent from './component/DepositContent';
+import DisplaySelectedTokenAndChain from './component/DisplaySelectedTokenAndChain';
+
 export const DepositDescription = {
 	id: 4,
 	prevIcon: 'assets/images/provider-dashboard/step-4-green.svg',
@@ -12,66 +15,64 @@ export const DepositDescription = {
 	description: 'Deposit Token or Nft',
 };
 
+const nftDescription = {
+	title: 'Deposit Selected NFT',
+	description: `Please proceed with depositing the NFT for which you have completed the corresponding form. Please wait
+	momentarily as we validate your request. In the event of rejection, the token will promptly returned to
+	your designated wallet.`,
+	icon: 'assets/images/provider-dashboard/Subtract.svg',
+};
+
+const tokenDescription = {
+	title: 'Deposit Selected Token',
+	description: `							Please proceed with depositing the Token for which you have completed the corresponding form. Please wait
+	momentarily as we validate your request. In the event of rejection, the token will promptly returned to
+	your designated wallet.`,
+	icon: 'assets/images/provider-dashboard/tokenSelected.svg',
+};
+
 const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
 	const { openShowPreviewModal, data, page } = usePrizeOfferFormContext();
 
 	const handleSubmitContribution = () => {
-		handleChangeFormPageNext(page);
+		handleChangeFormPageNext();
 	};
 	return (
 		<div className="flex flex-col gap-5 w-full max-w-[452px] min-w-[300px]">
-			<Icon
-				iconSrc={
-					data.isNft
-						? 'assets/images/provider-dashboard/tokenSelected.svg'
-						: 'assets/images/provider-dashboard/Subtract.svg'
-				}
-				className="mb-5"
-			/>
-			<div className="text-center">
-				{data.isNft ? (
-					<div>
-						<p className="text-[14px] font-semibold text-white">Deposit Selected NFT</p>
-						<p className="text-gray100 text-[12px] mt-2">
-							Please proceed with depositing the NFT for which you have completed the corresponding form. Please wait
-							momentarily as we validate your request. In the event of rejection, the token will promptly returned to
-							your designated wallet.
-						</p>
-					</div>
-				) : (
-					<div>
-						<p className="text-[14px] font-semibold text-white">Deposit Selected Token</p>
-						<p className="text-gray100 text-[12px] mt-2">
-							Please proceed with depositing the Token for which you have completed the corresponding form. Please wait
-							momentarily as we validate your request. In the event of rejection, the token will promptly returned to
-							your designated wallet.
-						</p>
-					</div>
-				)}
-			</div>
-			<div
-				onClick={openShowPreviewModal}
+			<section>
+				<div className="text-center">
+					{data.isNft ? (
+						<DepositContent
+							title={nftDescription.title}
+							description={nftDescription.description}
+							icon={nftDescription.icon}
+						/>
+					) : (
+						<DepositContent
+							title={tokenDescription.title}
+							description={tokenDescription.description}
+							icon={tokenDescription.icon}
+						/>
+					)}
+				</div>
+			</section>
+
+			<section
 				className="flex items-center gap-2 text-white font-semibold cursor-pointer max-w-[130px]"
+				onClick={openShowPreviewModal}
 			>
 				<p>Show preview</p>
 				<Icon iconSrc="assets/images/provider-dashboard/ic_link_white.svg" />
-			</div>
-			<div className="flex w-full gap-5 text-white h-[48px] text-[14px] mt-[-12px] ">
-				<div className="cursor-pointer gap-2 w-full flex items-center justify-center bg-gray50 rounded-xl">
-					<Icon iconSrc={data.selectedChain ? data.selectedChain?.logoUrl : ''} height="24px" width="24px" />
-					<p>{data.selectedChain ? data.selectedChain?.chainName : ''}</p>
-				</div>
-				<div className="cursor-pointer gap-2 w-full flex items-center justify-center bg-gray50 rounded-xl">
-					<Icon iconSrc="assets/images/provider-dashboard/kolahGhermezi.svg" />
-					<p>Kolah Qermezi</p>
-				</div>
-			</div>
+			</section>
+
+			<DisplaySelectedTokenAndChain data={data} />
+
 			<div className="flex flex-col lg:flex-row w-full max-w-[452px] mt-5 items-center ">
 				<div className="flex flex-col sm:flex-row w-full gap-5">
 					<ProviderDashboardButtonPrevious
 						disabled={page == 0 ? true : false}
 						className="w-full"
-						onClick={() => handleChangeFormPagePrev(page)}
+						onClick={handleChangeFormPagePrev}
 					>
 						Previous
 					</ProviderDashboardButtonPrevious>
@@ -83,6 +84,7 @@ const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 					</ProviderDashboardButtonSubmit>
 				</div>
 			</div>
+
 			<ShowPreviewModal />
 		</div>
 	);
