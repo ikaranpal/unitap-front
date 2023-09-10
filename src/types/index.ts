@@ -280,7 +280,8 @@ export type EnrollmentSignature = {
 type muonResult = {
 	data: muonInit;
 	reqId: string;
-	signatures:muonSignature[]
+	signatures:muonSignature[];
+	shieldSignature: string
 }
 
 type muonInit = {
