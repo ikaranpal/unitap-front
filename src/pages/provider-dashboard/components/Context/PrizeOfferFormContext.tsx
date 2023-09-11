@@ -21,6 +21,41 @@ interface RequirementModalItemsProp {
 	brightId: boolean;
 }
 
+const initData: ProviderDashboardFormDataProp = {
+	provider: '',
+	description: '',
+	isNft: false,
+	selectedChain: null,
+	startTime: '',
+	endTime: '',
+	limitEnrollPeopleCheck: false,
+	maximumNumberEnroll: null,
+	requirement: '',
+	email: '',
+	twitter: '',
+	discord: '',
+	telegram: '',
+	necessaryInfo: '',
+	satisfy: 'satisfyAll',
+	tokenRequirementMax: 0,
+	tokenRequirementMin: 0,
+	tokenAddress: '',
+	allowListPrivate: false,
+	setDuration: false,
+	numberOfDuration: 0,
+	durationUnitTime: 'Month',
+	NftSatisfy: false,
+};
+
+const title = {
+	0: 'Prize Info',
+	1: 'Time Limitation',
+	2: 'Requirements',
+	4: 'Contact Info',
+	5: 'Deposit Prize',
+	6: 'Information Verification',
+};
+
 const PrizeOfferFormContext = createContext<{
 	page: number;
 	setPage: (page: number) => void;
@@ -72,41 +107,14 @@ const PrizeOfferFormContext = createContext<{
 	page: 0,
 	setPage: () => {},
 	data: {
-		provider: null,
-		description: null,
-		isNft: false,
-		selectedChain: null,
-		startTime: null,
-		endTime: null,
-		limitEnrollPeopleCheck: false,
-		maximumNumberEnroll: null,
-		requirement: '',
-		email: null,
-		twitter: null,
-		discord: null,
-		telegram: null,
-		necessaryInfo: '',
-		satisfy: 'satisfyAll',
-		tokenRequirementMax: 0,
-		tokenRequirementMin: 0,
-		tokenAddress: '',
-		allowListPrivate: false,
-		setDuration: false,
-		numberOfDuration: 0,
-		durationUnitTime: 'Month',
-		NftSatisfy: false,
+		...initData,
 	},
 	requirementModalItems: {
 		nft: false,
 		brightId: false,
 	},
 	title: {
-		0: 'Prize Info',
-		1: 'Time Limitation',
-		2: 'Requirements',
-		4: 'Contact Info',
-		5: 'Deposit Prize',
-		6: 'Information Verification',
+		...title,
 	},
 	canSubmit: false,
 	handleChange: () => {},
@@ -152,15 +160,6 @@ const PrizeOfferFormContext = createContext<{
 });
 
 export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
-	const title = {
-		0: 'Prize Info',
-		1: 'Time Limitation',
-		2: 'Requirements',
-		4: 'Contact Info',
-		5: 'Deposit Prize',
-		6: 'Information Verification',
-	};
-
 	const [nftRequirement, setNftRequirement] = useState<NftRequirementProp | null>(null);
 
 	const [brightIdRequirement, setBrightIdRequirement] = useState<BrightIdRequirementProp | null>(null);
@@ -357,32 +356,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const [page, setPage] = useState<number>(0);
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-	const initData: ProviderDashboardFormDataProp = {
-		provider: '',
-		description: '',
-		isNft: false,
-		selectedChain: null,
-		startTime: '',
-		endTime: '',
-		limitEnrollPeopleCheck: false,
-		maximumNumberEnroll: null,
-		requirement: '',
-		email: '',
-		twitter: '',
-		discord: '',
-		telegram: '',
-		necessaryInfo: '',
-		satisfy: 'satisfyAll',
-		tokenRequirementMax: 0,
-		tokenRequirementMin: 0,
-		tokenAddress: '',
-		allowListPrivate: false,
-		setDuration: false,
-		numberOfDuration: 0,
-		durationUnitTime: 'Month',
-		NftSatisfy: false,
-	};
 
 	const [data, setData] = useState<ProviderDashboardFormDataProp>({
 		...initData,
