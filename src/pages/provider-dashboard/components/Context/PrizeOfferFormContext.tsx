@@ -1,6 +1,7 @@
 import { getChainList } from 'api';
 import { createContext, useState, useEffect, PropsWithChildren, useCallback, SetStateAction, useMemo } from 'react';
 import { Chain, ProviderDashboardFormDataProp } from 'types';
+import { checkRegexDateValidation, checkEndDate, checkStartDate } from './utils/checkDateValidation';
 
 interface NftRequirementProp {
 	nftRequirementSatisfy: boolean | null;
@@ -55,6 +56,24 @@ const title = {
 	5: 'Deposit Prize',
 	6: 'Information Verification',
 };
+
+const errorMessages = {
+	required: 'Required',
+	invalidFormat: 'invalid Format',
+	startTimeDuration: 'The start time must be at least 1 week after now.',
+	endDateUnacceptable: 'End date is unacceptable.',
+};
+
+interface ErrorObjectProp {
+	startDateStatus: null | boolean;
+	statDateStatusMessage: null | string;
+	endDateStatus: null | boolean;
+	endDateStatusMessage: null | string;
+	numberOfDurationStatus: null | boolean;
+	numberOfDurationMessage: null | string;
+	maximumLimitationStatus: null | boolean;
+	maximumLimitationMessage: null | string;
+}
 
 const PrizeOfferFormContext = createContext<{
 	page: number;
@@ -218,7 +237,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const canGoStepTwo = () => {
 		const { provider, description, selectedChain } = data;
-		//double bang
 		return !!(provider && description && selectedChain);
 	};
 
@@ -227,50 +245,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		return !!(email && telegram);
 	};
 
-	const convertStringToDate = (userDate: string) => {
-		// let [data, time] = userDate.split('-').map(x => x.trim());
-		// let [y, m, d] = data.split('/')
-		// let [h, min, s] = time.split(':');
-		let dateParts = userDate.split('/');
-		let timeParts = dateParts[2].split(' - ')[1].split(':');
-		let dateObject = new Date(
-			+dateParts[2].split(' - ')[0],
-			+dateParts[1] - 1,
-			+dateParts[0],
-			+timeParts[0],
-			+timeParts[1],
-			+timeParts[2],
-		);
-
-		return dateObject;
-	};
-
-	const checkStartDate = (userDate: Date) => {
-		const today = new Date();
-		const nextWeek = new Date(today);
-		nextWeek.setDate(today.getDate() + 7);
-		return userDate > nextWeek;
-	};
-
-	const checkEndDate = (end: Date, start: Date) => {
-		return end > start;
-	};
-
-	// if Error then show message . no need to check true or false;
-	interface ErrorObjectProp {
-		startDateStatus: null | boolean;
-		statDateStatusMessage: null | string;
-		endDateStatus: null | boolean;
-		endDateStatusMessage: null | string;
-		numberOfDurationStatus: null | boolean;
-		numberOfDurationMessage: null | string;
-		maximumLimitationStatus: null | boolean;
-		maximumLimitationMessage: null | string;
-	}
-
 	const canGoStepThree = () => {
-		const { startTime, endTime } = data;
-
 		const errorObject: ErrorObjectProp = {
 			startDateStatus: true,
 			statDateStatusMessage: null,
@@ -282,66 +257,47 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 			maximumLimitationMessage: null,
 		};
 
-		//create a function regValidateTime
-		const regex = /^(?:0[1-9]|[12]\d|3[01])\/(?:0[1-9]|1[0-2])\/\d{4} - (?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/;
+		const { startTime, endTime } = data;
 
-		if (!startTime) {
-			errorObject.startDateStatus = false;
-			errorObject.statDateStatusMessage = 'Required';
-		}
-		//use prefix
-		//can use else
-		const dateTimeStringStartTime = startTime;
-		//can check in function
-		if (dateTimeStringStartTime) {
-			if (!regex.test(dateTimeStringStartTime)) {
+		if (startTime) {
+			if (!checkRegexDateValidation(startTime)) {
 				errorObject.startDateStatus = false;
-				errorObject.statDateStatusMessage = 'Invalid time format.';
-			}
-
-			// if (!errorObject.statDateStatusMessage) {
-			else {
-				let isDateStartDateValid = checkStartDate(convertStringToDate(startTime));
-				if (!isDateStartDateValid) {
+				errorObject.statDateStatusMessage = errorMessages.invalidFormat;
+			} else {
+				if (!checkStartDate(startTime)) {
 					errorObject.startDateStatus = false;
-					errorObject.statDateStatusMessage = 'The start time must be at least 1 week after now.';
+					errorObject.statDateStatusMessage = errorMessages.startTimeDuration;
 				}
 			}
+		} else {
+			errorObject.startDateStatus = false;
+			errorObject.statDateStatusMessage = errorMessages.required;
 		}
 
 		if (!setDuration && !endTime) {
 			errorObject.endDateStatus = false;
-			errorObject.endDateStatusMessage = 'Required';
+			errorObject.endDateStatusMessage = errorMessages.required;
 		}
-
 		if (setDuration && !data.numberOfDuration) {
 			errorObject.numberOfDurationStatus = false;
-			errorObject.numberOfDurationMessage = 'Require';
+			errorObject.numberOfDurationMessage = errorMessages.required;
 		}
-		//use prefix
-		const dateTimeStringEndTime = endTime;
 
-		if (!setDuration && dateTimeStringEndTime) {
-			if (!regex.test(dateTimeStringEndTime)) {
+		if (!setDuration && endTime) {
+			if (!checkRegexDateValidation(endTime)) {
 				errorObject.endDateStatus = false;
-				errorObject.endDateStatusMessage = 'Invalid time format';
+				errorObject.endDateStatusMessage = errorMessages.invalidFormat;
 			}
-			if (!errorObject.endDateStatusMessage && dateTimeStringStartTime) {
-				let isDateEndDateValid = checkEndDate(
-					//regex can go to convertStringToDate func
-					convertStringToDate(dateTimeStringEndTime),
-					convertStringToDate(dateTimeStringStartTime),
-				);
-				if (!isDateEndDateValid) {
+			if (!!errorObject.endDateStatusMessage && startTime) {
+				if (!checkEndDate(endTime, startTime)) {
 					errorObject.endDateStatus = false;
-					errorObject.endDateStatusMessage = 'End date is unacceptable.';
+					errorObject.endDateStatusMessage = errorMessages.endDateUnacceptable;
 				}
 			}
 		}
-
 		if (data.limitEnrollPeopleCheck && !data.maximumNumberEnroll) {
 			errorObject.maximumLimitationStatus = false;
-			errorObject.maximumLimitationMessage = 'Required';
+			errorObject.maximumLimitationMessage = errorMessages.required;
 		}
 
 		return errorObject;

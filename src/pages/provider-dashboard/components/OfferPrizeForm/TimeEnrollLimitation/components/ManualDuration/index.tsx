@@ -46,8 +46,9 @@ const ManualDuration = ({ showErrors }: ManualDurationProp) => {
 						</div>
 						{showItems && (
 							<div className="text-[12px] z-[9999] text-white font-medium flex flex-col gap-1 absolute bg-gray40 border border-gray60 rounded-xl w-[90px] p-1">
-								{dateNames.map((date) => (
+								{dateNames.map((date, index) => (
 									<p
+										key={index}
 										onClick={() => handleSelectDurationDropDown(date.date)}
 										className=" flex pl-1 items-center hover:bg-gray70 h-[27px] cursor-pointer w-full rounded-[4px]"
 									>

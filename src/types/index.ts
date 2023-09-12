@@ -215,6 +215,7 @@ export type PrizeInfoProp = {
 	handleChangeFormPagePrev: () => void;
 	handleChangeFormPageNext: () => void;
 }
+
 export type Prize = {
 	id: PK;
 	pk: PK;

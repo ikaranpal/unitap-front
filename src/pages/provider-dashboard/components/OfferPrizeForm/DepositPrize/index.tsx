@@ -1,10 +1,10 @@
 import Icon from 'components/basic/Icon/Icon';
 import ShowPreviewModal from './component/ShowPreviewModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import { ProviderDashboardButtonPrevious, ProviderDashboardButtonSubmit } from 'components/basic/Button/button';
 import { PrizeInfoProp } from 'types';
 import DepositContent from './component/DepositContent';
 import DisplaySelectedTokenAndChain from './component/DisplaySelectedTokenAndChain';
+import Pagination from '../../PagInation';
 
 export const DepositDescription = {
 	id: 4,
@@ -25,7 +25,7 @@ const nftDescription = {
 
 const tokenDescription = {
 	title: 'Deposit Selected Token',
-	description: `							Please proceed with depositing the Token for which you have completed the corresponding form. Please wait
+	description: `Please proceed with depositing the Token for which you have completed the corresponding form. Please wait
 	momentarily as we validate your request. In the event of rejection, the token will promptly returned to
 	your designated wallet.`,
 	icon: 'assets/images/provider-dashboard/tokenSelected.svg',
@@ -34,9 +34,11 @@ const tokenDescription = {
 const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
 	const { openShowPreviewModal, data, page } = usePrizeOfferFormContext();
 
-	const handleSubmitContribution = () => {
+	const handleNextPage = () => {
+		//TO DO handleSubmit()
 		handleChangeFormPageNext();
 	};
+
 	return (
 		<div className="flex flex-col gap-5 w-full max-w-[452px] min-w-[300px]">
 			<section>
@@ -67,23 +69,12 @@ const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 
 			<DisplaySelectedTokenAndChain data={data} />
 
-			<div className="flex flex-col lg:flex-row w-full max-w-[452px] mt-5 items-center ">
-				<div className="flex flex-col sm:flex-row w-full gap-5">
-					<ProviderDashboardButtonPrevious
-						disabled={page == 0 ? true : false}
-						className="w-full"
-						onClick={handleChangeFormPagePrev}
-					>
-						Previous
-					</ProviderDashboardButtonPrevious>
-					<ProviderDashboardButtonSubmit
-						onClick={handleSubmitContribution}
-						className="text-[14px] md:text-[12px] lg:text-[14px] "
-					>
-						<p>Submit Contribution</p>
-					</ProviderDashboardButtonSubmit>
-				</div>
-			</div>
+			<Pagination
+				handleChangeFormPagePrev={handleChangeFormPagePrev}
+				handleNextPage={handleNextPage}
+				page={page}
+				func="submit"
+			/>
 
 			<ShowPreviewModal />
 		</div>

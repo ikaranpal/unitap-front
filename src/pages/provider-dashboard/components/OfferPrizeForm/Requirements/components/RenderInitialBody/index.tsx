@@ -1,7 +1,12 @@
 import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 
-const modalItems = [
+interface ModalItemProps {
+	id: string;
+	label: string;
+}
+
+const modalItems: ModalItemProps[] = [
 	{ id: 'nft', label: 'NFT' },
 	{ id: 'brightId', label: 'BrightId' },
 ];
