@@ -15,16 +15,18 @@ export const RequirementDescription = {
 };
 
 const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
-	const { openRequirementModal, page, nftRequirement, brightIdRequirement } = usePrizeOfferFormContext();
+	const { openRequirementModal, page, brightIdRequirement, requirementList } = usePrizeOfferFormContext();
 
 	return (
 		<div className="text-gray100 text-[12px] font-medium flex flex-col w-full  max-w-[452px] min-w-[300px]">
 			<p>Add any requirements for Enrolling or leave it free.</p>
 
 			<SelectSatisfyDropdown />
-
-			{nftRequirement?.nftRequirementNftAddress && <NewAddedRequirements name="nft" label="NFT" />}
-			{brightIdRequirement?.brightIdRequirementType && <NewAddedRequirements name="brightId" label="BrightId" />}
+			{requirementList.map((requirement, key) => (
+				<NewAddedRequirements key={key} label={requirement.type} />
+			))}
+			{/* {nftRequirement?.nftRequirementNftAddress && <NewAddedRequirements name="nft" label="NFT" />} */}
+			{/* {brightIdRequirement?.brightIdRequirementType && <NewAddedRequirements name="brightId" label="BrightId" />} */}
 
 			<div
 				onClick={openRequirementModal}

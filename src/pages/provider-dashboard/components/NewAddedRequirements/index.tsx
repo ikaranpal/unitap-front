@@ -2,26 +2,25 @@ import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 
 interface Props {
-	name: string;
 	label: string;
 }
 
-const NewAddedRequirements = ({ name, label }: Props) => {
+const NewAddedRequirements = ({ label }: Props) => {
 	const {
 		handleSelectRequirementModal,
 		openRequirementModal,
-		handleResetRequirementNft,
+		// handleResetRequirementNft,
 		handleResetRequirementBrightId,
 	} = usePrizeOfferFormContext();
 
 	const handleClick = () => {
-		handleSelectRequirementModal(name, label);
+		handleSelectRequirementModal(label);
 		openRequirementModal();
 	};
 
 	const handleDeleteNftRequirement = (label: string) => {
 		if (label === 'NFT') {
-			handleResetRequirementNft();
+			// handleResetRequirementNft();
 		}
 		if (label === 'BrightId') {
 			handleResetRequirementBrightId();
@@ -32,7 +31,7 @@ const NewAddedRequirements = ({ name, label }: Props) => {
 		<div className="m-0 p-0">
 			<div className="bg-gray50 h-[44px] rounded-xl flex justify-between  items-center px-4 border-2 border-gray60">
 				<div className="flex items-center gap-2">
-					<Icon iconSrc={`assets/images/provider-dashboard/modalIcon/${name}.svg`} />
+					<Icon iconSrc={`assets/images/provider-dashboard/modalIcon/${label}.svg`} />
 					<p>{label} requirement</p>
 				</div>
 				<div className="flex items-center gap-3">

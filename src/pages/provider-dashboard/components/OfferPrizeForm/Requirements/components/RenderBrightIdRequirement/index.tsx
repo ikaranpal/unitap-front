@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import BrightIdRequirementDropDown from './brightIdRequirementDropDown';
 import Icon from 'components/basic/Icon/Icon';
+import { RequirementTypes } from 'pages/provider-dashboard/components/Context/PrizeOfferFormContext';
 
 const RenderBrightIdRequirement = () => {
-	const { handleBackToRequirementModal, handleAddRequirementBrightId, brightIdRequirement } =
-		usePrizeOfferFormContext();
+	const { handleBackToRequirementModal, insertRequirement, requirementList } = usePrizeOfferFormContext();
 
 	const [selectedType, setSelectedType] = useState<string | null>(null);
 	const [brightSatisfy, setBrightSatisfy] = useState<boolean | null>(null);
@@ -14,19 +14,28 @@ const RenderBrightIdRequirement = () => {
 		setSelectedType(type);
 	};
 
-	useEffect(() => {
-		if (brightIdRequirement?.brightIdRequirementType) {
-			setSelectedType(brightIdRequirement.brightIdRequirementType);
-			setBrightSatisfy(brightIdRequirement.brightIdRequirementSatisfy);
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (brightIdRequirement?.brightIdRequirementType) {
+	// 		setSelectedType(brightIdRequirement.brightIdRequirementType);
+	// 		setBrightSatisfy(brightIdRequirement.brightIdRequirementSatisfy);
+	// 	}
+	// }, []);
 
 	const handleAddRequirement = () => {
 		handleBackToRequirementModal();
-		handleAddRequirementBrightId({
-			brightIdRequirementSatisfy: brightSatisfy,
-			brightIdRequirementType: selectedType,
-		});
+		if (requirementList.filter((item) => item.type == 'brightId').length < 1) {
+			insertRequirement({
+				type: RequirementTypes.BRIGHT_ID,
+				brightIdRequirementSatisfy: brightSatisfy,
+				brightIdRequirementType: selectedType,
+			});
+		} else {
+			let res = requirementList.filter((item) => item.type == 'brightId');
+		}
+		// handleAddRequirementBrightId({
+		// 	brightIdRequirementSatisfy: brightSatisfy,
+		// 	brightIdRequirementType: selectedType,
+		// });
 	};
 
 	return (

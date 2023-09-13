@@ -3,16 +3,25 @@ import { createContext, useState, useEffect, PropsWithChildren, useCallback, Set
 import { Chain, ProviderDashboardFormDataProp } from 'types';
 import { checkRegexDateValidation, checkEndDate, checkStartDate } from './utils/checkDateValidation';
 
-interface NftRequirementProp {
+export enum RequirementTypes {
+	NFT = 'Nft',
+	BRIGHT_ID = 'brightId',
+}
+
+interface RequirementType {
+	type: RequirementTypes;
+}
+
+export interface NftRequirementProp extends RequirementType {
 	nftRequirementSatisfy: boolean | null;
 	nftRequirementSelectedChain: Chain | null;
 	nftRequirementNftAddress: string | null;
-	nftRequirementMax: number | null;
-	nftRequirementMin: number | null;
+	nftRequirementMax: number;
+	nftRequirementMin: number;
 	nftRequirementCustomID: number | null;
 }
 
-interface BrightIdRequirementProp {
+export interface BrightIdRequirementProp extends RequirementType {
 	brightIdRequirementSatisfy: boolean | null;
 	brightIdRequirementType: string | null;
 }
@@ -21,6 +30,8 @@ interface RequirementModalItemsProp {
 	nft: boolean;
 	brightId: boolean;
 }
+
+type RequirementProps = NftRequirementProp | BrightIdRequirementProp;
 
 const initData: ProviderDashboardFormDataProp = {
 	provider: '',
@@ -89,7 +100,7 @@ const PrizeOfferFormContext = createContext<{
 	closeRequirementModal: () => void;
 	openShowPreviewModal: () => void;
 	closeShowPreviewModal: () => void;
-	handleSelectRequirementModal: (e: string, title: string) => void;
+	handleSelectRequirementModal: (title: string) => void;
 	isModalOpen: boolean;
 	requirementTitle: string | null;
 	handleBackToRequirementModal: () => void;
@@ -116,12 +127,14 @@ const PrizeOfferFormContext = createContext<{
 	selectNewOffer: boolean;
 	handleSelectNewOffer: (select: boolean) => void;
 	handleGOToDashboard: () => void;
-	nftRequirement: NftRequirementProp | null;
-	handleAddRequirementNft: (requirement: NftRequirementProp) => void;
+	// nftRequirement: NftRequirementProp | null;
+	// handleAddRequirementNft: (requirement: NftRequirementProp) => void;
 	handleAddRequirementBrightId: (requirement: BrightIdRequirementProp) => void;
-	handleResetRequirementNft: () => void;
+	// handleResetRequirementNft: () => void;
 	handleResetRequirementBrightId: () => void;
 	brightIdRequirement: BrightIdRequirementProp | null;
+	insertRequirement: (requirements: RequirementProps) => void;
+	requirementList: RequirementProps[];
 }>({
 	page: 0,
 	setPage: () => {},
@@ -170,48 +183,61 @@ const PrizeOfferFormContext = createContext<{
 	selectNewOffer: false,
 	handleSelectNewOffer: () => {},
 	handleGOToDashboard: () => {},
-	handleAddRequirementNft: () => {},
-	nftRequirement: null,
-	handleResetRequirementNft: () => {},
+	// handleAddRequirementNft: () => {},
+	// nftRequirement: null,
+	// handleResetRequirementNft: () => {},
 	handleAddRequirementBrightId: () => {},
 	handleResetRequirementBrightId: () => {},
 	brightIdRequirement: null,
+	insertRequirement: () => {},
+	requirementList: [],
 });
 
 export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
-	const [nftRequirement, setNftRequirement] = useState<NftRequirementProp | null>(null);
-
+	// const [nftRequirement, setNftRequirement] = useState<NftRequirementProp>();
+	const [requirementList, setRequirementList] = useState<RequirementProps[]>([]);
 	const [brightIdRequirement, setBrightIdRequirement] = useState<BrightIdRequirementProp | null>(null);
 
-	const handleAddRequirementNft = (requirement: NftRequirementProp) => {
-		setNftRequirement({
-			...nftRequirement,
-			nftRequirementSatisfy: requirement.nftRequirementSatisfy,
-			nftRequirementSelectedChain: requirement.nftRequirementSelectedChain,
-			nftRequirementNftAddress: requirement.nftRequirementNftAddress,
-			nftRequirementCustomID: requirement.nftRequirementCustomID,
-			nftRequirementMax: requirement.nftRequirementMax,
-			nftRequirementMin: requirement.nftRequirementMin,
-		});
+	// const handleAddRequirementNft = (requirement: NftRequirementProp) => {
+	// 	setNftRequirement({
+	// 		...nftRequirement,
+	// 		nftRequirementSatisfy: requirement.nftRequirementSatisfy,
+	// 		nftRequirementSelectedChain: requirement.nftRequirementSelectedChain,
+	// 		nftRequirementNftAddress: requirement.nftRequirementNftAddress,
+	// 		nftRequirementCustomID: requirement.nftRequirementCustomID,
+	// 		nftRequirementMax: requirement.nftRequirementMax,
+	// 		nftRequirementMin: requirement.nftRequirementMin,
+	// 		type: RequirementTypes.NFT,
+	// 	});
+	// };
+
+	const insertRequirement = (requirements: RequirementProps) => {
+		setRequirementList([...requirementList, requirements]);
 	};
 
-	const handleResetRequirementNft = () => {
-		setNftRequirement({
-			...nftRequirement,
-			nftRequirementSatisfy: null,
-			nftRequirementSelectedChain: null,
-			nftRequirementNftAddress: null,
-			nftRequirementCustomID: null,
-			nftRequirementMax: null,
-			nftRequirementMin: null,
-		});
-	};
+	const updateRequirement = () => {};
+
+	const deleteRequirement = () => {};
+
+	// const handleResetRequirementNft = () => {
+	// 	setNftRequirement({
+	// 		...nftRequirement,
+	// 		nftRequirementSatisfy: null,
+	// 		nftRequirementSelectedChain: null,
+	// 		nftRequirementNftAddress: null,
+	// 		nftRequirementCustomID: null,
+	// 		nftRequirementMax: null,
+	// 		nftRequirementMin: null,
+	// 		type: RequirementTypes.NFT,
+	// 	});
+	// };
 
 	const handleAddRequirementBrightId = (requirement: BrightIdRequirementProp) => {
 		setBrightIdRequirement({
 			...brightIdRequirement,
 			brightIdRequirementSatisfy: requirement.brightIdRequirementSatisfy,
 			brightIdRequirementType: requirement.brightIdRequirementType,
+			type: RequirementTypes.BRIGHT_ID,
 		});
 	};
 
@@ -220,6 +246,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 			...brightIdRequirement,
 			brightIdRequirementSatisfy: null,
 			brightIdRequirementType: null,
+			type: RequirementTypes.BRIGHT_ID,
 		});
 	};
 
@@ -428,11 +455,11 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		}));
 	};
 
-	const handleSelectRequirementModal = (e: string, title: string | null) => {
+	const handleSelectRequirementModal = (title: string) => {
 		setRequirementTitle(title);
 		setRequirementModalItems({
 			...baseRequirementModalItems,
-			[e]: true,
+			[title]: true,
 		});
 	};
 
@@ -516,12 +543,14 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				selectNewOffer,
 				handleSelectNewOffer,
 				handleGOToDashboard,
-				handleAddRequirementNft,
-				nftRequirement,
-				handleResetRequirementNft,
+				// handleAddRequirementNft,
+				// nftRequirement,
+				// handleResetRequirementNft,
 				handleAddRequirementBrightId,
 				handleResetRequirementBrightId,
 				brightIdRequirement,
+				insertRequirement,
+				requirementList,
 			}}
 		>
 			{children}

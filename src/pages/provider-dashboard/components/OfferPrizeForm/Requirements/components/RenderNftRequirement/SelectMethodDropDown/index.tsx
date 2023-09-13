@@ -64,7 +64,7 @@ const MaxNft = ({ nftAmount, handleSetMaximum }: MaxNftProp) => {
 		handleSetMaximum(nftAmount + 1);
 	};
 	const handleDecrease = () => {
-		if (nftAmount === 0) return;
+		if (!nftAmount || nftAmount === 0) return;
 		handleSetMaximum(nftAmount - 1);
 	};
 	return (
@@ -72,7 +72,7 @@ const MaxNft = ({ nftAmount, handleSetMaximum }: MaxNftProp) => {
 			<input
 				disabled
 				placeholder="Maximum Amount"
-				value={nftAmount == 0 ? 'Maximum Amount' : nftAmount}
+				value={!nftAmount || nftAmount == 0 ? 'Maximum Amount' : nftAmount}
 				className={`${nftAmount == 0 ? 'text-gray80' : 'text-white'} bg-transparent  placeholder-gray80`}
 			/>
 
@@ -99,7 +99,7 @@ const MinNft = ({ nftAmount, handleSetMinimum }: MinNftProp) => {
 		handleSetMinimum(nftAmount + 1);
 	};
 	const handleDecrease = () => {
-		if (nftAmount === 0) return;
+		if (!nftAmount || nftAmount === 0) return;
 		handleSetMinimum(nftAmount - 1);
 	};
 	return (
@@ -107,7 +107,7 @@ const MinNft = ({ nftAmount, handleSetMinimum }: MinNftProp) => {
 			<input
 				disabled
 				placeholder="Minium Amount"
-				value={nftAmount == 0 ? 'Minium Amount' : nftAmount}
+				value={!nftAmount || nftAmount == 0 ? 'Minium Amount' : nftAmount}
 				className={`${nftAmount == 0 ? 'text-gray80' : 'text-white'} bg-transparent  placeholder-gray80`}
 			/>
 

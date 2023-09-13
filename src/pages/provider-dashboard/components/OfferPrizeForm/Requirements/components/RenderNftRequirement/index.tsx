@@ -4,69 +4,75 @@ import { useEffect, useState } from 'react';
 import SelectMethodDropDown from './SelectMethodDropDown';
 import ChainDropDown from './ChainDropDown';
 import { Chain } from 'types';
+import { RequirementTypes } from 'pages/provider-dashboard/components/Context/PrizeOfferFormContext';
+import { NftRequirementProp } from 'pages/provider-dashboard/components/Context/PrizeOfferFormContext';
+
+const requirementInit = {
+	type: RequirementTypes.NFT,
+	nftRequirementSatisfy: true,
+	nftRequirementSelectedChain: null,
+	nftRequirementNftAddress: null,
+	nftRequirementCustomID: null,
+	nftRequirementMax: 0,
+	nftRequirementMin: 0,
+};
 
 const RenderNftRequirement = () => {
-	const { handleBackToRequirementModal, handleAddRequirementNft, nftRequirement } = usePrizeOfferFormContext();
-	const [nftSatisfy, setNftSatisfy] = useState<boolean | null>(null);
-	const [nftAddress, setNftAddress] = useState<string | null>(null);
-	const [nftMaximum, setNftMaximum] = useState(0);
-	const [nftMinimum, setNftMinimum] = useState(0);
-	const [customId, setCustomId] = useState<number | null>(null);
-	const [selectedChain, setSelectedChain] = useState<Chain | null>(null);
+	const [requirements, setRequirements] = useState<NftRequirementProp>(requirementInit);
+	const { handleBackToRequirementModal, insertRequirement, requirementList } = usePrizeOfferFormContext();
 
-	useEffect(() => {
-		if (nftRequirement?.nftRequirementCustomID) {
-			setCustomId(nftRequirement?.nftRequirementCustomID);
-		}
+	// useEffect(() => {
+	// 	if (nftRequirement?.nftRequirementCustomID) {
+	// 		setCustomId(nftRequirement?.nftRequirementCustomID);
+	// 	}
 
-		if (nftRequirement?.nftRequirementSatisfy) {
-			setNftSatisfy(nftRequirement?.nftRequirementSatisfy);
-		}
+	// 	if (nftRequirement?.nftRequirementSatisfy) {
+	// 		setNftSatisfy(nftRequirement?.nftRequirementSatisfy);
+	// 	}
 
-		if (nftRequirement?.nftRequirementNftAddress) {
-			setNftAddress(nftRequirement?.nftRequirementNftAddress);
-		}
-		if (nftRequirement?.nftRequirementMax) {
-			setNftMaximum(nftRequirement?.nftRequirementMax);
-		}
-		if (nftRequirement?.nftRequirementMin) {
-			setNftMinimum(nftRequirement?.nftRequirementMin);
-		}
-		if (nftRequirement?.nftRequirementSelectedChain) {
-			setSelectedChain(nftRequirement?.nftRequirementSelectedChain);
-		}
-	}, []);
+	// 	if (nftRequirement?.nftRequirementNftAddress) {
+	// 		setNftAddress(nftRequirement?.nftRequirementNftAddress);
+	// 	}
+	// 	if (nftRequirement?.nftRequirementMax) {
+	// 		setNftMaximum(nftRequirement?.nftRequirementMax);
+	// 	}
+	// 	if (nftRequirement?.nftRequirementMin) {
+	// 		setNftMinimum(nftRequirement?.nftRequirementMin);
+	// 	}
+	// 	if (nftRequirement?.nftRequirementSelectedChain) {
+	// 		setSelectedChain(nftRequirement?.nftRequirementSelectedChain);
+	// 	}
+	// }, []);
 
 	const onSelectChain = (chain: Chain) => {
-		setSelectedChain(chain);
+		setRequirements({ ...requirements, nftRequirementSelectedChain: chain });
 	};
 
 	const handleSetMax = (val: number) => {
-		setNftMaximum(val);
+		setRequirements({ ...requirements, nftRequirementMax: val });
 	};
 
 	const handleSetMin = (val: number) => {
-		setNftMinimum(val);
+		setRequirements({ ...requirements, nftRequirementMin: val });
 	};
 
 	const handleSetCustomId = (val: number) => {
-		setCustomId(val);
+		setRequirements({ ...requirements, nftRequirementCustomID: val });
 	};
 
 	const handleChange = (e: { target: { value: string } }) => {
-		setNftAddress(e.target.value);
+		setRequirements({ ...requirements, nftRequirementNftAddress: e.target.value });
 	};
 
 	const handleAddRequirement = () => {
 		handleBackToRequirementModal();
-		handleAddRequirementNft({
-			nftRequirementSatisfy: nftSatisfy,
-			nftRequirementSelectedChain: selectedChain,
-			nftRequirementNftAddress: nftAddress,
-			nftRequirementCustomID: customId,
-			nftRequirementMax: nftMaximum,
-			nftRequirementMin: nftMinimum,
-		});
+		if (requirementList.filter((item) => item.type == 'Nft').length < 1) {
+			insertRequirement(requirements);
+		}
+	};
+
+	const handleSetSatisfy = (e: boolean) => {
+		setRequirements({ ...requirements, nftRequirementSatisfy: e });
 	};
 
 	return (
@@ -78,37 +84,37 @@ const RenderNftRequirement = () => {
 				<div className="flex justify-between gap-3 text-white text-[14px] font-medium mb-5">
 					<div
 						className={`${
-							nftSatisfy ? 'bg-gray90' : 'bg-gray50'
+							requirements.nftRequirementSatisfy ? 'bg-gray90' : 'bg-gray50'
 						} "bg-gray50 bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center cursor-pointer`}
-						onClick={() => setNftSatisfy(true)}
+						onClick={() => handleSetSatisfy(true)}
 					>
 						Should satisfy
 					</div>
 					<div
-						onClick={() => setNftSatisfy(false)}
+						onClick={() => handleSetSatisfy(false)}
 						className={`${
-							!nftSatisfy ? 'bg-gray90' : 'bg-gray50'
+							!requirements.nftRequirementSatisfy ? 'bg-gray90' : 'bg-gray50'
 						} bg-gray50 w-full rounded-xl h-[32px] flex items-center justify-center cursor-pointer`}
 					>
 						Should not satisfy
 					</div>
 				</div>
-				<ChainDropDown selectedChain={selectedChain} onSelectChain={onSelectChain} />
+				<ChainDropDown selectedChain={requirements.nftRequirementSelectedChain} onSelectChain={onSelectChain} />
 				<div className="flex bg-gray40 text-[14px] h-[44px] border border-gray50 rounded-xl items-center justify-between px-3 mb-2">
 					<input
 						onChange={(e) => handleChange(e)}
-						value={nftAddress ?? ''}
+						value={requirements.nftRequirementNftAddress ?? ''}
 						name="nftAddress"
 						className="bg-transparent w-full h-[100%]  placeholder-gray80"
 						placeholder="Paste NFT address"
 					/>
 				</div>
 				<SelectMethodDropDown
-					nftMaximum={nftMaximum}
+					nftMaximum={requirements.nftRequirementMax}
 					handleSetMaximum={(val) => handleSetMax(val)}
-					nftMinimum={nftMinimum}
+					nftMinimum={requirements.nftRequirementMin}
 					handleSetMinimum={(val) => handleSetMin(val)}
-					customId={customId}
+					customId={requirements.nftRequirementCustomID}
 					handleSetCustomId={(val) => handleSetCustomId(val)}
 				/>
 			</div>
