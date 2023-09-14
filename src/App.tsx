@@ -34,6 +34,7 @@ import { ErrorsProvider } from './context/ErrorsProvider';
 import 'typeface-jetbrains-mono';
 import Navbar from 'components/common/Navbar/navbar';
 import GlobalContextProvider from 'hooks/useGlobalContext';
+import Profile from 'pages/profile';
 
 const Fund = React.lazy(() => import('./pages/fund'));
 const Donate = React.lazy(() => import('./pages/donate'));
@@ -64,6 +65,7 @@ function App() {
 											<ScrollToTop>
 												<Navbar />
 												<Routes>
+													<Route element={<Profile />} path={RoutePath.PROFILE} />
 													<Route
 														path={RoutePath.FAUCET}
 														element={

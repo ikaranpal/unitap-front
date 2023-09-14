@@ -78,6 +78,8 @@ module.exports = {
 				'prizetap-raffle-texture': "url('../public/assets/images/prize-tap/raffle-win.svg')",
 				'learntap-texture': "url('../public/assets/images/landing/learn-tap-bg.svg')",
 				'launchtap-texture': "url('../public/assets/images/landing/launchtap-texture.png')",
+				'soft-primary':
+					'linear-gradient(90deg, #1F3A3E 0%, rgba(28, 32, 44, 0.50) 33.85%, rgba(27, 27, 41, 0.50) 63.02%, rgba(77, 52, 81, 0.60) 100%)',
 				'staketap-texture': "url('../public/assets/images/landing/staketap-texture.png')",
 				'what-is-unitap': "url('../public/assets/images/landing/what-is-unitap.png')",
 				'nft-texture': "url('../public/assets/images/landing/genesis-nft.png')",
