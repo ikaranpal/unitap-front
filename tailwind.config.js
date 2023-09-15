@@ -27,7 +27,7 @@ module.exports = {
 				chips: '#5EBAB0',
 				gray: '#4C4C64',
 				gray00: '#0C0C17',
-				gray10: '#11111C',
+				gray10: '#10101B',
 				gray20: '#161623',
 				gray30: '#1B1B29',
 				gray40: '#1E1E29',

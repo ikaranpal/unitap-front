@@ -34,7 +34,8 @@ import { ErrorsProvider } from './context/ErrorsProvider';
 import 'typeface-jetbrains-mono';
 import Navbar from 'components/common/Navbar/navbar';
 import GlobalContextProvider from 'hooks/useGlobalContext';
-import Profile from 'pages/profile';
+import Profile from 'pages/dashboard/profile';
+import GasTapHistory from 'pages/dashboard/history/gasTapHistory';
 
 const Fund = React.lazy(() => import('./pages/fund'));
 const Donate = React.lazy(() => import('./pages/donate'));
@@ -66,6 +67,7 @@ function App() {
 												<Navbar />
 												<Routes>
 													<Route element={<Profile />} path={RoutePath.PROFILE} />
+													<Route element={<GasTapHistory />} path={RoutePath.GASTAP_HISTORY} />
 													<Route
 														path={RoutePath.FAUCET}
 														element={

@@ -42,7 +42,7 @@ const Navbar = () => {
 			<Icon
 				alt="unitap"
 				className="navbar__logo cursor-pointer"
-				iconSrc="assets/images/navbar/navbar_logo_v1.3.svg"
+				iconSrc="/assets/images/navbar/navbar_logo_v1.3.svg"
 				width="auto"
 				height="32px"
 				mrAuto
@@ -66,7 +66,7 @@ const Navbar = () => {
 				<div className="menu-items">
 					{userProfile?.isMeetVerified ? (
 						<BrightConnectedButton
-							iconLeft="assets/images/navbar/navbar_bright_logo_v1.3.svg"
+							iconLeft="/assets/images/navbar/navbar_bright_logo_v1.3.svg"
 							fontSize="12px"
 							fontWeight="500"
 							iconLeftWidth={16}
@@ -108,7 +108,7 @@ const RenderUnipassCount = () => {
 					<Icon
 						alt="unitap-pass"
 						className="mr-5"
-						iconSrc="assets/images/navbar/up-icon.svg"
+						iconSrc="/assets/images/navbar/up-icon.svg"
 						width="auto"
 						height="23px"
 					/>
@@ -122,7 +122,7 @@ const RenderUnipassCount = () => {
 					<Icon
 						className="mr-5"
 						alt="unitap-pass-disabled"
-						iconSrc="assets/images/navbar/up-icon-disable.svg"
+						iconSrc="/assets/images/navbar/up-icon-disable.svg"
 						width="auto"
 						height="23px"
 					/>
@@ -138,7 +138,7 @@ const RenderNavbarDropdown = () => {
 
 	return (
 		<span className="navbar__dropdown cursor-pointer" onClick={() => setIsDropdownVisible(!isDropdownVisible)}>
-			<Icon iconSrc="assets/images/navbar/navbar-dropdown-icon.svg" width="31px" height="31px" />
+			<Icon iconSrc="/assets/images/navbar/navbar-dropdown-icon.svg" width="31px" height="31px" />
 			{isDropdownVisible && <NavbarDropdown className="navbar__dropdown__component" />}
 		</span>
 	);
@@ -156,7 +156,7 @@ const RenderNavbarConnectionStatus = () => {
 	return (
 		<div className="navbar-connection-status flex rounded-lg h-8 items-center justify-between bg-gray40 pr-0.5 mr-3">
 			<Icon
-				iconSrc="./assets/images/navbar/bright-icon.svg"
+				iconSrc="/assets/images/navbar/bright-icon.svg"
 				width="16px"
 				height="16px"
 				className={`mx-3 ${!isBrightIdConnected && 'opacity-50'}`}
