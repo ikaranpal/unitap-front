@@ -155,3 +155,5 @@ export function UserProfileProvider({ children }: PropsWithChildren<{}>) {
 		</UserProfileContext.Provider>
 	);
 }
+
+export const useUserProfile = () => useContext(UserProfileContext);

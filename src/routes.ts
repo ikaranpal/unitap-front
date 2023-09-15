@@ -9,6 +9,7 @@ enum RoutePath {
 	NFT = '/pass',
 	PROFILE = '/dashboard/up-profile',
 	GASTAP_HISTORY = '/dashboard/history/gas-tap',
+	EDIT_PROFILE = '/dashboard/edit-profile',
 }
 
 export default RoutePath;

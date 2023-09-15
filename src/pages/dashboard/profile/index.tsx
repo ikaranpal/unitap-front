@@ -2,6 +2,8 @@ import Icon from 'components/basic/Icon/Icon';
 import Footer from 'components/common/Footer/footer';
 import { FC } from 'react';
 import UnitapPass from './components/unitapPass';
+import { Link } from 'react-router-dom';
+import RoutePath from 'routes';
 
 const Profile = () => {
 	return (
@@ -23,9 +25,11 @@ const Profile = () => {
 							<Icon iconSrc="/assets/images/up-profile/twitter.svg" className="mx-2 cursor-pointer" />
 							<Icon iconSrc="/assets/images/up-profile/discord.svg" className="mx-2 cursor-pointer" />
 							<Icon iconSrc="/assets/images/up-profile/brightid.svg" className="mx-2 mr-3 cursor-pointer" />
-							<div className="px-10 cursor-pointer rounded-lg text-center bg-gray50 text-sm font-medium py-3">
-								Edit Profile
-							</div>
+							<Link to={RoutePath.EDIT_PROFILE}>
+								<div className="px-10 cursor-pointer rounded-lg text-center bg-gray50 text-sm font-medium py-3">
+									Edit Profile
+								</div>
+							</Link>
 						</div>
 					</div>
 
