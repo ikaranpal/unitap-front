@@ -1,6 +1,7 @@
 import Icon from 'components/basic/Icon/Icon';
 import Footer from 'components/common/Footer/footer';
 import { FC } from 'react';
+import UnitapPass from './components/unitapPass';
 
 const Profile = () => {
 	return (
@@ -46,11 +47,40 @@ const Profile = () => {
 						</div>
 					</div>
 
-					<div className="bg-gray20 p-10 flex items-center flex-wrap"></div>
+					<div className="bg-gray20 p-10 flex gap-10 items-center flex-wrap">
+						<Cart title={'Gas Claimed'} image={'/assets/images/up-profile/dabe.svg'} amount={129} />
+						<Cart title={'Token Claimed'} image={'/assets/images/up-profile/coin.svg'} amount={1} />
+						<Cart title={'Raffle Enrolled'} image={'/assets/images/up-profile/raffle.svg'} amount={0} />
+
+						<div className="p-4 relative w-52 py-9 lg:ml-auto rounded-lg bg-gray30">
+							<div className="text-sm text-secondary-text">View History</div>
+							<div className="absolute z-10 top-1/2 -translate-y-1/2 right-4">
+								<Icon iconSrc={'/assets/images/up-profile/arrow-right.svg'} />
+							</div>
+							<Icon iconSrc="/assets/images/up-profile/bg-card.svg" className="absolute top-0 right-0 bottom-0"></Icon>
+						</div>
+					</div>
 				</div>
+
+				<UnitapPass />
 			</div>
 
 			<Footer />
+		</div>
+	);
+};
+
+export const Cart: FC<{ title: string; image: string; amount: number }> = ({ amount, image, title }) => {
+	return (
+		<div className="p-4 relative rounded-lg bg-gray30">
+			<div className="mr-20">
+				<p className="text-space-green">{amount}</p>
+				<div className="mt-4 text-gray100 text-sm">{title}</div>
+			</div>
+			<div className="absolute z-10 -top-4 -right-2">
+				<Icon iconSrc={image} />
+			</div>
+			<Icon iconSrc="/assets/images/up-profile/bg-card.svg" className="absolute top-0 right-0 bottom-0"></Icon>
 		</div>
 	);
 };
