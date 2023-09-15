@@ -16,6 +16,7 @@ module.exports = {
 			fontSize: {
 				'2xs': '0.625rem',
 			},
+
 			colors: {
 				primary: '#EF476F',
 				secondary: '#F59569',
@@ -89,6 +90,7 @@ module.exports = {
 				'stats-texture': "url('../public/assets/images/landing/stats-texture.png')",
 				'g-twitter': 'linear-gradient(91.35deg, #03A9F4 -0%, #DFFFF5 42.19%, #03E6F4 100%)',
 				'g-primary': 'linear-gradient(91.35deg, #4BF2A2 -4.66%, #A89FE7 56.06%, #E1C4F4 73.07%, #DD40CD 111.44%)',
+				'big-bang': 'radial-gradient(3222.38% 194% at 17.05% 37.02%, #F2A4FF 0%, #F1D2FF 42.19%, #DFFF83 100%)',
 				'g-primary-low':
 					'linear-gradient(91.35deg, rgba(75, 242, 162, 0.16) -4.66%, rgba(168, 159, 231, 0.35) 39.49%, rgba(225, 196, 244, 0.31) 73.07%, rgba(221, 64, 205, 0.31) 111.44%)',
 			},
