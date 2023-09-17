@@ -137,6 +137,7 @@ export const userProfileVerified = {
 	...userProfileNotVerified,
 	isAuraVerified: true,
 	isMeetVerified: true,
+	isUnitapPassVerified: true,
 	verificationStatus: BrightIdVerificationStatus.VERIFIED,
 };
 

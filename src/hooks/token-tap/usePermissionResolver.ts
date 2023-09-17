@@ -15,6 +15,10 @@ export const usePermissionResolver = () => {
 				return userProfile?.isAuraVerified;
 			}
 
+			if ((permission.name as string) === 'HaveUnitapPass') {
+				return userProfile?.isUnitapPassVerified;
+			}
+
 			return false;
 		},
 		[userProfile],

@@ -102,6 +102,7 @@ type UserWallet = {
 export type UserProfile = {
 	isMeetVerified: boolean;
 	isAuraVerified: boolean;
+	isUnitapPassVerified:boolean;
 	initial_context_id: string;
 	token: string;
 	pk: PK;
