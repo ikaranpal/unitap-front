@@ -9,8 +9,8 @@ const RequirementModalBody = () => {
 	const { requirementModalItems } = usePrizeOfferFormContext();
 
 	const getRequirementModalBody = () => {
-		if (requirementModalItems.nft) return <RenderNftRequirement />;
-		if (requirementModalItems.brightId) return <RenderBrightIdRequirement />;
+		if (requirementModalItems.NFT) return <RenderNftRequirement />;
+		if (requirementModalItems.BrightId) return <RenderBrightIdRequirement />;
 		return <RenderInitialBody />;
 	};
 	return <div className="claim-modal-wrapper flex flex-col max-h-[550px] pt-5">{getRequirementModalBody()}</div>;

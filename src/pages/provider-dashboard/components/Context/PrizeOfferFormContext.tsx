@@ -4,8 +4,8 @@ import { Chain, ProviderDashboardFormDataProp } from 'types';
 import { checkRegexDateValidation, checkEndDate, checkStartDate } from './utils/checkDateValidation';
 
 export enum RequirementTypes {
-	NFT = 'Nft',
-	BRIGHT_ID = 'brightId',
+	NFT = 'NFT',
+	BRIGHT_ID = 'BrightId',
 }
 
 interface RequirementType {
@@ -27,9 +27,14 @@ export interface BrightIdRequirementProp extends RequirementType {
 }
 
 interface RequirementModalItemsProp {
-	nft: boolean;
-	brightId: boolean;
+	NFT: boolean;
+	BrightId: boolean;
 }
+
+const baseRequirementModalItems: RequirementModalItemsProp = {
+	NFT: false,
+	BrightId: false,
+};
 
 type RequirementProps = NftRequirementProp | BrightIdRequirementProp;
 
@@ -142,8 +147,7 @@ const PrizeOfferFormContext = createContext<{
 		...initData,
 	},
 	requirementModalItems: {
-		nft: false,
-		brightId: false,
+		...baseRequirementModalItems,
 	},
 	title: {
 		...title,
@@ -363,11 +367,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setAllowListPrivate(!allowListPrivate);
 	};
 
-	const baseRequirementModalItems: RequirementModalItemsProp = {
-		nft: false,
-		brightId: false,
-	};
-
 	const handleChangeNftReq = (value: number, logic: string) => {
 		setData((prevData) => ({
 			...prevData,
@@ -382,10 +381,8 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		}));
 	};
 
-	const [requirementModalItems, setRequirementModalItems] = useState<RequirementModalItemsProp>({
-		nft: false,
-		brightId: false,
-	});
+	const [requirementModalItems, setRequirementModalItems] =
+		useState<RequirementModalItemsProp>(baseRequirementModalItems);
 
 	const [requirementTitle, setRequirementTitle] = useState<string | null>(null);
 
@@ -456,6 +453,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	const handleSelectRequirementModal = (title: string) => {
+		console.log(title);
 		setRequirementTitle(title);
 		setRequirementModalItems({
 			...baseRequirementModalItems,

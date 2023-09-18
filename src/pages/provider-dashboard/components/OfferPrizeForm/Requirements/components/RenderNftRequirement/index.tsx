@@ -66,7 +66,7 @@ const RenderNftRequirement = () => {
 
 	const handleAddRequirement = () => {
 		handleBackToRequirementModal();
-		if (requirementList.filter((item) => item.type == 'Nft').length < 1) {
+		if (requirementList.filter((item) => item.type == 'NFT').length < 1) {
 			insertRequirement(requirements);
 		}
 	};
