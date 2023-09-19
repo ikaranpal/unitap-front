@@ -6,7 +6,7 @@ import ChainDropDown from './ChainDropDown';
 import { Chain } from 'types';
 import { RequirementTypes } from 'pages/provider-dashboard/components/Context/PrizeOfferFormContext';
 import { NftRequirementProp } from 'pages/provider-dashboard/components/Context/PrizeOfferFormContext';
-
+import useAddRequirement from 'pages/provider-dashboard/hooks/useAddRequirement';
 const requirementInit = {
 	type: RequirementTypes.NFT,
 	nftRequirementSatisfy: true,
@@ -17,32 +17,20 @@ const requirementInit = {
 	nftRequirementMin: 0,
 };
 
-const RenderNftRequirement = () => {
+interface Prop {
+	label: string;
+}
+
+const RenderNftRequirement = ({ label }: Prop) => {
 	const [requirements, setRequirements] = useState<NftRequirementProp>(requirementInit);
-	const { handleBackToRequirementModal, insertRequirement, requirementList } = usePrizeOfferFormContext();
-
-	// useEffect(() => {
-	// 	if (nftRequirement?.nftRequirementCustomID) {
-	// 		setCustomId(nftRequirement?.nftRequirementCustomID);
-	// 	}
-
-	// 	if (nftRequirement?.nftRequirementSatisfy) {
-	// 		setNftSatisfy(nftRequirement?.nftRequirementSatisfy);
-	// 	}
-
-	// 	if (nftRequirement?.nftRequirementNftAddress) {
-	// 		setNftAddress(nftRequirement?.nftRequirementNftAddress);
-	// 	}
-	// 	if (nftRequirement?.nftRequirementMax) {
-	// 		setNftMaximum(nftRequirement?.nftRequirementMax);
-	// 	}
-	// 	if (nftRequirement?.nftRequirementMin) {
-	// 		setNftMinimum(nftRequirement?.nftRequirementMin);
-	// 	}
-	// 	if (nftRequirement?.nftRequirementSelectedChain) {
-	// 		setSelectedChain(nftRequirement?.nftRequirementSelectedChain);
-	// 	}
-	// }, []);
+	const { handleBackToRequirementModal, requirementList } = usePrizeOfferFormContext();
+	const addRequirement = useAddRequirement();
+	const existRequirement: any = requirementList.find((item) => item.type == label);
+	useEffect(() => {
+		if (existRequirement) {
+			setRequirements(existRequirement);
+		}
+	}, []);
 
 	const onSelectChain = (chain: Chain) => {
 		setRequirements({ ...requirements, nftRequirementSelectedChain: chain });
@@ -65,10 +53,7 @@ const RenderNftRequirement = () => {
 	};
 
 	const handleAddRequirement = () => {
-		handleBackToRequirementModal();
-		if (requirementList.filter((item) => item.type == 'NFT').length < 1) {
-			insertRequirement(requirements);
-		}
+		addRequirement(existRequirement, requirements, label);
 	};
 
 	const handleSetSatisfy = (e: boolean) => {
@@ -76,7 +61,7 @@ const RenderNftRequirement = () => {
 	};
 
 	return (
-		<div className="flex flex-col gap-2 mt-5 ">
+		<div className="flex flex-col gap-2 mt-5">
 			<div className="absolute top-5 cursor-pointer z-[999]" onClick={handleBackToRequirementModal}>
 				<Icon iconSrc="assets/images/provider-dashboard/arrow-left.svg" className="cursor-pointer z-[999999]" />
 			</div>

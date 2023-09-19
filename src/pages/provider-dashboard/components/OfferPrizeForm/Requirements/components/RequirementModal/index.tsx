@@ -5,13 +5,19 @@ import RenderNftRequirement from '../RenderNftRequirement';
 import RenderBrightIdRequirement from '../RenderBrightIdRequirement';
 import RenderInitialBody from '../RenderInitialBody';
 
+const getModal = (index: number) => [RenderNftRequirement, RenderBrightIdRequirement][index];
+
 const RequirementModalBody = () => {
 	const { requirementModalItems } = usePrizeOfferFormContext();
 
 	const getRequirementModalBody = () => {
-		if (requirementModalItems.NFT) return <RenderNftRequirement />;
-		if (requirementModalItems.BrightId) return <RenderBrightIdRequirement />;
-		return <RenderInitialBody />;
+		const index = requirementModalItems.findIndex((item) => item.isOpen);
+		if (index >= 0) {
+			const ReqModal = getModal(index);
+			return <ReqModal label={requirementModalItems[index].label} />;
+		} else {
+			return <RenderInitialBody />;
+		}
 	};
 	return <div className="claim-modal-wrapper flex flex-col max-h-[550px] pt-5">{getRequirementModalBody()}</div>;
 };

@@ -1,14 +1,17 @@
 import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { modalItems } from '../Context/PrizeOfferFormContext';
 
 interface Props {
 	label: string;
 }
 
 const NewAddedRequirements = ({ label }: Props) => {
+	const currenRequirement = modalItems.find((item) => item.label == label);
 	const {
 		handleSelectRequirementModal,
 		openRequirementModal,
+		deleteRequirement,
 		// handleResetRequirementNft,
 		handleResetRequirementBrightId,
 	} = usePrizeOfferFormContext();
@@ -18,20 +21,22 @@ const NewAddedRequirements = ({ label }: Props) => {
 		openRequirementModal();
 	};
 
-	const handleDeleteNftRequirement = (label: string) => {
-		if (label === 'NFT') {
-			// handleResetRequirementNft();
-		}
-		if (label === 'BrightId') {
-			handleResetRequirementBrightId();
-		}
+	const handleDelete = (label: string) => {
+		console.log(label);
+		deleteRequirement(label);
+		// if (label === currenRequirement?.label) {
+		// 	// handleResetRequirementNft();
+		// }
+		// if (label === 'BrightId') {
+		// 	handleResetRequirementBrightId();
+		// }
 	};
 
 	return (
 		<div className="m-0 p-0">
 			<div className="bg-gray50 h-[44px] rounded-xl flex justify-between  items-center px-4 border-2 border-gray60">
 				<div className="flex items-center gap-2">
-					<Icon iconSrc={`assets/images/provider-dashboard/modalIcon/${label}.svg`} />
+					<Icon iconSrc={`assets/images/provider-dashboard/modalIcon/${currenRequirement?.imageSrc}.svg`} />
 					<p>{label} requirement</p>
 				</div>
 				<div className="flex items-center gap-3">
@@ -42,7 +47,7 @@ const NewAddedRequirements = ({ label }: Props) => {
 						Edit
 					</div>
 					<Icon
-						onClick={() => handleDeleteNftRequirement(label)}
+						onClick={() => handleDelete(label)}
 						className="cursor-pointer"
 						iconSrc="assets/images/modal/exit.svg"
 						height="14px"

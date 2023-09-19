@@ -1,15 +1,6 @@
 import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-
-interface ModalItemProps {
-	id: string;
-	label: string;
-}
-
-const modalItems: ModalItemProps[] = [
-	{ id: 'nft', label: 'NFT' },
-	{ id: 'brightId', label: 'BrightId' },
-];
+import { modalItems } from 'pages/provider-dashboard/components/Context/PrizeOfferFormContext';
 
 const RenderInitialBody = () => {
 	const { handleSelectRequirementModal } = usePrizeOfferFormContext();
@@ -22,7 +13,7 @@ const RenderInitialBody = () => {
 			<div className="grid grid-cols-2 gap-2.5 row-gap-2 w-full">
 				{modalItems.map((modal, index) => (
 					<div key={index} className="requireModal" onClick={() => handleSelectRequirementModal(modal.label)}>
-						<Icon iconSrc={`assets/images/provider-dashboard/modalIcon/${modal.id}.svg`} />
+						<Icon iconSrc={`assets/images/provider-dashboard/modalIcon/${modal.imageSrc}.svg`} />
 						{modal.label}
 					</div>
 				))}

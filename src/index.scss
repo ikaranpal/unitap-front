@@ -690,3 +690,10 @@ input[type='number'] {
 		left: 0px;
 	}
 }
+
+
+.select-not {
+	@apply select-none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}

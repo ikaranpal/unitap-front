@@ -21,7 +21,7 @@ const SelectMethodDropDown = ({
 	};
 
 	return (
-		<div>
+		<div className="select-not">
 			<div className="flex w-full relative">
 				<div
 					onClick={() => setShowItems(!showItems)}

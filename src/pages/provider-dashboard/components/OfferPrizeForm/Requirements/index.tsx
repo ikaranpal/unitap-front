@@ -5,6 +5,7 @@ import { PrizeInfoProp } from 'types';
 import NewAddedRequirements from '../../NewAddedRequirements';
 import Pagination from '../../PagInation';
 import SelectSatisfyDropdown from './components/SelectSatisfyDropdown';
+
 export const RequirementDescription = {
 	id: 2,
 	prevIcon: 'assets/images/provider-dashboard/step-2-green.svg',
@@ -15,19 +16,16 @@ export const RequirementDescription = {
 };
 
 const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
-	const { openRequirementModal, page, brightIdRequirement, requirementList } = usePrizeOfferFormContext();
+	const { openRequirementModal, page, requirementList } = usePrizeOfferFormContext();
 
 	return (
-		<div className="text-gray100 text-[12px] font-medium flex flex-col w-full  max-w-[452px] min-w-[300px]">
+		<div className="text-gray100 text-[12px] font-medium flex flex-col w-full  max-w-[452px] min-w-[300px] select-not">
 			<p>Add any requirements for Enrolling or leave it free.</p>
 
 			<SelectSatisfyDropdown />
 			{requirementList.map((requirement, key) => (
 				<NewAddedRequirements key={key} label={requirement.type} />
 			))}
-			{/* {nftRequirement?.nftRequirementNftAddress && <NewAddedRequirements name="nft" label="NFT" />} */}
-			{/* {brightIdRequirement?.brightIdRequirementType && <NewAddedRequirements name="brightId" label="BrightId" />} */}
-
 			<div
 				onClick={openRequirementModal}
 				className=" flex cursor-pointer items-center gap-2 bg-gray40 h-[44px] rounded-xl px-4 text-white text-[12px]"
