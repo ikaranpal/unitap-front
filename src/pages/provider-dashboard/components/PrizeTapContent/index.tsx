@@ -136,7 +136,7 @@ const PrizeTapContent = () => {
 							</div>
 							<div
 								onClick={() => handleSelectNewOffer(true)}
-								className="flex mt-5 sm:mt-0 items-center justify-center cursor-pointer border-2 border-white rounded-[12px] bg-[#0C0C17] w-[226px] h-[46px]"
+								className="flex mt-5 z-[900] sm:mt-0 items-center justify-center cursor-pointer border-2 border-white rounded-[12px] bg-[#0C0C17] w-[226px] h-[46px]"
 							>
 								+ Provide a New Prize
 							</div>

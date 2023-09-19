@@ -10,6 +10,11 @@ const SelectChainDropDown = ({ showErrors }: Prop) => {
 	const { data, chainList, selectedChain, chainName, handleSearchChain, filterChainList, handleSelectChain } =
 		usePrizeOfferFormContext();
 
+	const handleSearch = (e: any) => {
+		setShowItems(true);
+		handleSearchChain(e);
+	};
+
 	const [showItems, setShowItems] = useState(false);
 
 	return (
@@ -25,7 +30,7 @@ const SelectChainDropDown = ({ showErrors }: Prop) => {
 						type="text"
 						value={chainName ? chainName : ''}
 						placeholder="Search for Chain"
-						onChange={handleSearchChain}
+						onChange={handleSearch}
 					/>
 					<Icon
 						iconSrc={

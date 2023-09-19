@@ -346,16 +346,12 @@ export interface ProviderDashboardFormDataProp {
 	endTime: string | null;
 	limitEnrollPeopleCheck: boolean;
 	maximumNumberEnroll: number | null;
-	requirement: string;
 	email: string | null;
 	twitter: string | null;
 	discord: string | null;
 	telegram: string | null;
 	necessaryInfo: string;
 	satisfy: string;
-	tokenRequirementMax: any;
-	tokenRequirementMin: any;
-	tokenAddress: string;
 	allowListPrivate: boolean;
 	setDuration: boolean;
 	numberOfDuration: number;

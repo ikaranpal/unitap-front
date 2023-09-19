@@ -611,7 +611,7 @@ input[type='number'] {
 }
 
 .provider-dashboard-input {
-	@apply placeholder-gray80 text-white w-full bg-transparent h-[100%];
+	@apply placeholder-gray80 text-white w-full bg-transparent h-[100%] pl-2;
 }
 .prize-card-bg-1 {
 	@apply lg:bg-[url("../public/assets/images/prize-tap/nft-cover.svg")] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;

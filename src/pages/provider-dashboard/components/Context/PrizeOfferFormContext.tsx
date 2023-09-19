@@ -49,16 +49,12 @@ const initData: ProviderDashboardFormDataProp = {
 	endTime: '',
 	limitEnrollPeopleCheck: false,
 	maximumNumberEnroll: null,
-	requirement: '',
 	email: '',
 	twitter: '',
 	discord: '',
 	telegram: '',
 	necessaryInfo: '',
 	satisfy: 'satisfyAll',
-	tokenRequirementMax: 0,
-	tokenRequirementMin: 0,
-	tokenAddress: '',
 	allowListPrivate: false,
 	setDuration: false,
 	numberOfDuration: 0,
@@ -121,7 +117,6 @@ const PrizeOfferFormContext = createContext<{
 	setSearchPhrase: (e: string) => void;
 	handleSelectChain: (chain: Chain) => void;
 	handleSelectSatisfy: (satisfy: string) => void;
-	handleChangeNftReq: (value: number, logic: string) => void;
 	allowListPrivate: boolean;
 	handleSelectAllowListPrivate: () => void;
 	canGoStepTwo: () => boolean;
@@ -168,7 +163,6 @@ const PrizeOfferFormContext = createContext<{
 	setSearchPhrase: () => {},
 	handleSelectChain: () => {},
 	handleSelectSatisfy: () => {},
-	handleChangeNftReq: () => {},
 	allowListPrivate: false,
 	handleSelectAllowListPrivate: () => {},
 	canGoStepTwo: () => false,
@@ -323,13 +317,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setAllowListPrivate(!allowListPrivate);
 	};
 
-	const handleChangeNftReq = (value: number, logic: string) => {
-		setData((prevData) => ({
-			...prevData,
-			[logic]: value,
-		}));
-	};
-
 	const handleSetDurationManually = () => {
 		setData((prevData) => ({
 			...prevData,
@@ -449,6 +436,8 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setSelectNewOffer(false);
 		setPage(0);
 		setData(initData);
+		setChainName('');
+		setSelectedChain(null);
 	};
 
 	return (
@@ -479,7 +468,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				setSearchPhrase,
 				handleSelectChain,
 				handleSelectSatisfy,
-				handleChangeNftReq,
 				allowListPrivate,
 				handleSelectAllowListPrivate,
 				canGoStepTwo,
