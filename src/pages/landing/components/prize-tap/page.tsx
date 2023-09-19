@@ -12,7 +12,7 @@ const PrizeTapLanding: FC<{ rafflesList: Prize[] }> = ({ rafflesList }) => {
 	return (
 		<>
 			{rafflesList.length > 0 &&
-				rafflesList.slice(0, 3).map((raffle, key) => (
+				rafflesList.slice(0, 2).map((raffle, key) => (
 					<div
 						key={key}
 						className={'flex relative text-xs text-white bg-gray30 rounded-xl py-2 px-2 mb-2 overflow-hidden h-[80px] '}
@@ -24,7 +24,7 @@ const PrizeTapLanding: FC<{ rafflesList: Prize[] }> = ({ rafflesList }) => {
 										<img
 											width="62px"
 											height="63px"
-											src={raffle.isPrizeNft ? nftImage(raffle.tokenUri) : raffle.imageUrl}
+											src={raffle.imageUrl || nftImage(raffle.tokenUri)}
 											alt={raffle.name}
 										/>
 									</span>
@@ -34,12 +34,18 @@ const PrizeTapLanding: FC<{ rafflesList: Prize[] }> = ({ rafflesList }) => {
 										{raffle.isPrizeNft ? raffle.prizeAmount : raffle.prizeAmount / 10 ** raffle.decimals}{' '}
 										{raffle.prizeSymbol}
 									</p>
-									<p className="text-secondary-text mt-2">{raffle.isPrizeNft ? '' : 'by ' + raffle.creator}</p>
+									<p className="text-secondary-text mt-2">{'by ' + raffle.creator}</p>
 								</div>
 							</div>
 							<div className="flex mt-[-1.2em] ml-[6em] justify-between">
-								<p className="text-gray90 ml-2">Winner in:</p>
-								<RaffleCardTimerLandingPage startTime={raffle.createdAt} FinishTime={raffle.deadline} />
+								{raffle.winnerEntry ? (
+									<p className="text-gray90">Congratulations, @{raffle.winnerEntry?.userProfile?.username}</p>
+								) : (
+									<>
+										<p className="text-gray90 ml-2">Winner in:</p>
+										<RaffleCardTimerLandingPage startTime={raffle.createdAt} FinishTime={raffle.deadline} />
+									</>
+								)}
 							</div>
 						</div>
 						<div className="w-full bg-gray40 absolute bottom-0 left-0 h-[30px] flex items-center justify-between px-10  "></div>
