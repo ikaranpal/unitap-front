@@ -1,9 +1,19 @@
 import Icon from 'components/basic/Icon/Icon';
 import Footer from 'components/common/Footer/footer';
 import { useUserProfile } from 'hooks/useUserProfile';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
+
+export const Wallet: FC<{ address: string; isActive: boolean }> = ({ address, isActive }) => {
+	return (
+		<div className="p-4 flex bg-gray40 border-2 border-gray50 rounded-lg">
+			<span>
+				<img src="/assets/images/up-profile/dot.svg" alt="dot" />
+			</span>
+		</div>
+	);
+};
 
 const EditProfile = () => {
 	const { userProfile } = useUserProfile();
@@ -32,18 +42,32 @@ const EditProfile = () => {
 					<div className="relative">
 						<input
 							type="text"
+							placeholder="username"
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
 							className="border border-gray70 border-solid w-64 px-4 py-3 rounded-xl bg-gray50"
 						/>
-						<button className="absolute right-5 top-1/2 -translate-y-1/2 bg-gradient-to-r from-[#4BF2A2] via-[#A89FE7] to-[#E1C3F4] rounded-xl px-3 py-1">
+						<button className="absolute right-5 top-1/2 -translate-y-1/2 bg-gradient-to-r from-[#4bf2a229] via-[#e1c3f44f] to-[#dd40cd4f] rounded-lg px-3 py-1">
 							Save
 						</button>
 					</div>
 				</div>
 
 				<div className="mt-5 bg-gray20 rounded-xl p-5">
-					<span>Wallets</span>
+					<p>
+						Wallets <small className="text-gray90">(0/10)</small>
+					</p>
+
+					<div className="mt-10">
+						<div className="grid grid-cols-2 gap-4"></div>
+
+						<button className="w-72 px-5 mt-5 py-4 flex items-center rounded-xl border-2 border-gray70" type="button">
+							<span className="ml-auto text-sm">Add Wallet</span>
+							<span className="ml-auto">
+								<img src="/assets/images/up-profile/plus.svg" alt="plus" className="w-[16px] h-[16px]" />
+							</span>
+						</button>
+					</div>
 				</div>
 			</div>
 
