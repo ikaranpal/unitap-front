@@ -421,7 +421,7 @@ type RaffleCardTimerProps = {
 	FinishTime: string;
 };
 
-const RaffleCardTimer = ({ startTime, FinishTime }: RaffleCardTimerProps) => {
+export const RaffleCardTimer = ({ startTime, FinishTime }: RaffleCardTimerProps) => {
 	const [now, setNow] = useState(new Date());
 	const [days, setDays] = useState('00');
 	const [hours, setHours] = useState('00');

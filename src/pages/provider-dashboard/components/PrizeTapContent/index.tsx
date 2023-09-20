@@ -7,7 +7,7 @@ import {
 import Icon from 'components/basic/Icon/Icon';
 import SearchInput from '../SearchInput/searchInput';
 import OfferPrizeForm from '../OfferPrizeForm';
-import CardTimer from '../CardTimer';
+import { RaffleCardTimer } from 'pages/prize-tap/components/RafflesList/RafflesList';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 
 interface PrizeInfo {
@@ -65,8 +65,10 @@ const PrizeCard = ({ prize }: PrizeCardProp) => {
 					</div>
 				) : (
 					<div className="providePrize_timer absolute bottom-3 right-4 left-4">
-						<p className="text-white font-medium text-[8px] mb-2">Ends in:</p>
-						<CardTimer startTime={prize.startTime} FinishTime={prize.endTime} />
+						<p className="text-white font-medium text-[8px] font-medium mb-2 ml-1">Ends in:</p>
+						<div className="bg-gray50 rounded-xl px-5 rounded-xl">
+							<RaffleCardTimer startTime={prize.startTime} FinishTime={prize.endTime} />
+						</div>
 					</div>
 				)}
 			</div>

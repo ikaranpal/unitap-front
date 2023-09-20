@@ -501,12 +501,12 @@ body {
 }
 
 .providerDashboard__header {
-	@apply bg-no-repeat bg-cover;
+	@apply bg-no-repeat bg-cover border border-3 rounded-3xl border-gray40;
 	background-image: url('../public/assets/images/provider-dashboard/bg-header.svg');
 }
 
 .refill-token {
-	@apply bg-no-repeat bg-cover rounded-2xl;
+	@apply bg-no-repeat bg-cover border border-2 rounded-3xl border-gray40;
 	background-image: url('../public/assets/images/provider-dashboard/bg.png');
 }
 
