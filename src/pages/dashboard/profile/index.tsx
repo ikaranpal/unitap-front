@@ -55,14 +55,6 @@ const Profile = () => {
 						<Cart title={'Gas Claimed'} image={'/assets/images/up-profile/dabe.svg'} amount={129} />
 						<Cart title={'Token Claimed'} image={'/assets/images/up-profile/coin.svg'} amount={1} />
 						<Cart title={'Raffle Enrolled'} image={'/assets/images/up-profile/raffle.svg'} amount={0} />
-
-						<div className="p-4 relative w-52 py-9 lg:ml-auto rounded-lg bg-gray30">
-							<div className="text-sm text-secondary-text">View History</div>
-							<div className="absolute z-10 top-1/2 -translate-y-1/2 right-4">
-								<Icon iconSrc={'/assets/images/up-profile/arrow-right.svg'} />
-							</div>
-							<Icon iconSrc="/assets/images/up-profile/bg-card.svg" className="absolute top-0 right-0 bottom-0"></Icon>
-						</div>
 					</div>
 				</div>
 

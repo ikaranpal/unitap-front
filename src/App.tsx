@@ -35,7 +35,6 @@ import 'typeface-jetbrains-mono';
 import Navbar from 'components/common/Navbar/navbar';
 import GlobalContextProvider from 'hooks/useGlobalContext';
 import Profile from 'pages/dashboard/profile';
-import GasTapHistory from 'pages/dashboard/history/gasTapHistory';
 import EditProfile from 'pages/dashboard/edit-profile';
 
 const Fund = React.lazy(() => import('./pages/fund'));
@@ -69,7 +68,6 @@ function App() {
 												<Routes>
 													<Route element={<Profile />} path={RoutePath.PROFILE} />
 													<Route element={<EditProfile />} path={RoutePath.EDIT_PROFILE} />
-													<Route element={<GasTapHistory />} path={RoutePath.GASTAP_HISTORY} />
 													<Route
 														path={RoutePath.FAUCET}
 														element={
