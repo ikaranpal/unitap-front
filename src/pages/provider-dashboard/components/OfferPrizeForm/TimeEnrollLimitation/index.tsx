@@ -1,6 +1,6 @@
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { useState } from 'react';
-import { ErrorProps, PrizeInfoProp } from 'types';
+import { ErrorProps, ProviderFormPaginationProp } from 'types';
 import Pagination from '../../PagInation';
 import StartDateComp from './components/StartDateComp';
 import SetDuration from './components/SetDuration';
@@ -17,7 +17,7 @@ export const TimeEnrollLimitationDescription = {
 	description: 'Information of time and enrollment ',
 };
 
-const TimeEnrollLimitation = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
+const TimeEnrollLimitation = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: ProviderFormPaginationProp) => {
 	const { page, canGoStepThree, setDuration } = usePrizeOfferFormContext();
 
 	const [showErrors, setShowErrors] = useState<ErrorProps | null>(null);

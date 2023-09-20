@@ -1,7 +1,7 @@
 import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { useState } from 'react';
-import { PrizeInfoProp, ProviderDashboardFormDataProp } from 'types';
+import { ProviderFormPaginationProp, ProviderDashboardFormDataProp } from 'types';
 import Pagination from '../../PagInation';
 
 interface ContactField {
@@ -47,7 +47,7 @@ const contactFields: ContactField[] = [
 	},
 ];
 
-const ContactInformation = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
+const ContactInformation = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: ProviderFormPaginationProp) => {
 	const { handleChange, data, page, canGoStepFive } = usePrizeOfferFormContext();
 	const [showErrors, setShowErrors] = useState<boolean>(false);
 

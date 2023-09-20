@@ -211,7 +211,7 @@ export type APIError = {
 };
 
 
-export type PrizeInfoProp = {
+export type ProviderFormPaginationProp = {
 	handleChangeFormPagePrev: () => void;
 	handleChangeFormPageNext: () => void;
 }

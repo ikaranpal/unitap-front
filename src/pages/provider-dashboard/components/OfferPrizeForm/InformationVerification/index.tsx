@@ -1,7 +1,7 @@
 import Icon from 'components/basic/Icon/Icon';
 import { ProviderDashboardGoToDashBoard } from 'components/basic/Button/button';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import { PrizeInfoProp } from 'types';
+import { ProviderFormPaginationProp } from 'types';
 
 export const InformationVerificationDes = {
 	id: 5,

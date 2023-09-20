@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import { PrizeInfoProp } from 'types';
+import { ProviderFormPaginationProp } from 'types';
 import SelectChainDropDown from './components/SelectChainDropDown';
 import SelectTokenDropDown from './components/SelectTokenDropDown';
 import Pagination from '../../PagInation';
@@ -14,7 +14,7 @@ export const PrizeInfoDescription = {
 	description: 'Your prize information',
 };
 
-const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
+const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: ProviderFormPaginationProp) => {
 	const { data, handleChange, handleSelectTokenOrNft, page, canGoStepTwo } = usePrizeOfferFormContext();
 	const [showErrors, setShowErrors] = useState<boolean>(false);
 

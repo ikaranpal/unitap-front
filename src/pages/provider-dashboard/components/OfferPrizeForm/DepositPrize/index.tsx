@@ -1,6 +1,6 @@
 // import ShowPreviewModal from './component/ShowPreviewModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import { PrizeInfoProp } from 'types';
+import { ProviderFormPaginationProp } from 'types';
 import DepositContent from './component/DepositContent';
 import DisplaySelectedTokenOrChain from './component/DisplaySelectedTokenOrChain';
 import Pagination from '../../PagInation';
@@ -30,7 +30,7 @@ const tokenDescription = {
 	icon: 'assets/images/provider-dashboard/tokenSelected.svg',
 };
 
-const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
+const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: ProviderFormPaginationProp) => {
 	const { openShowPreviewModal, data, page } = usePrizeOfferFormContext();
 
 	const handleNextPage = () => {

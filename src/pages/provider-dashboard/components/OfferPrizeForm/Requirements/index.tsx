@@ -1,7 +1,7 @@
 import Icon from 'components/basic/Icon/Icon';
 import RequirementModal from './components/RequirementModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import { PrizeInfoProp } from 'types';
+import { ProviderFormPaginationProp } from 'types';
 import NewAddedRequirements from '../../NewAddedRequirements';
 import Pagination from '../../PagInation';
 import SelectSatisfyDropdown from './components/SelectSatisfyDropdown';
@@ -15,7 +15,7 @@ export const RequirementDescription = {
 	description: 'Add requirements for Enrollment',
 };
 
-const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: PrizeInfoProp) => {
+const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: ProviderFormPaginationProp) => {
 	const { openRequirementModal, page, requirementList } = usePrizeOfferFormContext();
 
 	return (
