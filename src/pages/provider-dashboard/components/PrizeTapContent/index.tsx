@@ -19,6 +19,7 @@ interface PrizeInfo {
 	startTime: string;
 	endTime: string;
 	status: string;
+	imageSrc: string;
 }
 
 interface PrizeCardProp {
@@ -34,8 +35,8 @@ const PrizeCard = ({ prize }: PrizeCardProp) => {
 						<Icon className="mr-2" iconSrc={prize.chainIcon} width="15px" height="14px" />
 						<p className="text-gray100 text-[10px] font-medium">on {prize.chianName}</p>
 					</div>
-					<div className="providePrize__amount" data-amount="1.00 ETH">
-						{prize.amount}
+					<div className="providePrize__amount flex items-center gap-2" data-amount="1.00 ETH">
+						<p>{prize.amount}</p> <Icon iconSrc={prize.imageSrc} width="25.8px" height="39.9px" />
 					</div>
 				</div>
 				<div>
@@ -85,6 +86,7 @@ const PrizeTapContent = () => {
 			startTime: '20 Januray 2023 12:00 PM UTC',
 			endTime: '30 March 2023 12:00 PM UTC',
 			status: 'Ongoing',
+			imageSrc: 'assets/images/provider-dashboard/ethIcon.png',
 		},
 		{
 			chianName: 'Polygon',
@@ -95,6 +97,7 @@ const PrizeTapContent = () => {
 			startTime: '20 Januray 2023 12:00 PM UTC',
 			endTime: '30 March 2023 12:00 PM UTC',
 			status: 'Verified',
+			imageSrc: 'assets/images/provider-dashboard/ethIcon.png',
 		},
 		{
 			chianName: 'Polygon',
@@ -105,6 +108,7 @@ const PrizeTapContent = () => {
 			startTime: '20 Januray 2023 12:00 PM UTC',
 			endTime: '30 March 2023 12:00 PM UTC',
 			status: 'Rejected',
+			imageSrc: 'assets/images/provider-dashboard/ethIcon.png',
 		},
 	];
 
