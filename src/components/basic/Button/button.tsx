@@ -322,7 +322,7 @@ export const PrimaryOutlinedButtonDashboardSubmit = styled(Button)`
 		display: block;
 		z-index: -1;
 		position: absolute;
-		background: #000;
+		background: #0c0c17;
 		inset: 0;
 		margin: 2px;
 		border-radius: 10px;

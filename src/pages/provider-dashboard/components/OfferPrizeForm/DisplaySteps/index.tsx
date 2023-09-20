@@ -24,7 +24,7 @@ const DisplaySteps = ({ page }: DisplayStepsProp) => {
 		<div className="offerPrize-Steps w-full md:max-w-[362px] py-[4em] px-10 flex flex-col gap-8">
 			{displaySteps.map((item, index) => (
 				<div className="flex items-center gap-3 relative text-[12px] text-white" key={index}>
-					<div className="prizeForm-current-step-icon z-[999]">
+					<div className="prizeForm-current-step-icon z-[99]">
 						<Icon iconSrc={index == page ? item.activeIcon : index > page ? item.nextIcon : item.prevIcon} />{' '}
 					</div>
 					<div
