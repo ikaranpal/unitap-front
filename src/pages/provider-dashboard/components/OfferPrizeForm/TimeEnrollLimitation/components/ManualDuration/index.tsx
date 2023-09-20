@@ -41,7 +41,7 @@ const ManualDuration = ({ showErrors }: ManualDurationProp) => {
 							}}
 							className='cursor-pointer flex items-center justify-between rounded-[6px] p-1 px-2 bg-gray40 border border-gray70 w-[90px] text-white text-[12px] font-medium"'
 						>
-							<p>{data.durationUnitTime}</p>
+							<p className="text-[14px]">{data.durationUnitTime}</p>
 							<Icon iconSrc="assets/images/provider-dashboard/arrow-down.svg" width="14px" height="8px" />
 						</div>
 						{showItems && (

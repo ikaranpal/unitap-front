@@ -322,7 +322,7 @@ export const PrimaryOutlinedButtonDashboardSubmit = styled(Button)`
 		display: block;
 		z-index: -1;
 		position: absolute;
-		background: #212130;
+		background: #000;
 		inset: 0;
 		margin: 2px;
 		border-radius: 10px;
@@ -334,7 +334,7 @@ export const ProviderDashboardButtonSubmit = styled(PrimaryOutlinedButtonDashboa
 	// padding: 0px 2.5em;
 	font-weight: 700;
 	height: 44px;
-	// font-size: 14px;
+	font-size: 14px;
 	border-radius: 12px;
 	white-space: nowrap;
 	&:not(:disabled) p {

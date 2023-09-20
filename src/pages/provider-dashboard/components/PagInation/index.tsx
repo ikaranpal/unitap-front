@@ -13,9 +13,9 @@ interface PagInationProp {
 
 const Pagination = ({ handleChangeFormPagePrev, handleNextPage, page, func }: PagInationProp) => {
 	return (
-		<section className="flex flex-col lg:flex-row w-full max-w-[452px] mt-5 items-center ">
+		<section className="flex flex-col lg:flex-row w-full max-w-[452px] items-center ">
 			<div className="flex flex-col flex-col-reverse sm:flex-row w-full gap-5">
-				{page > 1 && (
+				{page >= 1 && (
 					<ProviderDashboardButtonPrevious disabled={!page} className="w-full" onClick={handleChangeFormPagePrev}>
 						Previous
 					</ProviderDashboardButtonPrevious>

@@ -1,9 +1,8 @@
-import Icon from 'components/basic/Icon/Icon';
-import ShowPreviewModal from './component/ShowPreviewModal';
+// import ShowPreviewModal from './component/ShowPreviewModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { PrizeInfoProp } from 'types';
 import DepositContent from './component/DepositContent';
-import DisplaySelectedTokenAndChain from './component/DisplaySelectedTokenAndChain';
+import DisplaySelectedTokenOrChain from './component/DisplaySelectedTokenOrChain';
 import Pagination from '../../PagInation';
 
 export const DepositDescription = {
@@ -40,43 +39,43 @@ const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 	};
 
 	return (
-		<div className="flex flex-col gap-5 w-full max-w-[452px] min-w-[300px]">
-			<section>
-				<div className="text-center">
-					{data.isNft ? (
-						<DepositContent
-							title={nftDescription.title}
-							description={nftDescription.description}
-							icon={nftDescription.icon}
-						/>
-					) : (
-						<DepositContent
-							title={tokenDescription.title}
-							description={tokenDescription.description}
-							icon={tokenDescription.icon}
-						/>
-					)}
-				</div>
-			</section>
+		<div className="flex flex-col w-full justify-center items-center">
+			<div className="flex flex-col min-h-[340px] gap-5 w-full max-w-[452px] min-w-[300px]">
+				<section>
+					<div className="text-center">
+						{data.isNft ? (
+							<DepositContent
+								title={nftDescription.title}
+								description={nftDescription.description}
+								icon={nftDescription.icon}
+							/>
+						) : (
+							<DepositContent
+								title={tokenDescription.title}
+								description={tokenDescription.description}
+								icon={tokenDescription.icon}
+							/>
+						)}
+					</div>
+				</section>
+				{/* 
+				<section
+					className="flex items-center gap-2 text-white font-semibold cursor-pointer max-w-[130px]"
+					onClick={openShowPreviewModal}
+				>
+					<p>Show preview</p>
+					<Icon iconSrc="assets/images/provider-dashboard/ic_link_white.svg" />
+				</section> */}
 
-			<section
-				className="flex items-center gap-2 text-white font-semibold cursor-pointer max-w-[130px]"
-				onClick={openShowPreviewModal}
-			>
-				<p>Show preview</p>
-				<Icon iconSrc="assets/images/provider-dashboard/ic_link_white.svg" />
-			</section>
-
-			<DisplaySelectedTokenAndChain data={data} />
-
+				<DisplaySelectedTokenOrChain data={data} />
+				{/* <ShowPreviewModal /> */}
+			</div>
 			<Pagination
 				handleChangeFormPagePrev={handleChangeFormPagePrev}
 				handleNextPage={handleNextPage}
 				page={page}
 				func="submit"
 			/>
-
-			<ShowPreviewModal />
 		</div>
 	);
 };

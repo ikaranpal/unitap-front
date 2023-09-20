@@ -33,11 +33,13 @@ const TimeEnrollLimitation = ({ handleChangeFormPagePrev, handleChangeFormPageNe
 	};
 
 	return (
-		<div className="flex flex-col gap-4 w-full items-center max-w-[452px]">
-			<StartDateComp showErrors={showErrors} />
-			<SetDuration />
-			{!setDuration ? <EndDateComp showErrors={showErrors} /> : <ManualDuration showErrors={showErrors} />}
-			<PeopleLimitation showErrors={showErrors} />
+		<div className="flex flex-col items-center justify-center w-full">
+			<div className="flex flex-col min-h-[340px] gap-4 w-full items-center max-w-[452px]">
+				<StartDateComp showErrors={showErrors} />
+				<SetDuration />
+				{!setDuration ? <EndDateComp showErrors={showErrors} /> : <ManualDuration showErrors={showErrors} />}
+				<PeopleLimitation showErrors={showErrors} />
+			</div>
 			<Pagination handleChangeFormPagePrev={handleChangeFormPagePrev} handleNextPage={handleNextPage} page={page} />
 		</div>
 	);
