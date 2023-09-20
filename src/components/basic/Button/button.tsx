@@ -432,8 +432,8 @@ export const PrimaryOutlinedButtonDashboardNext = styled(Button)`
 		position: absolute;
 		background: ${DV.colors.darkgreen};
 		inset: 0;
-		margin: 1px;
-		border-radius: 12px;
+		margin: 2px;
+		border-radius: 10px;
 	}
 `;
 

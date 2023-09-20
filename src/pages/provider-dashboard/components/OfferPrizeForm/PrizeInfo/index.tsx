@@ -8,7 +8,7 @@ import Pagination from '../../PagInation';
 export const PrizeInfoDescription = {
 	id: 0,
 	prevIcon: 'assets/images/provider-dashboard/prizerForm-step-diamond-green.svg',
-	activeIcon: 'assets/images/provider-dashboard/prizeForm-step-diamond.svg',
+	activeIcon: 'assets/images/provider-dashboard/prizeForm-step-diamond.png',
 	nextIcon: 'assets/images/provider-dashboard/prizeForm-step-diamond.svg',
 	title: 'Prize info',
 	description: 'Your prize information',
@@ -62,10 +62,10 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 				{showErrors && !data.description && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Required</p>}
 			</section>
 
-			<section className="flex text-gray80 text-[12px] bg-gray40 border border-gray50 rounded-[12px] h-[44px] items-center w-full max-w-[452px] overflow-hidden">
+			<section className="flex text-gray80 text-[12px] bg-gray30 border border-gray50 rounded-[12px] h-[44px] items-center w-full max-w-[452px] overflow-hidden">
 				<div
 					className={`${
-						!data.isNft ? 'text-white font-medium bg-gray30' : ''
+						!data.isNft ? 'text-white font-medium bg-gray40 border-gray50' : ''
 					} flex cursor-pointer items-center justify-center border-r border-r-gray50 w-[50%] h-full `}
 					onClick={() => handleSelectTokenOrNft(false)}
 				>
@@ -73,7 +73,7 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Prize
 				</div>
 				<div
 					className={`${
-						data.isNft ? 'text-white font-medium bg-gray30' : ''
+						data.isNft ? 'text-white font-medium  bg-gray40 border-gray50' : ''
 					} flex cursor-pointer items-center justify-center border-l border-l-gray50 w-[50%] h-full`}
 					onClick={() => handleSelectTokenOrNft(true)}
 				>
