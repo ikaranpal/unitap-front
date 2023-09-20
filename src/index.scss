@@ -692,8 +692,8 @@ input[type='number'] {
 }
 
 
-.select-not {
-	@apply select-none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+.raffle-logo-container {
+	background: linear-gradient(#4BF2A200, #A89FE700, #C990EE, #71969E);
+	border-radius: 14px;
+	z-index: -1;
 }
