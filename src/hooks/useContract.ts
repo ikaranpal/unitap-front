@@ -9,6 +9,7 @@ import UnitapPassBatchSale_ABI from '../abis/UnitapPassBatchSaleMain.json';
 import UnitapPass_ABI from '../abis/UnitapPassMain.json';
 import UnitapEVMTokenTap_ABI from '../abis/UnitapEVMTokenTap.json';
 
+
 import { Providers } from '../constants/providers';
 import { useMemo } from 'react';
 import { UniswapInterfaceMulticall } from '../abis/types/uniswap';
@@ -21,7 +22,8 @@ import {
 import { SupportedChainId } from '../constants/chains';
 import { getUnitapPassChainId } from 'utils/env';
 import PrizeTap_ABI from '../abis/UnitapPrizeTap.json';
-import PrizeTap_721_ABI from '../abis/UnitapPrizeTap.json';
+import PrizeTap_721_ABI from '../abis/UnitapPrizeTap721.json'
+
 
 const { abi: MulticallABI } = MulticallJson;
 
@@ -33,7 +35,6 @@ export function useContract<T extends Contract = Contract>(
 	targetChainId?: SupportedChainId,
 ): T | null {
 	const { provider, account, chainId } = useWeb3React();
-
 	return useMemo(() => {
 		if (!addressOrAddressMap || !ABI || !provider || !chainId) return null;
 		let address: string | undefined;

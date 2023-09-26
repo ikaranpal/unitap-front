@@ -83,6 +83,7 @@ export const DV: designVariable = {
 		gray70: '#30303A',
 		gray80: '#4C4C5C',
 		gray90: '#67677B',
+		gray100: '#B5B5C6',
 		placeholderGray: '#979797',
 		second_gray_light: '#67677B',
 		transparent_black: '#11111c99',

@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers';
+import { ethers } from 'ethers';
 import { useMemo } from 'react';
 import { useTransactionAdder } from 'state/transactions/hooks';
 import { TransactionInfo } from 'state/transactions/types';
@@ -33,6 +34,7 @@ export default function useUnitapPrizeTransaction(
 	calls: Call[],
 	info: TransactionInfo,
 ): { callback: null | (() => Promise<TransactionResponse>) } {
+	// console.log(account, calls);
 	const addTransaction = useTransactionAdder();
 	return useMemo(() => {
 		if (!provider || !account || !chainId) {
@@ -43,6 +45,7 @@ export default function useUnitapPrizeTransaction(
 				const estimatedCalls: CallEstimate[] = await Promise.all(
 					calls.map((call) => {
 						const { address, calldata, value } = call;
+						console.log(address, calldata, value, ethers.utils.parseEther(value || '1'));
 						const tx =
 							!value || isZero(value)
 								? { from: account, to: address, data: calldata }
@@ -50,7 +53,7 @@ export default function useUnitapPrizeTransaction(
 										from: account,
 										to: address,
 										data: calldata,
-										value,
+										value: ethers.utils.parseEther(value),
 								  };
 						return provider
 							.estimateGas(tx)
@@ -80,6 +83,8 @@ export default function useUnitapPrizeTransaction(
 					}),
 				);
 
+				console.log(estimatedCalls, '--------', calls);
+
 				// a successful estimation is a bignumber gas estimate and the next call is also a bignumber gas estimate
 				let bestCallOption: SuccessfulCall | CallEstimate | undefined = estimatedCalls.find(
 					(el, ix, list): el is SuccessfulCall =>
@@ -98,18 +103,33 @@ export default function useUnitapPrizeTransaction(
 				}
 
 				const {
-					call: { address, calldata },
+					call: { address, calldata, value },
 				} = bestCallOption;
 
 				return provider
 					.getSigner()
-					.sendTransaction({
-						from: account,
-						to: address,
-						data: calldata,
-						// let the wallet try if we can't estimate the gas
-						...('gasEstimate' in bestCallOption ? { gasLimit: calculateGasMargin(bestCallOption.gasEstimate) } : {}),
-					})
+					.sendTransaction(
+						value
+							? {
+									from: account,
+									to: address,
+									data: calldata,
+									value: ethers.utils.parseEther(value),
+									// let the wallet try if we can't estimate the gas
+									...('gasEstimate' in bestCallOption
+										? { gasLimit: calculateGasMargin(bestCallOption.gasEstimate) }
+										: {}),
+							  }
+							: {
+									from: account,
+									to: address,
+									data: calldata,
+									// let the wallet try if we can't estimate the gas
+									...('gasEstimate' in bestCallOption
+										? { gasLimit: calculateGasMargin(bestCallOption.gasEstimate) }
+										: {}),
+							  },
+					)
 					.then((response) => {
 						addTransaction(response, info);
 						return response;

@@ -28,10 +28,10 @@ const contactFields: ContactField[] = [
 		require: true,
 	},
 	{
-		name: 'telegram',
-		placeholder: '@yourTelegramHandle',
+		name: 'creatorUrl',
+		placeholder: '@creator url',
 		icon: 'assets/images/provider-dashboard/telegram.svg',
-		require: true,
+		require: false,
 	},
 	{
 		name: 'twitter',

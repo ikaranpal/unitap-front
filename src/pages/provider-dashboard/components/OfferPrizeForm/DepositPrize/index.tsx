@@ -4,6 +4,8 @@ import { ProviderFormPaginationProp } from 'types';
 import DepositContent from './component/DepositContent';
 import DisplaySelectedTokenOrChain from './component/DisplaySelectedTokenOrChain';
 import Pagination from '../../PagInation';
+import CreateRaffleModal from '../../CreateRaffleModal';
+import { useEffect } from 'react';
 
 export const DepositDescription = {
 	id: 4,
@@ -31,13 +33,15 @@ const tokenDescription = {
 };
 
 const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: ProviderFormPaginationProp) => {
-	const { openShowPreviewModal, data, page } = usePrizeOfferFormContext();
+	const { openShowPreviewModal, data, page, openCreteRaffleModal, createRaffleResponse } = usePrizeOfferFormContext();
 
 	const handleNextPage = () => {
-		//TO DO handleSubmit()
-		handleChangeFormPageNext();
+		openCreteRaffleModal();
 	};
 
+	useEffect(() => {
+		createRaffleResponse?.state === 'Done' ? handleChangeFormPageNext() : null;
+	}, [createRaffleResponse]);
 	return (
 		<div className="flex flex-col w-full justify-center items-center">
 			<div className="flex flex-col min-h-[340px] gap-5 w-full max-w-[452px] min-w-[300px]">
@@ -76,6 +80,7 @@ const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 				page={page}
 				func="submit"
 			/>
+			{data.selectedChain && <CreateRaffleModal chain={data.selectedChain} />}
 		</div>
 	);
 };

@@ -3,15 +3,17 @@ import {
 	ProviderDashboardButtonPrevious,
 	ProviderDashboardButtonSubmit,
 } from 'components/basic/Button/button';
+import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 
 interface PagInationProp {
 	handleChangeFormPagePrev: () => void;
 	handleNextPage: () => void;
 	page: number;
-	func?: string | null;
+	func?: string | null | boolean;
 }
 
-const Pagination = ({ handleChangeFormPagePrev, handleNextPage, page, func }: PagInationProp) => {
+const Pagination = ({ handleNextPage, func }: PagInationProp) => {
+	const { checkContractInfo } = usePrizeOfferFormContext();
 	return (
 		<section className="flex flex-col lg:flex-row w-full max-w-[452px] items-center ">
 			<div className="flex flex-col flex-col-reverse sm:flex-row w-full gap-5">
@@ -28,7 +30,9 @@ const Pagination = ({ handleChangeFormPagePrev, handleNextPage, page, func }: Pa
 						<p>Submit Contribution</p>
 					</ProviderDashboardButtonSubmit>
 				) : (
-					<ProviderDashboardButtonNext onClick={handleNextPage}>NEXT</ProviderDashboardButtonNext>
+					<ProviderDashboardButtonNext disabled={checkContractInfo} onClick={handleNextPage}>
+						NEXT
+					</ProviderDashboardButtonNext>
 				)}
 			</div>
 		</section>

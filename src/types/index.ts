@@ -1,3 +1,5 @@
+import { BigNumber } from "ethers";
+
 export type PK = number;
 
 export type Chain = {
@@ -342,15 +344,22 @@ export interface ProviderDashboardFormDataProp {
 	provider: string | null;
 	description: string | null;
 	isNft: boolean;
+	isNativeToken: boolean;
+	tokenAmount: string ;
+	tokenContractAddress: string;
+	nftContractAddress: string | null;
+	nftTokenId: number | null;
 	selectedChain: Chain | null;
 	startTime: string | null;
+	startTimeStamp: string | null;
+	endTimeStamp: string | null;
 	endTime: string | null;
 	limitEnrollPeopleCheck: boolean;
-	maximumNumberEnroll: number | null;
-	email: string | null;
-	twitter: string | null;
-	discord: string | null;
-	telegram: string | null;
+	maximumNumberEnroll: string | null;
+	email: string;
+	twitter: string;
+	discord: string;
+	creatorUrl: string;
 	necessaryInfo: string;
 	satisfy: string;
 	allowListPrivate: boolean;
@@ -358,6 +367,12 @@ export interface ProviderDashboardFormDataProp {
 	numberOfDuration: number;
 	durationUnitTime: string;
 	NftSatisfy: boolean;
+	decimal: number | null;
+	tokenName: string | null,
+	tokenSymbol:  string | null,
+	tokenDecimals:  number | null,
+	userTokenBalance:  string | undefined,
+
 }
 
 

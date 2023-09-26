@@ -9,7 +9,7 @@ const DisplaySelectedTokenOrChain = ({ data }: Prop) => {
 	return (
 		<div className="flex w-full gap-5 text-white h-[48px] text-[14px] mt-2 ">
 			{!data.isNft ? (
-				<div className="cursor-pointer gap-4 w-full flex items-center justify-center bg-gray50 rounded-xl">
+				<div className="cursor-pointer gap-1 w-full flex items-center justify-center bg-gray50 rounded-xl">
 					<Icon iconSrc={data.selectedChain ? data.selectedChain?.logoUrl : ''} height="24px" width="24px" />
 					<p>{data.selectedChain ? data.selectedChain?.chainName : ''}</p>
 				</div>

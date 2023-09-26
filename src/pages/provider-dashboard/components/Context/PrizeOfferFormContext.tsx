@@ -1,8 +1,27 @@
 import { getChainList } from 'api';
-import { createContext, useState, useEffect, PropsWithChildren, useCallback, SetStateAction, useMemo } from 'react';
+import {
+	createContext,
+	useState,
+	useEffect,
+	PropsWithChildren,
+	useCallback,
+	SetStateAction,
+	useMemo,
+	useContext,
+} from 'react';
 import { Chain, ProviderDashboardFormDataProp } from 'types';
-import { checkRegexDateValidation, checkEndDate, checkStartDate } from './utils/checkDateValidation';
-
+import { UserProfileContext } from 'hooks/useUserProfile';
+import { useWeb3React } from '@web3-react/core';
+import {
+	checkRegexDateValidation,
+	checkEndDate,
+	checkStartDate,
+	convertStringToDate,
+} from './utils/checkDateValidation';
+import { useUnitapProviderDashboardCallback } from 'hooks/providerDashboard/useUnitapProviderDashboardCallback';
+import { ZERO_ADDRESS } from 'constants/addresses';
+import { getContract, isAddress } from 'utils';
+import Erc20_ABI from '../../../../abis/Erc20.json';
 export enum RequirementTypes {
 	NFT = 'NFT',
 	BRIGHT_ID = 'BrightId',
@@ -44,15 +63,22 @@ const initData: ProviderDashboardFormDataProp = {
 	provider: '',
 	description: '',
 	isNft: false,
+	isNativeToken: false,
+	tokenAmount: '',
+	tokenContractAddress: '',
+	nftContractAddress: null,
+	nftTokenId: null,
 	selectedChain: null,
 	startTime: '',
+	startTimeStamp: '',
 	endTime: '',
+	endTimeStamp: '',
 	limitEnrollPeopleCheck: false,
 	maximumNumberEnroll: null,
 	email: '',
 	twitter: '',
 	discord: '',
-	telegram: '',
+	creatorUrl: '',
 	necessaryInfo: '',
 	satisfy: 'satisfyAll',
 	allowListPrivate: false,
@@ -60,6 +86,11 @@ const initData: ProviderDashboardFormDataProp = {
 	numberOfDuration: 0,
 	durationUnitTime: 'Month',
 	NftSatisfy: false,
+	decimal: null,
+	tokenName: null,
+	tokenSymbol: null,
+	tokenDecimals: null,
+	userTokenBalance: undefined,
 };
 
 const title = {
@@ -101,6 +132,8 @@ const PrizeOfferFormContext = createContext<{
 	handleSelectLimitEnrollPeopleCheck: () => void;
 	openRequirementModal: () => void;
 	closeRequirementModal: () => void;
+	openCreteRaffleModal: () => void;
+	closeCreateRaffleModal: () => void;
 	openShowPreviewModal: () => void;
 	closeShowPreviewModal: () => void;
 	handleSelectRequirementModal: (title: string) => void;
@@ -133,6 +166,14 @@ const PrizeOfferFormContext = createContext<{
 	requirementList: RequirementProps[];
 	deleteRequirement: (label: string) => void;
 	updateRequirement: (label: string, requirements: RequirementProps) => void;
+	handleSelectNativeToken: (e: boolean) => void;
+	handleCreateRaffle: () => void;
+	isCreateRaffleModalOpen: boolean;
+	createRaffleResponse: any | null;
+	createRaffleLoading: boolean;
+	handleSetCreateRaffleLoading: () => void;
+	checkContractInfo: boolean;
+	isContractAddressValid: boolean;
 }>({
 	page: 0,
 	setPage: () => {},
@@ -148,7 +189,9 @@ const PrizeOfferFormContext = createContext<{
 	handleSelectTokenOrNft: () => {},
 	handleSelectLimitEnrollPeopleCheck: () => {},
 	closeRequirementModal: () => {},
+	closeCreateRaffleModal: () => {},
 	openRequirementModal: () => {},
+	openCreteRaffleModal: () => {},
 	handleSelectRequirementModal: () => {},
 	isModalOpen: false,
 	requirementTitle: null,
@@ -181,6 +224,14 @@ const PrizeOfferFormContext = createContext<{
 	requirementList: [],
 	deleteRequirement: () => {},
 	updateRequirement: () => {},
+	handleSelectNativeToken: () => {},
+	handleCreateRaffle: () => {},
+	isCreateRaffleModalOpen: false,
+	createRaffleResponse: null,
+	createRaffleLoading: false,
+	handleSetCreateRaffleLoading: () => {},
+	checkContractInfo: false,
+	isContractAddressValid: false,
 });
 
 export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -188,6 +239,13 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const insertRequirement = (requirements: RequirementProps) => {
 		setRequirementList([...requirementList, requirements]);
 	};
+
+	const [data, setData] = useState<ProviderDashboardFormDataProp>({
+		...initData,
+	});
+
+	const { userProfile } = useContext(UserProfileContext);
+	const { provider, account } = useWeb3React();
 
 	const updateRequirement = (label: string, requirements: RequirementProps) => {
 		const newItem = requirementList.map((item) => {
@@ -216,14 +274,79 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setSetDuration(e);
 	};
 
-	const canGoStepTwo = () => {
-		const { provider, description, selectedChain } = data;
-		return !!(provider && description && selectedChain);
+	const isAddressValid = (tokenContractAddress: string) => {
+		try {
+			return !!isAddress(tokenContractAddress);
+		} catch {
+			return false;
+		}
 	};
 
-	const canGoStepFive = () => {
-		const { email, telegram } = data;
-		return !!(email && telegram);
+	const isValidContractAddress = async (tokenContractAddress: string) => {
+		try {
+			const res = await provider?.getCode(tokenContractAddress);
+			return res != '0x';
+		} catch {
+			return false;
+		}
+	};
+
+	const checkAddress = async () => {
+		if (data.tokenContractAddress == ZERO_ADDRESS) {
+			setIsContractAddressValid(true);
+			setCheckContractInfo(false);
+			return true;
+		}
+		const res = await isValidContractAddress(data.tokenContractAddress);
+		console.log(res);
+		setIsContractAddressValid(res);
+		!res && setCheckContractInfo(false);
+		res && provider && getTokenContract();
+	};
+
+	const [isContractAddressValid, setIsContractAddressValid] = useState<boolean>(false);
+
+	useEffect(() => {
+		setIsContractAddressValid(isAddressValid(data.tokenContractAddress));
+		if (isAddressValid(data.tokenContractAddress)) {
+			setCheckContractInfo(true);
+			checkAddress();
+		} else {
+			setCheckContractInfo(false);
+		}
+	}, [data.tokenContractAddress]);
+
+	const canGoStepTwo = () => {
+		console.log('canGoStepTwo');
+		const {
+			provider,
+			description,
+			selectedChain,
+			tokenAmount,
+			nftContractAddress,
+			isNativeToken,
+			tokenContractAddress,
+			nftTokenId,
+		} = data;
+
+		const checkToken = () => {
+			if (!data.isNft) {
+				const isValid = tokenContractAddress == ZERO_ADDRESS ? true : isAddressValid(tokenContractAddress);
+				if (!isValid || !tokenAmount || !isContractAddressValid) return false;
+				if (!isNativeToken && !tokenContractAddress) return false;
+				if (isNativeToken && tokenAmount && tokenContractAddress) return true;
+			}
+			return true;
+		};
+
+		const checkNft = () => {
+			if (data.isNft) {
+				return !!(nftContractAddress && nftTokenId);
+			}
+			return true;
+		};
+
+		return !!(provider && description && selectedChain && checkNft() && checkToken());
 	};
 
 	const canGoStepThree = () => {
@@ -281,7 +404,48 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 			errorObject.maximumLimitationMessage = errorMessages.required;
 		}
 
+		endTime &&
+			startTime &&
+			setData({
+				...data,
+				endTimeStamp: String(convertStringToDate(endTime).getTime() / 1000),
+				startTimeStamp: String(convertStringToDate(startTime).getTime() / 1000),
+			});
+
 		return errorObject;
+	};
+
+	const canGoStepFive = () => {
+		return true;
+		const { email } = data;
+		return !!email;
+	};
+
+	const [checkContractInfo, setCheckContractInfo] = useState<boolean>(false);
+
+	const getTokenContract = async () => {
+		if (provider && account) {
+			const erc20Contract = getContract(data.tokenContractAddress, Erc20_ABI, provider);
+
+			if (erc20Contract) {
+				Promise.all([
+					erc20Contract.name(),
+					erc20Contract.symbol(),
+					erc20Contract.decimals(),
+					erc20Contract.balanceOf(account),
+				]).then(([r1, r2, r3, r4]) => {
+					console.log(r1, r2, r3, r4);
+					setData({
+						...data,
+						tokenName: r1,
+						tokenDecimals: r2,
+						tokenSymbol: r3,
+						userTokenBalance: r4?.toString(),
+					});
+					setCheckContractInfo(false);
+				});
+			}
+		}
 	};
 
 	const [searchPhrase, setSearchPhrase] = useState<string>('');
@@ -294,13 +458,30 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-	const [data, setData] = useState<ProviderDashboardFormDataProp>({
-		...initData,
-	});
+	const [isCreateRaffleModalOpen, setIsCreateRaffleModalOpen] = useState<boolean>(false);
 
 	const [chainList, setChainList] = useState<Chain[]>([]);
 
 	const [allowListPrivate, setAllowListPrivate] = useState<boolean>(false);
+
+	const [createRaffleResponse, setCreteRaffleResponse] = useState<any | null>(null);
+	const [createRaffleLoading, setCreateRaffleLoading] = useState<boolean>(false);
+
+	const { callback } = useUnitapProviderDashboardCallback(
+		data.tokenAmount,
+		data.tokenContractAddress,
+		data.maximumNumberEnroll ? data.maximumNumberEnroll : '1000000000000000000',
+		1,
+		data.startTimeStamp,
+		data.endTimeStamp,
+		data.isNft,
+		data.nftContractAddress ? data.nftContractAddress : ZERO_ADDRESS,
+		data.nftTokenId ? String(data.nftTokenId) : '1',
+	);
+
+	const handleSelectNativeToken = (e: boolean) => {
+		setData({ ...data, isNativeToken: !e, tokenContractAddress: !e ? ZERO_ADDRESS : '', decimal: !e ? 18 : null });
+	};
 
 	const filterChainList = useMemo(() => {
 		return chainList.filter((chain) => chain.chainName.toLocaleLowerCase().includes(searchPhrase.toLocaleLowerCase()));
@@ -377,7 +558,8 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const handleSelectLimitEnrollPeopleCheck = () => {
 		setData((prevData) => ({
 			...prevData,
-			['limitEnrollPeopleCheck']: !data.limitEnrollPeopleCheck,
+			limitEnrollPeopleCheck: !data.limitEnrollPeopleCheck,
+			maximumNumberEnroll: '',
 		}));
 	};
 
@@ -385,7 +567,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		const type = e.target.type;
 		const name = e.target.name;
 		const value = type == 'checkbox' ? e.target.checked : e.target.value;
-		if (name == 'provider' && value.length > 10) return;
+		if (name == 'provider' && value.length > 30) return;
 		if (name == 'description' && value.length > 100) return;
 		if (name == 'necessaryInfo' && value.length > 100) return;
 		setData((prevData) => ({
@@ -420,6 +602,14 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setIsModalOpen(false);
 	};
 
+	const closeCreateRaffleModal = () => {
+		setIsCreateRaffleModalOpen(false);
+	};
+
+	const openCreteRaffleModal = () => {
+		setIsCreateRaffleModalOpen(true);
+	};
+
 	const openRequirementModal = () => {
 		setIsModalOpen(true);
 	};
@@ -438,7 +628,56 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setData(initData);
 		setChainName('');
 		setSelectedChain(null);
+		setCreteRaffleResponse(null);
 	};
+
+	const createRaffleWithMetamask = useCallback(async () => {
+		if (!userProfile || !provider || !useUnitapProviderDashboardCallback) return;
+
+		try {
+			setCreateRaffleLoading(true);
+			const response = await callback?.();
+			if (response) {
+				response
+					.wait()
+					.then((res) => {
+						console.log(res);
+						setCreteRaffleResponse({
+							success: true,
+							state: 'Done',
+							txHash: res.transactionHash,
+							message: 'Created raffle successfully.',
+						});
+						setCreateRaffleLoading(false);
+					})
+					.catch(() => {
+						setCreteRaffleResponse({
+							success: false,
+							state: 'Retry',
+							message: 'Something went wrong. Please try again!',
+						});
+						setCreateRaffleLoading(false);
+					});
+			}
+		} catch (e: any) {
+			console.log(e);
+			setCreteRaffleResponse({
+				success: false,
+				state: 'Retry',
+				message: 'Something went wrong. Please try again!',
+			});
+			setCreateRaffleLoading(false);
+		}
+	}, [userProfile, provider, callback]);
+
+	const handleSetCreateRaffleLoading = () => {
+		setCreateRaffleLoading(true);
+	};
+
+	const handleCreateRaffle = useCallback(async () => {
+		if (createRaffleLoading) return;
+		createRaffleWithMetamask();
+	}, [createRaffleLoading, createRaffleWithMetamask]);
 
 	return (
 		<PrizeOfferFormContext.Provider
@@ -486,6 +725,16 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				requirementList,
 				deleteRequirement,
 				updateRequirement,
+				handleSelectNativeToken,
+				handleCreateRaffle,
+				closeCreateRaffleModal,
+				isCreateRaffleModalOpen,
+				openCreteRaffleModal,
+				createRaffleResponse,
+				createRaffleLoading,
+				handleSetCreateRaffleLoading,
+				checkContractInfo,
+				isContractAddressValid,
 			}}
 		>
 			{children}

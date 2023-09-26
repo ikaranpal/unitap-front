@@ -8,13 +8,7 @@ interface Props {
 
 const NewAddedRequirements = ({ label }: Props) => {
 	const currenRequirement = modalItems.find((item) => item.label == label);
-	const {
-		handleSelectRequirementModal,
-		openRequirementModal,
-		deleteRequirement,
-		// handleResetRequirementNft,
-		handleResetRequirementBrightId,
-	} = usePrizeOfferFormContext();
+	const { handleSelectRequirementModal, openRequirementModal, deleteRequirement } = usePrizeOfferFormContext();
 
 	const handleClick = () => {
 		handleSelectRequirementModal(label);
@@ -22,14 +16,7 @@ const NewAddedRequirements = ({ label }: Props) => {
 	};
 
 	const handleDelete = (label: string) => {
-		console.log(label);
 		deleteRequirement(label);
-		// if (label === currenRequirement?.label) {
-		// 	// handleResetRequirementNft();
-		// }
-		// if (label === 'BrightId') {
-		// 	handleResetRequirementBrightId();
-		// }
 	};
 
 	return (

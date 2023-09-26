@@ -1,12 +1,16 @@
+import { useWeb3React } from '@web3-react/core';
 import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import { useState } from 'react';
+import { UserProfileContext } from 'hooks/useUserProfile';
+import { useContext, useState } from 'react';
 
 interface Prop {
 	showErrors: boolean;
 }
 
 const SelectChainDropDown = ({ showErrors }: Prop) => {
+	const { account } = useWeb3React();
+	const { userProfile } = useContext(UserProfileContext);
 	const { data, chainList, selectedChain, chainName, handleSearchChain, filterChainList, handleSelectChain } =
 		usePrizeOfferFormContext();
 
@@ -17,15 +21,20 @@ const SelectChainDropDown = ({ showErrors }: Prop) => {
 
 	const [showItems, setShowItems] = useState(false);
 
+	const handleSetShowItems = () => {
+		!!account && !!userProfile && setShowItems(!showItems);
+	};
+
 	return (
 		<div className="w-full relative">
 			<div className="w-full relative cursor-pointer">
 				<div
-					onClick={() => setShowItems(!showItems)}
+					onClick={handleSetShowItems}
 					className="w-full flex items-center px-5 bg-gray40 border border-gray50 rounded-xl h-[44px]"
 				>
 					{selectedChain?.logoUrl ? <Icon iconSrc={selectedChain.logoUrl} width="24px" /> : null}
 					<input
+						disabled={!account && !userProfile}
 						className="w-full bg-transparent text-white px-2"
 						type="text"
 						value={chainName ? chainName : ''}
