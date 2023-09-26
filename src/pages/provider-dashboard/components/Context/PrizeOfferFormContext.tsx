@@ -22,6 +22,7 @@ import { useUnitapProviderDashboardCallback } from 'hooks/providerDashboard/useU
 import { ZERO_ADDRESS } from 'constants/addresses';
 import { getContract, isAddress } from 'utils';
 import Erc20_ABI from '../../../../abis/Erc20.json';
+import Erc721_ABI from '../../../../abis/Erc721.json';
 export enum RequirementTypes {
 	NFT = 'NFT',
 	BRIGHT_ID = 'BrightId',
@@ -66,7 +67,7 @@ const initData: ProviderDashboardFormDataProp = {
 	isNativeToken: false,
 	tokenAmount: '',
 	tokenContractAddress: '',
-	nftContractAddress: null,
+	nftContractAddress: '',
 	nftTokenId: null,
 	selectedChain: null,
 	startTime: '',
@@ -91,6 +92,10 @@ const initData: ProviderDashboardFormDataProp = {
 	tokenSymbol: null,
 	tokenDecimals: null,
 	userTokenBalance: undefined,
+	nftName: null,
+	nftSymbol: null,
+	userNftBalance: undefined,
+	nftTokenUri: null,
 };
 
 const title = {
@@ -174,6 +179,7 @@ const PrizeOfferFormContext = createContext<{
 	handleSetCreateRaffleLoading: () => void;
 	checkContractInfo: boolean;
 	isContractAddressValid: boolean;
+	isOwnerOfNft: boolean;
 }>({
 	page: 0,
 	setPage: () => {},
@@ -232,6 +238,7 @@ const PrizeOfferFormContext = createContext<{
 	handleSetCreateRaffleLoading: () => {},
 	checkContractInfo: false,
 	isContractAddressValid: false,
+	isOwnerOfNft: false,
 });
 
 export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -292,16 +299,16 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	const checkAddress = async () => {
-		if (data.tokenContractAddress == ZERO_ADDRESS) {
+		if (!data.isNft && data.tokenContractAddress == ZERO_ADDRESS) {
 			setIsContractAddressValid(true);
 			setCheckContractInfo(false);
 			return true;
 		}
-		const res = await isValidContractAddress(data.tokenContractAddress);
+		const res = await isValidContractAddress(data.isNft ? data.nftContractAddress : data.tokenContractAddress);
 		console.log(res);
 		setIsContractAddressValid(res);
 		!res && setCheckContractInfo(false);
-		res && provider && getTokenContract();
+		!data.isNft && res && provider ? getErc20TokenContract() : getErc721NftContract();
 	};
 
 	const [isContractAddressValid, setIsContractAddressValid] = useState<boolean>(false);
@@ -316,8 +323,17 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		}
 	}, [data.tokenContractAddress]);
 
+	useEffect(() => {
+		setIsContractAddressValid(isAddressValid(data.nftContractAddress));
+		if (isAddressValid(data.nftContractAddress) && data.nftTokenId) {
+			setCheckContractInfo(true);
+			checkAddress();
+		} else {
+			setCheckContractInfo(false);
+		}
+	}, [data.nftContractAddress, data.nftTokenId]);
+
 	const canGoStepTwo = () => {
-		console.log('canGoStepTwo');
 		const {
 			provider,
 			description,
@@ -341,7 +357,9 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 		const checkNft = () => {
 			if (data.isNft) {
-				return !!(nftContractAddress && nftTokenId);
+				const isValid = isAddressValid(nftContractAddress);
+				console.log(nftContractAddress, nftTokenId, isValid, isOwnerOfNft);
+				return !!(nftContractAddress && nftTokenId && isValid && isOwnerOfNft);
 			}
 			return true;
 		};
@@ -423,10 +441,16 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const [checkContractInfo, setCheckContractInfo] = useState<boolean>(false);
 
-	const getTokenContract = async () => {
+	const getErc20TokenContract = async () => {
 		if (provider && account) {
 			const erc20Contract = getContract(data.tokenContractAddress, Erc20_ABI, provider);
-
+			try {
+				await erc20Contract.decimals();
+			} catch (e) {
+				setCheckContractInfo(false);
+				setIsContractAddressValid(false);
+				return;
+			}
 			if (erc20Contract) {
 				Promise.all([
 					erc20Contract.name(),
@@ -441,6 +465,47 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 						tokenDecimals: r2,
 						tokenSymbol: r3,
 						userTokenBalance: r4?.toString(),
+					});
+					setCheckContractInfo(false);
+				});
+			}
+		}
+	};
+
+	const [isOwnerOfNft, setIsOwnerOfNft] = useState<boolean>(false);
+
+	const getErc721NftContract = async () => {
+		if (provider && account && data.nftTokenId && data.nftContractAddress) {
+			const erc721Contract = getContract(data.nftContractAddress, Erc721_ABI, provider);
+			console.log(erc721Contract);
+			try {
+				const ownerOf = await erc721Contract.ownerOf(data.nftTokenId);
+				if (ownerOf.toLocaleLowerCase() !== account.toLocaleLowerCase()) {
+					setIsOwnerOfNft(false);
+					setCheckContractInfo(false);
+					return;
+				}
+			} catch {
+				setIsOwnerOfNft(false);
+				setCheckContractInfo(false);
+				setIsContractAddressValid(false);
+				return;
+			}
+			setIsOwnerOfNft(true);
+			if (erc721Contract) {
+				Promise.all([
+					erc721Contract.name(),
+					erc721Contract.symbol(),
+					erc721Contract.balanceOf(account),
+					erc721Contract.tokenURI(data.nftTokenId),
+				]).then(([r1, r2, r3, r4]) => {
+					console.log(r1, r2, r3.toString(), r4);
+					setData({
+						...data,
+						nftName: r1,
+						nftSymbol: r2,
+						userNftBalance: r3?.toString(),
+						nftTokenUri: r4,
 					});
 					setCheckContractInfo(false);
 				});
@@ -480,6 +545,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	);
 
 	const handleSelectNativeToken = (e: boolean) => {
+		if (!data.selectedChain) return;
 		setData({ ...data, isNativeToken: !e, tokenContractAddress: !e ? ZERO_ADDRESS : '', decimal: !e ? 18 : null });
 	};
 
@@ -510,6 +576,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const [requirementTitle, setRequirementTitle] = useState<string | null>(null);
 
 	const handleSelectTokenOrNft = (e: boolean) => {
+		if (!data.selectedChain) return;
 		setData((prevData) => ({
 			...prevData,
 			['isNft']: e,
@@ -735,6 +802,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				handleSetCreateRaffleLoading,
 				checkContractInfo,
 				isContractAddressValid,
+				isOwnerOfNft,
 			}}
 		>
 			{children}

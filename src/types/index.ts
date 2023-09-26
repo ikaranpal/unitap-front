@@ -347,7 +347,7 @@ export interface ProviderDashboardFormDataProp {
 	isNativeToken: boolean;
 	tokenAmount: string ;
 	tokenContractAddress: string;
-	nftContractAddress: string | null;
+	nftContractAddress: string;
 	nftTokenId: number | null;
 	selectedChain: Chain | null;
 	startTime: string | null;
@@ -372,7 +372,10 @@ export interface ProviderDashboardFormDataProp {
 	tokenSymbol:  string | null,
 	tokenDecimals:  number | null,
 	userTokenBalance:  string | undefined,
-
+	nftName: string | null,
+	nftSymbol: string | null,
+	userNftBalance: string | undefined,
+	nftTokenUri: string | null
 }
 
 

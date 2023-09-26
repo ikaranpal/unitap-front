@@ -13,10 +13,11 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 		handleChange,
 		checkContractInfo,
 		isContractAddressValid,
+		isOwnerOfNft,
 	} = usePrizeOfferFormContext();
 
 	return (
-		<div className="w-full">
+		<div className={`${!data.selectedChain ? 'opacity-[.3]' : ''} w-full`}>
 			<section className="flex text-gray80 text-[12px] bg-gray30 border border-gray50 rounded-[12px] h-[44px] items-center w-full max-w-[452px] overflow-hidden">
 				<div
 					className={`${
@@ -74,9 +75,9 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 							/>
 						</div>
 						{!data.isNft && !data.isNativeToken && checkContractInfo && (
-							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Please wait checking...</p>
+							<p className="animate-spin text-error text-[8px] m-0 p-0 absolute left-1">Please wait checking...</p>
 						)}
-						{data.tokenName && (
+						{/* {data.tokenName && (
 							<div className="flex gap-4 mt-2 bg-gray40 rounded-xl text-gray100 p-2 px-4 text-[10px]">
 								<p>Token Name :</p>
 								<p>{data.tokenName}</p>
@@ -87,7 +88,7 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 								<p>Balance :</p>
 								<p>{data.userTokenBalance}</p>
 							</div>
-						)}
+						)} */}
 						{showErrors && !data.isNft && !data.isNativeToken && !data.tokenContractAddress && (
 							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Required</p>
 						)}
@@ -133,6 +134,9 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 						{showErrors && data.isNft && !data.nftContractAddress && (
 							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Required</p>
 						)}
+						{data.isNft && data.nftContractAddress && !isContractAddressValid && (
+							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Wrong address</p>
+						)}
 					</div>
 					<div className="relative">
 						<div className="flex relative gap-2 text-gray80 text-[12px] bg-gray40 border border-gray50 rounded-[12px] h-[44px] pr-4 items-center justify-between overflow-hidden w-full max-w-[452px]">
@@ -151,6 +155,18 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 						{showErrors && data.isNft && !data.nftTokenId && (
 							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Required</p>
 						)}
+						{data.isNft && !data.isNativeToken && checkContractInfo && (
+							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Please wait checking...</p>
+						)}
+						{data.isNft &&
+							!data.isNativeToken &&
+							data.nftContractAddress &&
+							isContractAddressValid &&
+							data.nftTokenId &&
+							!checkContractInfo &&
+							!isOwnerOfNft && (
+								<p className="text-error text-[8px] m-0 p-0 absolute left-1">You are not owner of this Token ID</p>
+							)}
 					</div>
 				</div>
 			)}
