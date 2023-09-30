@@ -348,12 +348,10 @@ export interface ProviderDashboardFormDataProp {
 	tokenAmount: string ;
 	tokenContractAddress: string;
 	nftContractAddress: string;
-	nftTokenId: number | null;
-	selectedChain: Chain | null;
-	startTime: string | null;
-	startTimeStamp: string | null;
-	endTimeStamp: string | null;
-	endTime: string | null;
+	nftTokenId: number
+	selectedChain: any | null;
+	startTimeStamp: any;
+	endTimeStamp: any;
 	limitEnrollPeopleCheck: boolean;
 	maximumNumberEnroll: string | null;
 	email: string;
@@ -370,12 +368,12 @@ export interface ProviderDashboardFormDataProp {
 	decimal: number | null;
 	tokenName: string | null,
 	tokenSymbol:  string | null,
-	tokenDecimals:  number | null,
+	tokenDecimals:  any,
 	userTokenBalance:  string | undefined,
 	nftName: string | null,
 	nftSymbol: string | null,
 	userNftBalance: string | undefined,
-	nftTokenUri: string | null
+	nftTokenUri: string | null,
 }
 
 

@@ -33,6 +33,7 @@ const PeopleLimitation = ({ showErrors }: PeopleLimitationProp) => {
 					placeholder="Maximum Number of enrolling people"
 					className="provider-dashboard-input"
 					name="maximumNumberEnroll"
+					min={0}
 					onChange={handleChange}
 					value={data.maximumNumberEnroll ? data.maximumNumberEnroll : ''}
 					disabled={data.limitEnrollPeopleCheck ? false : true}

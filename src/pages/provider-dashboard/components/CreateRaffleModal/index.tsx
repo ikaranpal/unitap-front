@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Text } from 'components/basic/Text/text.style';
 import Icon from 'components/basic/Icon/Icon';
 import { ClaimButton } from 'components/basic/Button/button';
@@ -16,10 +16,7 @@ const CreateRaffleModalBody = ({ chain }: { chain: Chain }) => {
 	const { account, chainId, connector } = useWeb3React();
 	const walletConnected = !!account;
 
-	const { closeCreateRaffleModal, handleCreateRaffle, createRaffleLoading, createRaffleResponse } =
-		useContext(PrizeOfferFormContext);
-
-	const { openBrightIdModal } = useContext(GlobalContext);
+	const { handleCreateRaffle, createRaffleLoading, createRaffleResponse, data } = useContext(PrizeOfferFormContext);
 
 	const { userProfile } = useContext(UserProfileContext);
 
@@ -58,7 +55,7 @@ const CreateRaffleModalBody = ({ chain }: { chain: Chain }) => {
 				<p>Please don't close your page</p>
 
 				<ClaimButton
-					onClick={() => handleCreateRaffle()}
+					onClick={handleCreateRaffle}
 					width="100%"
 					fontSize="16px"
 					className="!w-full"

@@ -35,7 +35,7 @@ const OfferPrizeForm = () => {
 				{page >= 1 && page < 5 && (
 					<Icon
 						onClick={prevPage}
-						className="absolute text-white text-[20px] top-5 left-5 cursor-pointer"
+						className="absolute text-white text-[20px] top-5 left-5 cursor-pointer select-not"
 						iconSrc="assets/images/provider-dashboard/arrow-left.svg"
 					/>
 				)}

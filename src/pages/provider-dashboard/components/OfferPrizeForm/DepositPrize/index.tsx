@@ -42,6 +42,7 @@ const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 	useEffect(() => {
 		createRaffleResponse?.state === 'Done' ? handleChangeFormPageNext() : null;
 	}, [createRaffleResponse]);
+
 	return (
 		<div className="flex flex-col w-full justify-center items-center">
 			<div className="flex flex-col min-h-[340px] gap-5 w-full max-w-[452px] min-w-[300px]">

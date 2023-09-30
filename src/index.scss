@@ -407,7 +407,7 @@ body {
 
 .content-wrapper-provider-dashboard {
 	@apply px-4 md:px-6 lg:px-0 py-14 max-w-screen-2xl m-auto;
-	@apply flex flex-col w-full max-w-[990px];
+	@apply flex flex-col w-full max-w-[1060px];
 	min-height: calc(100vh - 65px);
 }
 
@@ -703,4 +703,79 @@ input[type='number'] {
 	@apply select-none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+.rmdp-wrapper {
+	background-color: #161623 !important;
+	@apply text-gray100
+}
+
+.sd {
+	color: white;
+	background-color: #10101b;
+}
+
+.rmdp-arrow-container {
+	display: flex !important;
+	align-items: center !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	height: 25px !important;
+	width: 25px !important;
+}
+
+.rmdp-arrow-container:hover {
+	background-color: #16161b !important;
+}
+
+.rmdp-arrow { 
+	margin: 0 !important;
+}
+
+.rmdp-arrow {
+	border-right: 2px solid #b5b5c6 !important;
+	border-bottom: 2px solid #b5b5c6 !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+
+.rmdp-header-values, .rmdp-week > div, .rmdp-day {
+	color: #b5b5c6 !important;
+}
+// .rmdp-arrow 
+
+.rmdp-week {
+	column-gap: 10px !important;
+}
+
+.rmdp-month-picker, .rmdp-year-picker  {
+	background: #1e1e2c !important;
+	border-radius: 16px !important;
+}
+
+.rmdp-selected > span{
+	background:#4ce6a157 !important;
+}
+
+.rmdp-today > span {
+	background: none !important;
+	border: 2px solid #b5b5c6 ;
+}
+
+.rmdp-time-picker input {
+	background: none !important;
+}
+
+.date-picker-input {
+	padding-left: 20px;
+	background: none;
+	color:#b5b5c6;
+	width: 100%;
+	height: 48px;
+}
+
+.date-picker-input::placeholder {
+	color:#b5b5c664;
 }

@@ -21,7 +21,7 @@ interface DisplayStepsProp {
 
 const DisplaySteps = ({ page }: DisplayStepsProp) => {
 	return (
-		<div className="offerPrize-Steps w-full md:max-w-[362px] py-[4em] px-10 flex flex-col gap-8">
+		<div className="offerPrize-Steps w-full md:max-w-[362px] py-[4em] px-10 flex flex-col gap-8 select-not">
 			{displaySteps.map((item, index) => (
 				<div className="flex items-center gap-3 relative text-[12px] text-white" key={index}>
 					<div className="prizeForm-current-step-icon z-[1]">

@@ -24,7 +24,6 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Provi
 	const { userProfile } = useContext(UserProfileContext);
 	const handleNextPage = () => {
 		const res = canGoStepTwo();
-		console.log(res);
 		setShowErrors(!res);
 		res && handleChangeFormPageNext();
 	};
