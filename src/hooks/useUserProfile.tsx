@@ -8,10 +8,10 @@ import {
 } from 'api';
 import { APIErrorsSource, UserProfile } from 'types';
 import useToken from './useToken';
-import { useWeb3React } from '@web3-react/core';
 import { RefreshContext } from 'context/RefreshContext';
 import { AxiosError } from 'axios';
 import { ErrorsContext } from '../context/ErrorsProvider';
+import { useWalletAccount } from 'utils/hook/wallet';
 
 export const UserProfileContext = createContext<{
 	userProfile: UserProfile | null;
@@ -62,7 +62,7 @@ export function UserProfileProvider({ children }: PropsWithChildren<{}>) {
 
 	const { fastRefresh } = useContext(RefreshContext);
 
-	const { account } = useWeb3React();
+	const { address } = useWalletAccount();
 
 	const setNewUserProfile = useCallback((newUserProfile: UserProfile) => {
 		setUserProfile(newUserProfile);
@@ -129,10 +129,10 @@ export function UserProfileProvider({ children }: PropsWithChildren<{}>) {
 	}, [userProfile, userToken, fastRefresh]);
 
 	useEffect(() => {
-		if (account && userToken) {
-			setWalletAPI(userToken, account, 'EVM');
+		if (address && userToken) {
+			setWalletAPI(userToken, address, 'EVM');
 		}
-	}, [account, userToken]);
+	}, [address, userToken]);
 
 	return (
 		<UserProfileContext.Provider

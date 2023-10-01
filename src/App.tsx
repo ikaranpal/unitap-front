@@ -25,7 +25,7 @@ import TokenTapProvider from 'hooks/token-tap/tokenTapContext';
 import ApplicationUpdater from 'state/application/updater';
 import TransactionUpdater from 'state/transactions/updater';
 import UserUpdater from 'state/user/updater';
-import { MulticallUpdater } from 'lib/state/multicall';
+// import { MulticallUpdater } from 'lib/state/multicall';
 import ScrollToTop from 'components/basic/ScrollToTop/scrollToTop';
 import PrizeTap from 'pages/prize-tap';
 import PrizeTapProvider from 'hooks/prizeTap/prizeTapContext';
@@ -34,6 +34,8 @@ import { ErrorsProvider } from './context/ErrorsProvider';
 import 'typeface-jetbrains-mono';
 import Navbar from 'components/common/Navbar/navbar';
 import GlobalContextProvider from 'hooks/useGlobalContext';
+import { WagmiConfig } from 'wagmi';
+import { config } from 'connection/wagmi';
 
 const Fund = React.lazy(() => import('./pages/fund'));
 const Donate = React.lazy(() => import('./pages/donate'));
@@ -44,7 +46,7 @@ function Updaters() {
 			<UserUpdater />
 			<ApplicationUpdater />
 			<TransactionUpdater />
-			<MulticallUpdater />
+			{/* <MulticallUpdater /> */}
 		</>
 	);
 }
@@ -53,7 +55,7 @@ function App() {
 	return (
 		<React.StrictMode>
 			<Provider store={store}>
-				<Web3Provider>
+				<WagmiConfig config={config}>
 					<RefreshContextProvider>
 						<ErrorsProvider>
 							<UserProfileProvider>
@@ -128,7 +130,7 @@ function App() {
 							</UserProfileProvider>
 						</ErrorsProvider>
 					</RefreshContextProvider>
-				</Web3Provider>
+				</WagmiConfig>
 			</Provider>
 		</React.StrictMode>
 	);

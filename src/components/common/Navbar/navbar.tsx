@@ -11,29 +11,32 @@ import { DesktopNav, MobileNav } from './navbar.style';
 import { useNavigate } from 'react-router-dom';
 import RoutePath from 'routes';
 import useWalletActivation from '../../../hooks/useWalletActivation';
-import { useWeb3React } from '@web3-react/core';
 import Icon from 'components/basic/Icon/Icon';
 import NavbarDropdown from './navbarDropdown';
 import { useUnitapPass } from '../../../hooks/pass/useUnitapPass';
 import { GlobalContext } from 'hooks/useGlobalContext';
+import { useWalletAccount, useWalletNetwork } from 'utils/hook/wallet';
+import { useConnect } from 'wagmi';
 
 const Navbar = () => {
 	const { tryActivation } = useWalletActivation();
 
 	const { openBrightIdModal } = useContext(GlobalContext);
-	const { account, chainId } = useWeb3React();
-	const isUserConnected = !!account;
+	const { address, isConnected } = useWalletAccount();
+	const { chain } = useWalletNetwork();
+
+	const isUserConnected = !!isConnected;
 	const { userProfile } = useContext(UserProfileContext);
 
 	const connectBrightButtonLabel = useMemo(() => {
-		if (account) {
+		if (isConnected) {
 			if (userProfile) {
 				return userProfile.isMeetVerified ? 'Connected' : 'Login with BrightID';
 			}
 			return 'Login with BrightID';
 		}
 		return 'Login with BrightID';
-	}, [account, userProfile]);
+	}, [isConnected, userProfile]);
 
 	const navigate = useNavigate();
 
@@ -48,7 +51,7 @@ const Navbar = () => {
 				mrAuto
 				onClick={() => navigate(RoutePath.LANDING)}
 			/>
-			{process.env.REACT_APP_IS_CYPRESS === 'true' && <span data-testid="chain-id">{chainId}</span>}
+			{process.env.REACT_APP_IS_CYPRESS === 'true' && <span data-testid="chain-id">{chain?.id}</span>}
 
 			<DesktopNav>
 				<RenderUnipassCount />
@@ -87,7 +90,7 @@ const Navbar = () => {
 						</BrightPrimaryButton>
 					)}
 					{isUserConnected ? (
-						<LightOutlinedButton>{shortenAddress(account)}</LightOutlinedButton>
+						<LightOutlinedButton>{shortenAddress(address)}</LightOutlinedButton>
 					) : (
 						<GradientOutlinedButton onClick={tryActivation}>Connect Wallet</GradientOutlinedButton>
 					)}
@@ -99,11 +102,11 @@ const Navbar = () => {
 
 const RenderUnipassCount = () => {
 	const { balance: unitapPassBalance } = useUnitapPass();
-	const { account } = useWeb3React();
+	const { isConnected } = useWalletAccount();
 
 	return (
 		<div className="up-count flex p-2 pr-3 mr-3 h-8 bg-gray40 items-center rounded-lg">
-			{account ? (
+			{isConnected ? (
 				<>
 					<Icon
 						alt="unitap-pass"
@@ -145,8 +148,7 @@ const RenderNavbarDropdown = () => {
 };
 
 const RenderNavbarConnectionStatus = () => {
-	const { account } = useWeb3React();
-	const isWalletConnected = !!account;
+	const { isConnected, address } = useWalletAccount();
 
 	const { userProfile } = useContext(UserProfileContext);
 	const isBrightIdConnected = !!userProfile;
@@ -164,7 +166,7 @@ const RenderNavbarConnectionStatus = () => {
 
 			{!isBrightIdConnected ? (
 				<RenderNavbarLoginBrightIdButton />
-			) : !isWalletConnected ? (
+			) : !isConnected ? (
 				!EVMWallet ? (
 					<RenderNavbarConnectWalletButton />
 				) : (
@@ -212,11 +214,13 @@ const RenderNavbarConnectWalletButton = () => {
 
 const RenderNavbarWalletAddress = ({ active }: { active: boolean }) => {
 	const { tryActivation } = useWalletActivation();
+	const { connect, connectors } = useConnect();
 	const { userProfile } = useContext(UserProfileContext);
 	const EVMWallet = userProfile?.wallets.find((wallet) => wallet.walletType === 'EVM');
-	const { account } = useWeb3React();
 
-	let address = account ? account : EVMWallet?.address;
+	const { address: account, isConnected, connector } = useWalletAccount();
+
+	let address = isConnected ? account : EVMWallet?.address;
 
 	if (!address) return null;
 
@@ -225,7 +229,7 @@ const RenderNavbarWalletAddress = ({ active }: { active: boolean }) => {
 			<button
 				data-testid="wallet-address"
 				className={`btn btn--sm btn--address ${active && 'btn--address--active'} !w-36 h-[28px] !py-0 align-baseline`}
-				onClick={tryActivation}
+				onClick={() => connect({ connector: connectors[0] })}
 			>
 				{shortenAddress(address)}
 			</button>
