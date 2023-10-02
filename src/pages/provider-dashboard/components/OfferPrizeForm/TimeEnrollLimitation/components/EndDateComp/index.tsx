@@ -2,7 +2,7 @@ import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-multi-date-picker';
 import TimePicker from 'react-multi-date-picker/plugins/time_picker';
-import 'react-multi-date-picker/styles/backgrounds/bg-dark.css';
+import 'react-multi-date-picker/styles/layouts/mobile.css';
 import styled from 'styled-components';
 import { ErrorProps } from 'types';
 const Input = styled.input``;
@@ -14,8 +14,6 @@ const EndDateComp = ({ showErrors }: EndDateCompProp) => {
 	const { data, handleSetDate, setDuration } = usePrizeOfferFormContext();
 
 	const [endDate, setEndDate] = useState<any>();
-
-	const [minDate, setMinDate] = useState<any>();
 
 	useEffect(() => {
 		if (data.endTimeStamp && !setDuration) {
@@ -58,6 +56,7 @@ const EndDateComp = ({ showErrors }: EndDateCompProp) => {
 					onChange={setEndDate}
 					value={endDate}
 					minDate={Date.now()}
+					className="rmdp-mobile"
 				/>
 			</div>
 			{showErrors && showErrors.endDateStatus == false && (

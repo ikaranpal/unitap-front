@@ -15,7 +15,7 @@ import {
 	useMemo,
 	useContext,
 } from 'react';
-import { Chain, ProviderDashboardFormDataProp } from 'types';
+import { Chain, ProviderDashboardFormDataProp, ConstraintProps, ConstraintParamValues } from 'types';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import { useWeb3React } from '@web3-react/core';
 import { ZERO_ADDRESS } from 'constants/addresses';
@@ -32,44 +32,6 @@ import { useTransactionAdder } from 'state/transactions/hooks';
 import PrizeTap_ABI from '../../../../abis/UnitapPrizeTap.json';
 import PrizeTap721_ABI from '../../../../abis/UnitapPrizeTap721.json';
 import { fromWei, toWei } from 'utils/numbers';
-import { BigNumberish } from 'ethers';
-
-export enum RequirementTypes {
-	NFT = 'NFT',
-	BRIGHT_ID = 'BrightId',
-}
-
-interface ModalItemProps {
-	name: string;
-	label: string;
-	imageSrc: string;
-	isOpen: boolean;
-}
-
-export const modalItems: ModalItemProps[] = [
-	{ name: 'nft', label: 'NFT', imageSrc: 'nft', isOpen: false },
-	{ name: 'brightId', label: 'BrightId', imageSrc: 'brightId', isOpen: false },
-];
-
-interface RequirementType {
-	type: RequirementTypes;
-}
-
-export interface NftRequirementProp extends RequirementType {
-	nftRequirementSatisfy: boolean | null;
-	nftRequirementSelectedChain: Chain | null;
-	nftRequirementNftAddress: string | null;
-	nftRequirementMax: number;
-	nftRequirementMin: number;
-	nftRequirementCustomID: number | null;
-}
-
-export interface BrightIdRequirementProp extends RequirementType {
-	brightIdRequirementSatisfy: boolean | null;
-	brightIdRequirementType: string | null;
-}
-
-type RequirementProps = NftRequirementProp | BrightIdRequirementProp;
 
 const initData: ProviderDashboardFormDataProp = {
 	provider: '',
@@ -140,7 +102,7 @@ const PrizeOfferFormContext = createContext<{
 	page: number;
 	setPage: (page: number) => void;
 	data: ProviderDashboardFormDataProp;
-	requirementModalItems: ModalItemProps[];
+	selectedConstrains: ConstraintProps | null;
 	title: any;
 	canSubmit: boolean;
 	handleChange: (e: any) => void;
@@ -152,9 +114,9 @@ const PrizeOfferFormContext = createContext<{
 	closeCreateRaffleModal: () => void;
 	openShowPreviewModal: () => void;
 	closeShowPreviewModal: () => void;
-	handleSelectRequirementModal: (title: string) => void;
+	handleSelectConstraint: (constraint: ConstraintProps) => void;
 	isModalOpen: boolean;
-	requirementTitle: string | null;
+	selectedConstraintTitle: string | null;
 	handleBackToRequirementModal: () => void;
 	chainList: Chain[];
 	selectedChain: Chain | null;
@@ -177,10 +139,10 @@ const PrizeOfferFormContext = createContext<{
 	selectNewOffer: boolean;
 	handleSelectNewOffer: (select: boolean) => void;
 	handleGOToDashboard: () => void;
-	insertRequirement: (requirements: RequirementProps) => void;
-	requirementList: RequirementProps[];
-	deleteRequirement: (label: string) => void;
-	updateRequirement: (label: string, requirements: RequirementProps) => void;
+	insertRequirement: (requirement: ConstraintParamValues) => void;
+	requirementList: ConstraintParamValues[];
+	deleteRequirement: (id: number) => void;
+	updateRequirement: (id: number, requirements: ConstraintParamValues) => void;
 	handleSelectNativeToken: (e: boolean) => void;
 	handleCreateRaffle: () => void;
 	isCreateRaffleModalOpen: boolean;
@@ -195,15 +157,16 @@ const PrizeOfferFormContext = createContext<{
 	isErc20Approved: boolean;
 	isNftApproved: boolean;
 	approveLoading: boolean;
-	constraintsList: any;
+	constraintsList: ConstraintProps[];
 	handleApproveErc721Token: () => void;
+	canDisplayErrors: boolean;
 }>({
 	page: 0,
 	setPage: () => {},
 	data: {
 		...initData,
 	},
-	requirementModalItems: [...modalItems],
+	selectedConstrains: null,
 	title: {
 		...title,
 	},
@@ -215,9 +178,9 @@ const PrizeOfferFormContext = createContext<{
 	closeCreateRaffleModal: () => {},
 	openRequirementModal: () => {},
 	openCreteRaffleModal: () => {},
-	handleSelectRequirementModal: () => {},
+	handleSelectConstraint: () => {},
 	isModalOpen: false,
-	requirementTitle: null,
+	selectedConstraintTitle: null,
 	handleBackToRequirementModal: () => {},
 	chainList: [],
 	selectedChain: null,
@@ -262,12 +225,15 @@ const PrizeOfferFormContext = createContext<{
 	constraintsList: [],
 	isNftApproved: false,
 	handleApproveErc721Token: () => {},
+	canDisplayErrors: false,
 });
 
 export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
-	const [requirementList, setRequirementList] = useState<RequirementProps[]>([]);
-	const insertRequirement = (requirements: RequirementProps) => {
-		setRequirementList([...requirementList, requirements]);
+	const [requirementList, setRequirementList] = useState<ConstraintParamValues[]>([]);
+
+	const insertRequirement = (requirement: ConstraintParamValues) => {
+		console.log(requirement);
+		setRequirementList([...requirementList, { pk: 2, values: { 1: 'test', 2: 'name', 3: 'lastName' } }]);
 	};
 
 	const [data, setData] = useState<ProviderDashboardFormDataProp>({
@@ -279,11 +245,11 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const addTransaction = useTransactionAdder();
 
 	const { userProfile } = useContext(UserProfileContext);
-	const { provider, account } = useWeb3React();
+	const { provider, account, chainId } = useWeb3React();
 
-	const updateRequirement = (label: string, requirements: RequirementProps) => {
+	const updateRequirement = (id: number, requirements: ConstraintParamValues) => {
 		const newItem = requirementList.map((item) => {
-			if (item.type == label) {
+			if (item.pk == id) {
 				return { ...requirements };
 			}
 			return item;
@@ -292,8 +258,8 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setRequirementList(newItem);
 	};
 
-	const deleteRequirement = (label: string) => {
-		setRequirementList((prev) => prev.filter((item) => item.type != label));
+	const deleteRequirement = (id: number) => {
+		setRequirementList((prev) => prev.filter((item) => item.pk != id));
 	};
 
 	const [selectNewOffer, setSelectNewOffer] = useState<boolean>(false);
@@ -340,26 +306,40 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const [isContractAddressValid, setIsContractAddressValid] = useState<boolean>(false);
 
-	useEffect(() => {
-		setIsContractAddressValid(isAddressValid(data.tokenContractAddress));
-		if (isAddressValid(data.tokenContractAddress) && data.tokenAmount) {
-			setCheckContractInfo(true);
-			checkAddress();
-		} else {
-			setCheckContractInfo(false);
-		}
-	}, [data.tokenContractAddress, data.tokenAmount]);
+	const [canDisplayErrors, setCanDisplayErrors] = useState<boolean>(false);
 
 	useEffect(() => {
+		setIsContractAddressValid(isAddressValid(data.tokenContractAddress));
+		setCanDisplayErrors(false);
+		const handler = setTimeout(() => {
+			if (isAddressValid(data.tokenContractAddress) && data.tokenAmount) {
+				setCheckContractInfo(true);
+				setCanDisplayErrors(true);
+				checkAddress();
+			} else {
+				setCheckContractInfo(false);
+			}
+		}, 1000);
+
+		return () => clearTimeout(handler);
+	}, [data.tokenContractAddress, data.tokenAmount, chainId, account]);
+
+	useEffect(() => {
+		setCanDisplayErrors(false);
+
 		setIsNftApproved(false);
 		setIsContractAddressValid(isAddressValid(data.nftContractAddress));
-		if (isAddressValid(data.nftContractAddress) && data.nftTokenId) {
-			setCheckContractInfo(true);
-			checkAddress();
-		} else {
-			setCheckContractInfo(false);
-		}
-	}, [data.nftContractAddress, data.nftTokenId]);
+		const handler = setTimeout(() => {
+			if (isAddressValid(data.nftContractAddress) && data.nftTokenId) {
+				setCheckContractInfo(true);
+				setCanDisplayErrors(true);
+				checkAddress();
+			} else {
+				setCheckContractInfo(false);
+			}
+		}, 1000);
+		return () => clearTimeout(handler);
+	}, [data.nftContractAddress, data.nftTokenId, chainId, account]);
 
 	const canGoStepTwo = () => {
 		const {
@@ -526,6 +506,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	const [isNftApproved, setIsNftApproved] = useState<boolean>(false);
+
 	const getErc721NftContract = async () => {
 		if (provider && account && data.nftTokenId && data.nftContractAddress) {
 			const erc721Contract = getContract(data.nftContractAddress, Erc721_ABI, provider);
@@ -536,10 +517,15 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 					setCheckContractInfo(false);
 					return;
 				}
-			} catch {
-				setIsOwnerOfNft(false);
-				setCheckContractInfo(false);
-				setIsContractAddressValid(false);
+			} catch (e: any) {
+				if (!e.message.includes('ERC721: invalid token ID')) {
+					setIsOwnerOfNft(false);
+					setCheckContractInfo(false);
+					setIsContractAddressValid(false);
+				} else {
+					setIsOwnerOfNft(false);
+					setCheckContractInfo(false);
+				}
 				return;
 			}
 			setIsOwnerOfNft(true);
@@ -591,9 +577,9 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setAllowListPrivate(!allowListPrivate);
 	};
 
-	const [requirementModalItems, setRequirementModalItems] = useState<ModalItemProps[]>(modalItems);
+	const [selectedConstrains, setSelectedConstrains] = useState<ConstraintProps | null>(null);
 
-	const [requirementTitle, setRequirementTitle] = useState<string | null>(null);
+	const [selectedConstraintTitle, setSelectedConstraintTitle] = useState<string | null>(null);
 
 	const [userRaffle, setUserRaffles] = useState([]);
 
@@ -640,7 +626,8 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		}));
 	};
 
-	const [constraintsList, setConstraintsList] = useState([]);
+	const [constraintsList, setConstraintsList] = useState<ConstraintProps[]>([]);
+
 	useEffect(() => {
 		if (selectedChain) {
 			setChainName(selectedChain?.chainName);
@@ -652,6 +639,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	}, [selectedChain]);
 
 	const handleGetConstraints = async () => {
+		if (constraintsList.length != 0) return;
 		const res = await getConstraintsApi();
 		setConstraintsList(res);
 	};
@@ -708,20 +696,14 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		}
 	}, [setDuration, data.durationUnitTime, data.numberOfDuration, setData]);
 
-	const handleSelectRequirementModal = (title: string) => {
-		setRequirementTitle(title);
-		const newItem = modalItems.map((item) => {
-			if (item.label == title) {
-				return { ...item, isOpen: true };
-			}
-			return item;
-		});
-		setRequirementModalItems(newItem);
+	const handleSelectConstraint = (constraint: ConstraintProps) => {
+		setSelectedConstraintTitle(constraint.title);
+		setSelectedConstrains(constraint);
 	};
 
 	const handleBackToRequirementModal = () => {
-		setRequirementModalItems([...modalItems]);
-		setRequirementTitle(null);
+		setSelectedConstrains(null);
+		setSelectedConstraintTitle(null);
 	};
 
 	const { ...requiredInputs } = data;
@@ -729,8 +711,8 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const canSubmit = [...Object.values(requiredInputs)].every(Boolean) && page === Object.keys(title).length - 1;
 
 	const closeRequirementModal = () => {
-		setRequirementModalItems([...modalItems]);
-		setRequirementTitle(null);
+		setSelectedConstrains(null);
+		setSelectedConstraintTitle(null);
 		setIsModalOpen(false);
 	};
 
@@ -1030,9 +1012,9 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				openRequirementModal,
 				closeRequirementModal,
 				isModalOpen,
-				requirementModalItems,
-				handleSelectRequirementModal,
-				requirementTitle,
+				selectedConstrains,
+				handleSelectConstraint,
+				selectedConstraintTitle,
 				handleBackToRequirementModal,
 				chainList,
 				selectedChain,
@@ -1079,6 +1061,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				constraintsList,
 				isNftApproved,
 				handleApproveErc721Token,
+				canDisplayErrors,
 			}}
 		>
 			{children}

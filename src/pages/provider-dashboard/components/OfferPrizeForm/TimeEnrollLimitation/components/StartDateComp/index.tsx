@@ -58,6 +58,7 @@ const StartDateComp = ({ showErrors }: StartDateCompProp) => {
 					onChange={setStartDate}
 					value={startDate}
 					minDate={Date.now()}
+					className="rmdp-mobile"
 				/>
 			</div>
 			{showErrors && showErrors.startDateStatus == false && (

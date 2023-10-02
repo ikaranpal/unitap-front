@@ -1,20 +1,18 @@
 import { useMemo } from 'react';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import Modal from 'components/common/Modal/modal';
-import RenderNftRequirement from '../RenderNftRequirement';
-import RenderBrightIdRequirement from '../RenderBrightIdRequirement';
 import RenderInitialBody from '../RenderInitialBody';
-
-const getModal = (index: number) => [RenderNftRequirement, RenderBrightIdRequirement][index];
+import ConstraintModal from '../ConstraintModal';
 
 const RequirementModalBody = () => {
-	const { requirementModalItems } = usePrizeOfferFormContext();
+	const { selectedConstrains } = usePrizeOfferFormContext();
 
 	const getRequirementModalBody = () => {
-		const index = requirementModalItems.findIndex((item) => item.isOpen);
-		if (index >= 0) {
-			const ReqModal = getModal(index);
-			return <ReqModal label={requirementModalItems[index].label} />;
+		if (selectedConstrains) {
+			// const modal = selectedConstrains.title;
+			// if (index >= 0) {
+			// const ReqModal = getModal(selectedConstrains);
+			return <ConstraintModal constraint={selectedConstrains} />;
 		} else {
 			return <RenderInitialBody />;
 		}
@@ -23,7 +21,7 @@ const RequirementModalBody = () => {
 };
 
 const RequirementModal = () => {
-	const { closeRequirementModal, isModalOpen, requirementTitle } = usePrizeOfferFormContext();
+	const { closeRequirementModal, isModalOpen, selectedConstraintTitle } = usePrizeOfferFormContext();
 
 	const isOpen = useMemo(() => {
 		return isModalOpen;
@@ -32,7 +30,7 @@ const RequirementModal = () => {
 	return (
 		<>
 			<Modal
-				title={`${requirementTitle ? 'Add ' + requirementTitle + ' requirement' : 'Add requirement'}`}
+				title={`${selectedConstraintTitle ? 'Add ' + selectedConstraintTitle + ' requirement' : 'Add requirement'}`}
 				size="small"
 				closeModalHandler={closeRequirementModal}
 				isOpen={isOpen}

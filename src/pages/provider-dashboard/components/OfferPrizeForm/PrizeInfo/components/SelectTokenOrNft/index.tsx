@@ -20,6 +20,7 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 		handleApproveErc721Token,
 		approveLoading,
 		isNftApproved,
+		canDisplayErrors,
 	} = usePrizeOfferFormContext();
 
 	return (
@@ -118,7 +119,8 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 					data.tokenContractAddress &&
 					data.tokenAmount &&
 					data.tokenDecimals &&
-					isContractAddressValid ? (
+					isContractAddressValid &&
+					canDisplayErrors ? (
 						<ProviderDashboardButtonNext onClick={handleApproveToken}>
 							{approveLoading ? 'Approving...' : 'Approve'}
 						</ProviderDashboardButtonNext>
@@ -132,7 +134,7 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 								<p>NFT Contract address</p>
 							</div>
 							<input
-								disabled={!data.selectedChain}
+								disabled={!data.selectedChain || checkContractInfo}
 								onChange={handleChange}
 								name="nftContractAddress"
 								value={data.nftContractAddress ? data.nftContractAddress : ''}
@@ -165,10 +167,11 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 						{showErrors && data.isNft && !data.nftTokenId && (
 							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Required</p>
 						)}
-						{data.isNft && checkContractInfo && (
+						{checkContractInfo && canDisplayErrors && (
 							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Please wait checking...</p>
 						)}
 						{data.nftContractAddress &&
+						canDisplayErrors &&
 						isContractAddressValid &&
 						data.nftTokenId &&
 						!checkContractInfo &&
@@ -178,6 +181,7 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 					</div>
 
 					{!isNftApproved &&
+					canDisplayErrors &&
 					!checkContractInfo &&
 					data.nftContractAddress &&
 					data.nftTokenId &&

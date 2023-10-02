@@ -1,30 +1,33 @@
 import Icon from 'components/basic/Icon/Icon';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import { modalItems } from '../Context/PrizeOfferFormContext';
+
+import { ConstraintParamValues, ConstraintProps } from 'types';
 
 interface Props {
-	label: string;
+	requirement: ConstraintParamValues;
 }
 
-const NewAddedRequirements = ({ label }: Props) => {
-	const currenRequirement = modalItems.find((item) => item.label == label);
-	const { handleSelectRequirementModal, openRequirementModal, deleteRequirement } = usePrizeOfferFormContext();
+const NewAddedConstraint = ({ requirement }: Props) => {
+	const { handleSelectConstraint, openRequirementModal, deleteRequirement, constraintsList } =
+		usePrizeOfferFormContext();
+
+	const constraint = constraintsList.filter((item) => item.pk == requirement.pk)[0];
 
 	const handleClick = () => {
-		handleSelectRequirementModal(label);
+		handleSelectConstraint(constraint);
 		openRequirementModal();
 	};
 
-	const handleDelete = (label: string) => {
-		deleteRequirement(label);
+	const handleDelete = (id: number) => {
+		deleteRequirement(id);
 	};
 
 	return (
 		<div className="m-0 p-0">
 			<div className="bg-gray50 h-[44px] rounded-xl flex justify-between  items-center px-4 border-2 border-gray60">
 				<div className="flex items-center gap-2">
-					<Icon iconSrc={`assets/images/provider-dashboard/modalIcon/${currenRequirement?.imageSrc}.svg`} />
-					<p>{label} requirement</p>
+					<Icon iconSrc={constraint.imageSrc} />
+					<p>{constraint.title} requirement</p>
 				</div>
 				<div className="flex items-center gap-3">
 					<div
@@ -34,7 +37,7 @@ const NewAddedRequirements = ({ label }: Props) => {
 						Edit
 					</div>
 					<Icon
-						onClick={() => handleDelete(label)}
+						onClick={() => handleDelete(constraint.pk)}
 						className="cursor-pointer"
 						iconSrc="assets/images/modal/exit.svg"
 						height="14px"
@@ -47,4 +50,4 @@ const NewAddedRequirements = ({ label }: Props) => {
 	);
 };
 
-export default NewAddedRequirements;
+export default NewAddedConstraint;

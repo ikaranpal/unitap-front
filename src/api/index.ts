@@ -9,6 +9,7 @@ import {
 	Prize,
 	EnrollmentSignature,
 	EnrollmentRaffleApi,
+	ConstraintProps,
 } from 'types';
 import axios from 'axios';
 import { getLastMonday } from 'utils';
@@ -275,7 +276,7 @@ export async function updateCreateRaffleTx(token: string, raffleID: number | und
 }
 
 export async function  getConstraintsApi () {
-	const response = await axiosInstance.get(`/api/prizetap/get-constraints/`);
+	const response = await axiosInstance.get<ConstraintProps[]>(`/api/prizetap/get-constraints/`);
 	console.log(response.data)
 	return response.data;
 }
@@ -291,7 +292,6 @@ export async function createRaffleApi(token: string, raffleData: any) {
 			}
 		}
 	)
-	console.log(response.data)
 	return response.data
 }
 

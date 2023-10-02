@@ -2,7 +2,7 @@ import Icon from 'components/basic/Icon/Icon';
 import RequirementModal from './components/RequirementModal';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { ProviderFormPaginationProp } from 'types';
-import NewAddedRequirements from '../../NewAddedRequirements';
+import NewAddedConstraint from '../../NewAddedConstraint';
 import Pagination from '../../PagInation';
 import SelectSatisfyDropdown from './components/SelectSatisfyDropdown';
 
@@ -25,7 +25,7 @@ const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 
 				<SelectSatisfyDropdown />
 				{requirementList.map((requirement, key) => (
-					<NewAddedRequirements key={key} label={requirement.type} />
+					<NewAddedConstraint key={key} requirement={requirement} />
 				))}
 				<div
 					onClick={openRequirementModal}

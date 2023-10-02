@@ -718,18 +718,14 @@ input[type='number'] {
 .rmdp-arrow-container {
 	display: flex !important;
 	align-items: center !important;
-	margin: 0 !important;
-	padding: 0 !important;
 	height: 25px !important;
 	width: 25px !important;
 }
 
+
+
 .rmdp-arrow-container:hover {
 	background-color: #16161b !important;
-}
-
-.rmdp-arrow { 
-	margin: 0 !important;
 }
 
 .rmdp-arrow {
@@ -738,6 +734,7 @@ input[type='number'] {
 	display: flex !important;
 	align-items: center !important;
 	justify-content: center !important;
+	margin: 0 !important;
 }
 
 
@@ -768,6 +765,10 @@ input[type='number'] {
 	background: none !important;
 }
 
+.rmdp-time-picker {
+	margin: 5px !important
+}
+
 .date-picker-input {
 	padding-left: 20px;
 	background: none;
@@ -778,4 +779,8 @@ input[type='number'] {
 
 .date-picker-input::placeholder {
 	color:#b5b5c664;
+}
+
+.rmdp-action-buttons > button{
+	color:#b5b5c6 !important;
 }

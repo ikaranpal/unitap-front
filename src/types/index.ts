@@ -387,3 +387,23 @@ export type ErrorProps = {
 	maximumLimitationStatus: null | boolean;
 	maximumLimitationMessage: null | string;
 }
+
+export interface ConstraintParams {
+	id:number;
+}
+
+export interface ConstraintProps {
+	description: string | null;
+	name: string;
+	params: ConstraintParams[];
+	pk: number;
+	response: string | null;
+	title: string;
+	type: string;
+	imageSrc: string;
+}
+
+export interface ConstraintParamValues {
+	pk: number;
+	values: Record<number, string | number | boolean>;
+}
