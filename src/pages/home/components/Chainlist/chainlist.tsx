@@ -6,12 +6,12 @@ import { ClaimContext } from 'hooks/useChainList';
 import { formatChainBalance, numberWithCommas } from 'utils/numbers';
 import { getChainIcon } from '../../../../utils';
 import useSelectChain from '../../../../hooks/useSelectChain';
-import { useWeb3React } from '@web3-react/core';
 import { Chain, ChainType, ClaimReceipt, ClaimReceiptState, Network, PK } from 'types';
 import { useLocation } from 'react-router-dom';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import EmptyChainListCard from './EmptyChainListCard';
 import { FundContext } from 'pages/home/context/fundContext';
+import { useWalletAccount } from 'utils/hook/wallet';
 
 const AddMetamaskButton = styled(SecondaryButton)`
 	display: flex;
@@ -99,13 +99,11 @@ const ChainCard = ({ chain, isHighlighted }: ChainCardProps) => {
 	const { openClaimModal } = useContext(ClaimContext);
 	const { setChainId, setIsOpen } = useContext(FundContext);
 	const addAndSwitchToChain = useSelectChain();
-	const { account } = useWeb3React();
-	const active = !!account;
+	const { isConnected } = useWalletAccount();
 
 	const handleRefillButtonClicked = (chainId: PK) => {
 		setChainId(chainId);
 		setIsOpen(true);
-		// navigate(RoutePath.FUND + `?chain=${chainId}`);
 	};
 
 	const { activeClaimHistory } = useContext(ClaimContext);
@@ -143,7 +141,7 @@ const ChainCard = ({ chain, isHighlighted }: ChainCardProps) => {
 						<div className="w-full sm:w-auto items-center sm:items-end">
 							{chain.chainType === 'EVM' && (
 								<AddMetamaskButton
-									disabled={!active}
+									disabled={!isConnected}
 									data-testid={`chain-switch-${chain.pk}`}
 									onClick={() => addAndSwitchToChain(chain)}
 									className="font-medium hover:cursor-pointer mx-auto sm:mr-4 text-sm !w-[220px] sm:!w-auto"

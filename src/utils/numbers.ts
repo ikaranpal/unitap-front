@@ -33,7 +33,7 @@ export const formatSolanaBalance = (amount: number) => {
 };
 
 export const parseToLamports = (amount: number | string) => {
-	return Number(amount) * 1e9;
+	return BigInt(amount) * BigInt(1e9);
 };
 
 export const formatChainBalance = (amount: number, chainSymbol: string) => {

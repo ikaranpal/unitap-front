@@ -1,6 +1,6 @@
 import useIsWindowVisible from 'hooks/useIsWindowVisible';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useWalletAccount, useWalletNetwork } from 'utils/hook/wallet';
+import { useWalletAccount, useWalletNetwork, useWalletProvider } from 'utils/hook/wallet';
 
 const MISSING_PROVIDER = Symbol();
 const BlockNumberContext = createContext<
@@ -26,8 +26,9 @@ export default function useBlockNumber(): number | undefined {
 }
 
 export function BlockNumberProvider({ children }: { children: ReactNode }) {
-	const { connector } = useWalletAccount();
 	const { chain } = useWalletNetwork();
+
+	const provider = useWalletProvider();
 
 	const [{ chainId, block }, setChainBlock] = useState<{ chainId?: number; block?: number }>({
 		chainId: chain?.id,
@@ -51,33 +52,24 @@ export function BlockNumberProvider({ children }: { children: ReactNode }) {
 	useEffect(() => {
 		let stale = false;
 
-		let provider: any;
+		if (provider && chain?.id && windowVisible) {
+			// If chainId hasn't changed, don't clear the block. This prevents re-fetching still valid data.
 
-		connector?.getProvider().then((res) => {
-			provider = res;
+			setChainBlock((chainBlock) => (chainBlock.chainId === chain?.id ? chainBlock : { chainId: chain?.id }));
 
-			if (provider && chain?.id && windowVisible) {
-				// If chainId hasn't changed, don't clear the block. This prevents re-fetching still valid data.
-				setChainBlock((chainBlock) => (chainBlock.chainId === chain?.id ? chainBlock : { chainId: chain?.id }));
-
-				provider
-					.getBlockNumber()
-					.then((block: any) => {
-						if (!stale) onBlock(block);
-					})
-					.catch((error: any) => {
-						console.error(`Failed to get block number for chainId ${chain.id}`, error);
-					});
-
-				provider.on('block', onBlock);
-			}
-		});
-
+			provider
+				.getBlockNumber()
+				.then((block: any) => {
+					if (!stale) onBlock(block);
+				})
+				.catch((error: any) => {
+					console.error(`Failed to get block number for chainId ${chain.id}`, error);
+				});
+		}
 		return () => {
 			stale = true;
-			provider?.removeListener('block', onBlock);
 		};
-	}, [chain?.id, connector, onBlock, setChainBlock, windowVisible]);
+	}, [chain?.id, provider, onBlock, setChainBlock, windowVisible]);
 
 	const value = useMemo(
 		() => ({

@@ -19,10 +19,10 @@ import ClaimNotAvailable from '../ClaimNotRemaining';
 // @ts-ignore
 import ModelViewer from '@metamask/logo';
 import { GlobalContext } from 'hooks/useGlobalContext';
+import { useWalletAccount } from 'utils/hook/wallet';
 
 const ClaimModalBody = ({ chain }: { chain: Chain }) => {
-	const { account } = useWeb3React();
-	const walletConnected = !!account;
+	const { address, isConnected } = useWalletAccount();
 
 	const metamaskLogo = useRef<HTMLDivElement>(null);
 
@@ -196,7 +196,7 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 				<Text width="100%" fontSize="14">
 					Wallet Address
 				</Text>
-				<WalletAddress fontSize="12">{walletConnected ? shortenAddress(account) : ''}</WalletAddress>
+				<WalletAddress fontSize="12">{isConnected ? shortenAddress(address) : ''}</WalletAddress>
 				<ClaimButton
 					onClick={() => claim(chain.pk)}
 					width="100%"
@@ -335,7 +335,7 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 
 		if (!userProfile.isMeetVerified) return renderBrightNotVerifiedBody();
 
-		if (!walletConnected) return renderWalletNotConnectedBody();
+		if (!isConnected) return renderWalletNotConnectedBody();
 
 		if (!activeClaimReceipt) {
 			if (remainingClaims && remainingClaims > 0) return renderInitialBody();

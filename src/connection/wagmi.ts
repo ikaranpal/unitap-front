@@ -1,10 +1,35 @@
-import { configureChains, mainnet, createConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
+import { configureChains, createConfig } from 'wagmi';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import {
+	avalanche,
+	bsc,
+	polygon,
+	mainnet,
+	polygonMumbai,
+	fantom,
+	holesky,
+	goerli,
+	bscTestnet,
+	sepolia,
+	gnosis,
+} from '@wagmi/core/chains';
 
-const { chains, publicClient, webSocketPublicClient } = configureChains([mainnet], [publicProvider()]);
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+	[mainnet, avalanche, bsc, polygon, polygon, fantom, holesky, goerli, polygonMumbai, bscTestnet, sepolia, gnosis],
+	[
+		jsonRpcProvider({
+			rpc(chain) {
+				return {
+					webSocket: chain.rpcUrls.public.webSocket ? chain.rpcUrls.public.webSocket[0] : undefined,
+					http: chain.rpcUrls.public.http[0],
+				};
+			},
+		}),
+	],
+);
 
 export const config = createConfig({
 	autoConnect: true,
@@ -27,4 +52,7 @@ export const config = createConfig({
 			},
 		}),
 	],
+	logger: {
+		warn: (message) => console.warn(message),
+	},
 });

@@ -9,22 +9,41 @@ import { getChainIcon } from 'utils';
 import { calculateGasMargin, USER_DENIED_REQUEST_ERROR_CODE } from 'utils/web3';
 import useWalletActivation from 'hooks/useWalletActivation';
 import useSelectChain from 'hooks/useSelectChain';
-import { useWeb3React } from '@web3-react/core';
 import { fromWei, parseToLamports } from 'utils/numbers';
 import FundTransactionModal from 'pages/fund/components/FundTransactionModal/FundTransactionModal';
 import SelectChainModal from 'pages/fund/components/SelectChainModal/selectChainModal';
 import { submitDonationTxHash } from 'api';
 import { UserProfileContext } from 'hooks/useUserProfile';
+import {
+	useWalletAccount,
+	useWalletBalance,
+	useWalletNetwork,
+	useWalletProvider,
+	useWalletSigner,
+} from 'utils/hook/wallet';
 
 const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
 	const { chainList: originalChainList } = useContext(ClaimContext);
 	const { userToken } = useContext(UserProfileContext);
-	const { chainId, provider, account } = useWeb3React();
-	const active = !!account;
+
+	const { isConnected, address } = useWalletAccount();
+
+	const provider = useWalletProvider();
+
+	const signer = useWalletSigner();
+
+	const { chain } = useWalletNetwork();
+
+	const chainId = chain?.id;
+
 	const { tryActivation } = useWalletActivation();
 
 	const [selectedChain, setSelectedChain] = useState<Chain | null>(null);
-	const [balance, setBalance] = useState<string | number>('');
+
+	const balance = useWalletBalance({
+		address,
+		chainId: Number(selectedChain?.chainId),
+	});
 
 	const chainList = useMemo(() => {
 		return originalChainList.filter((chain) => chain.chainType !== ChainType.SOLANA);
@@ -51,9 +70,9 @@ const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
 	const [fundTransactionError, setFundTransactionError] = useState('');
 	const [txHash, setTxHash] = useState('');
 	const isRightChain = useMemo(() => {
-		if (!active || !chainId || !selectedChain) return false;
+		if (!isConnected || !chainId || !selectedChain) return false;
 		return chainId === Number(selectedChain.chainId);
-	}, [selectedChain, active, chainId]);
+	}, [selectedChain, isConnected, chainId]);
 
 	const handleTransactionError = useCallback((error: any) => {
 		if (error?.code === USER_DENIED_REQUEST_ERROR_CODE) return;
@@ -73,16 +92,16 @@ const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
 
 	const loading = useMemo(() => {
 		if (submittingFundTransaction) return true;
-		if (!active) return false;
-		return !chainId || !selectedChain || !account;
-	}, [account, active, chainId, selectedChain, submittingFundTransaction]);
+		if (!isConnected) return false;
+		return !chainId || !selectedChain || !address;
+	}, [address, isConnected, chainId, selectedChain, submittingFundTransaction]);
 
 	const handleSendFunds = useCallback(async () => {
-		if (!active) {
+		if (!isConnected) {
 			await tryActivation();
 			return;
 		}
-		if (!chainId || !selectedChain || !account || loading) return;
+		if (!chainId || !selectedChain || !address || loading) return;
 		if (!isRightChain) {
 			await addAndSwitchToChain(selectedChain);
 			return;
@@ -97,37 +116,44 @@ const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
 		const chainPk = selectedChain.pk;
 
 		let tx = {
-			from: account,
-			to: selectedChain.fundManagerAddress,
-			value: selectedChain.symbol === 'SOL' ? parseToLamports(fundAmount) : parseEther(fundAmount),
+			to: selectedChain.fundManagerAddress as any,
+			value: selectedChain.symbol === 'SOL' ? parseToLamports(fundAmount) : parseEther(fundAmount).toBigInt(),
 		};
 
 		setSubmittingFundTransaction(true);
 
-		const estimatedGas = await provider.estimateGas(tx).catch((err: any) => {
-			return err;
-		});
+		const estimatedGas = await provider
+			.estimateGas({
+				account: address,
+				value: tx.value,
+				to: tx.to,
+			})
+			.catch((err: any) => {
+				return err;
+			});
 
-		if ('error' in estimatedGas || 'code' in estimatedGas) {
+		if (typeof estimatedGas !== 'bigint') {
 			handleTransactionError(estimatedGas);
 			setSubmittingFundTransaction(false);
 			return;
 		}
 
-		provider
-			.getSigner()
-			.sendTransaction({
+		signer
+			?.sendTransaction({
 				...tx,
-				...(estimatedGas ? { gasLimit: calculateGasMargin(estimatedGas) } : {}),
+				...(estimatedGas ? { gasLimit: estimatedGas } : {}),
 				// gasPrice /// TODO add gasPrice based on EIP 1559
 			})
 			.then(async (tx) => {
-				await tx.wait(1);
+				await provider.waitForTransactionReceipt({
+					hash: tx,
+					confirmations: 1,
+				});
 				return tx;
 			})
 			.then(async (tx) => {
-				if (userToken) await submitDonationTxHash(tx.hash, chainPk, userToken);
-				setTxHash(tx.hash);
+				if (userToken) await submitDonationTxHash(tx, chainPk, userToken);
+				setTxHash(tx);
 			})
 			.catch((err) => {
 				handleTransactionError(err);
@@ -136,10 +162,10 @@ const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
 				setSubmittingFundTransaction(false);
 			});
 	}, [
-		active,
+		isConnected,
 		chainId,
 		selectedChain,
-		account,
+		address,
 		loading,
 		isRightChain,
 		fundAmount,
@@ -156,25 +182,31 @@ const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
 	};
 
 	const fundActionButtonLabel = useMemo(() => {
-		if (!active) {
+		if (!isConnected) {
 			return 'Connect Wallet';
 		}
 		if (loading) {
 			return 'Loading...';
 		}
 		return !isRightChain ? 'Switch Network' : 'Submit Contribution';
-	}, [active, isRightChain, loading]);
+	}, [isConnected, isRightChain, loading]);
 
 	useEffect(() => {
-		if (!isRightChain || !account) {
-			setBalance('');
+		if (!isRightChain || !address) {
+			// setBalance('');
 			return;
 		}
 
-		provider?.getBalance(account).then((res) => {
-			setBalance(fromWei(res.toString()).slice(0, 6));
-		});
-	}, [isRightChain, account, provider]);
+		balance.refetch();
+
+		// provider
+		// 	?.getBalance({
+		// 		address,
+		// 	})
+		// 	.then((res) => {
+		// 		// setBalance(fromWei(res.toString()).slice(0, 6));
+		// 	});
+	}, [isRightChain, address, provider]);
 
 	return (
 		<div className="flex justify-center">
@@ -226,12 +258,12 @@ const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
 								<p className="select-box__info__coin-symbol text-white text-xs font-semibold">
 									{selectedChain?.symbol}
 								</p>
-								{!!balance && (
+								{(balance.isLoading && !balance.data?.formatted) || (
 									<p
 										onClick={() => setFundAmount(balance.toString())}
 										className="select-box__info__coin-balance text-gray100 text-xs cursor-pointer hover:text-primary-light font-semibold"
 									>
-										Balance: {balance + ' ' + selectedChain?.symbol}{' '}
+										Balance: {balance.data?.formatted.slice(0, 5) + ' ' + selectedChain?.symbol}{' '}
 									</p>
 								)}
 							</div>
@@ -255,7 +287,7 @@ const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
 						className="!w-full text-white mt-5"
 						fontSize="20px"
 						onClick={handleSendFunds}
-						disabled={!Number(fundAmount) && isRightChain && active}
+						disabled={!Number(fundAmount) && isRightChain && isConnected}
 						data-testid="fund-action"
 					>
 						{fundActionButtonLabel}

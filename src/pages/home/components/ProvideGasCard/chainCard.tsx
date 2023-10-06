@@ -3,20 +3,20 @@ import { useEffect, useMemo, useState } from 'react';
 import Icon from 'components/basic/Icon/Icon';
 
 import { Chain, ChainType } from 'types';
-import { useWeb3React } from '@web3-react/core';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useNativeCurrencyOnChain } from '../../../../hooks/useNativeCurrency';
 import JSBI from 'jsbi';
 import { CurrencyAmount } from '@uniswap/sdk-core';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
-import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
+import { Connection, PublicKey } from '@solana/web3.js';
+import { useWalletProvider } from 'utils/hook/wallet';
 
 interface props {
 	chain: Chain;
 }
 
 const ChainCard = ({ chain }: props) => {
-	const { provider } = useWeb3React();
+	const provider = useWalletProvider();
 	const [fundManagerBalance, setFundManagerBalance] = useState<BigNumber | string | null>(null);
 
 	useEffect(() => {
