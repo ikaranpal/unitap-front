@@ -228,6 +228,8 @@ export type Prize = {
 	createdAt: string;
 	deadline: string;
 	name: string;
+	creatorName?: string;
+	creatorProfile?: UserProfile;
 	chainName: string;
 	chainLogoUrl: string;
 	chain: Chain;
@@ -243,6 +245,7 @@ export type Prize = {
 	prizeSymbol: string;
 	winnerEntry: WinnerEntry;
 	startAt: string;
+	prizeAsset?: string;
 };
 
 export type WinnerEntry = {
