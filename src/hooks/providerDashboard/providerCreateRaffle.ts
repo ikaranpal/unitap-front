@@ -43,7 +43,6 @@ export const createErc20RaffleCallback = async (
 ) => {
 	console.log(
 		account,
-		provider,
 		payableAmount,
 		tokenDecimals,
 		currencyAddress,

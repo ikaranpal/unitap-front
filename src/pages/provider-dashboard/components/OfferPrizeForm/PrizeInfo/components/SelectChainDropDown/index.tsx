@@ -50,7 +50,7 @@ const SelectChainDropDown = ({ showErrors }: Prop) => {
 					></Icon>
 				</div>
 				{showItems && (
-					<div className="absolute styled-scroll z-[2] w-full max-h-[205px] overflow-y-scroll bg-gray40 border border-gray40 rounded-xl mt-1 p-1 cursor-pointer">
+					<div className="absolute styled-scroll z-[2] w-full max-h-[205px] overflow-y-scroll bg-gray40 border-2 border-gray60 rounded-xl mt-1 p-1 cursor-pointer">
 						{filterChainList.length == 0
 							? chainList.map((chain, index) => (
 									<div

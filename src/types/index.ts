@@ -400,10 +400,52 @@ export interface ConstraintProps {
 	response: string | null;
 	title: string;
 	type: string;
-	imageSrc: string;
+	iconUrl: string | null;
 }
 
 export interface ConstraintParamValues {
 	pk: number;
-	values: Record<number, string | number | boolean>;
+	values: Record<number, string | number | boolean> | null;
 }
+
+
+export interface UserRafflesProps {
+	chain: Chain, 
+	constraintParams : ConstraintProps,
+	constraints: any,
+	contract: string 
+	createdAt: string, 
+	creatorAddress: string,
+	creatorName: string,
+	creatorProfile:UserProfile,
+	creatorUrl: string | null ,
+	deadline: string, 
+	decimals: number,
+	description: string, 
+	discordUrl: string,
+	imageUrl: string,
+	isActive: boolean,
+	isClaimable: boolean,
+	isExpired:boolean,
+	isPrizeNft:boolean,
+	maxMultiplier:number,
+	maxNumberOfEntries: number,
+	name:string,
+	nftId: string | null,
+	numberOfEntries: number,
+	numberOfOnchainEntries: number,
+	pk: number,
+	prizeAmount: number,
+	prizeAsset: string
+	prizeName: string,
+	prizeSymbol: string,
+	raffleId: string | null
+	rejectionReason: string | null
+	startAt: string,
+	status: string,
+	tokenUri: string | null,
+	twitterUrl: string | null,
+	txHash: string | null,
+	userEntry: string | null,
+	winnerEntry: string | null,
+	}

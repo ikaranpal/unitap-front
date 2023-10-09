@@ -23,7 +23,7 @@ const EndDateComp = ({ showErrors }: EndDateCompProp) => {
 
 	useEffect(() => {
 		if (endDate?.unix) {
-			handleSetDate(endDate.unix, 'endTime');
+			handleSetDate(Math.round(new Date(endDate.unix * 1000).setSeconds(0) / 1000), 'endTime');
 		}
 	}, [endDate]);
 
@@ -47,11 +47,11 @@ const EndDateComp = ({ showErrors }: EndDateCompProp) => {
 						width: '100%',
 					}}
 					name="startTime"
-					format="DD/MM/YYYY - HH:mm:ss"
+					format="DD/MM/YYYY - hh:mm A"
 					inputClass="custom-input"
-					plugins={[<TimePicker position="bottom" />]}
+					plugins={[<TimePicker position="bottom" hideSeconds />]}
 					render={
-						<Input className="date-picker-input" onChange={handleChange} readOnly placeholder="DD/MM/YYYY - HH:MM:SS" />
+						<Input className="date-picker-input" onChange={handleChange} readOnly placeholder="DD/MM/YYYY - HH:MM" />
 					}
 					onChange={setEndDate}
 					value={endDate}

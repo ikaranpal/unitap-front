@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { Text } from 'components/basic/Text/text.style';
 import Icon from 'components/basic/Icon/Icon';
 import { ClaimButton } from 'components/basic/Button/button';
@@ -7,7 +7,6 @@ import Modal from 'components/common/Modal/modal';
 import { useWeb3React } from '@web3-react/core';
 import { UserProfileContext } from '../../../../hooks/useUserProfile';
 import { switchChain } from '../../../../utils/switchChain';
-import { GlobalContext } from 'hooks/useGlobalContext';
 import PrizeOfferFormContext from '../Context/PrizeOfferFormContext';
 import { RenderWalletNotConnectedBody } from './RenderWalletNotConnectedBody';
 import { RenderBrightNotConnectedBody } from './RenderBrightNotConnectedBody';
@@ -16,7 +15,7 @@ const CreateRaffleModalBody = ({ chain }: { chain: Chain }) => {
 	const { account, chainId, connector } = useWeb3React();
 	const walletConnected = !!account;
 
-	const { handleCreateRaffle, createRaffleLoading, createRaffleResponse, data } = useContext(PrizeOfferFormContext);
+	const { handleCreateRaffle, createRaffleLoading, createRaffleResponse } = useContext(PrizeOfferFormContext);
 
 	const { userProfile } = useContext(UserProfileContext);
 

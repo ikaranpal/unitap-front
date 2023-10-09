@@ -14,7 +14,6 @@ interface SelectedTabProps {
 const tabs = { gasTap: 'gasTap', tokenTap: 'tokenTap', prizeTap: 'prizeTap' };
 const ProviderDashboard = () => {
 	const [selectedTab, setSelectedTab] = useState(tabs.gasTap);
-
 	return (
 		<div className="provider-dashboard">
 			<div className="content-wrapper-provider-dashboard">
@@ -35,7 +34,7 @@ const ProviderDashboard = () => {
 
 const ProviderDashboardTabs = ({ onSelectTab, selectedTab }: SelectedTabProps) => {
 	return (
-		<div className="mb-6  provider-dashboard__tabs flex bg-gray20 justify-between text-center text-gray80 font-semibold ">
+		<div className="mb-6 select-not provider-dashboard__tabs flex bg-gray20 justify-between text-center text-gray80 font-semibold ">
 			<div
 				className={`w-full p-3 flex flex-col-reverse sm:flex-row gap-2 items-center cursor-pointer justify-center border-b-3  ${
 					selectedTab == tabs.gasTap ? 'borer-b-white text-white' : 'border-b-gray60'

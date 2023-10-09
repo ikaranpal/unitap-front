@@ -246,12 +246,14 @@ export async function getRaffleConstraintsVerifications(rafflePk: number, token:
 	return response.data;
 }
 
-export async function getUserRaffles(token: string) {
+export async function getUserRaffles(token: string, signal:any) {
 	const response = await axiosInstance.get(`/api/prizetap/get-user-raffles/`, {
+		signal,
 		headers: {
 			Authorization: `Token ${token}`,
 		},
 	});
+
 	return response.data;
 }
 
@@ -263,8 +265,9 @@ export async function getProviderDashboardValidChain() {
 
 
 export async function updateCreateRaffleTx(token: string, raffleID: number | undefined, txHash: string) {
+	console.log(raffleID)
 	const response = await axiosInstance.post<any>(
-		`api/prizetap/set-raffle-tx/<int:pk>/`,
+		`api/prizetap/set-raffle-tx/${raffleID}/`,
 		{ txHash },
 		{
 			headers: {
@@ -277,7 +280,6 @@ export async function updateCreateRaffleTx(token: string, raffleID: number | und
 
 export async function  getConstraintsApi () {
 	const response = await axiosInstance.get<ConstraintProps[]>(`/api/prizetap/get-constraints/`);
-	console.log(response.data)
 	return response.data;
 }
 
@@ -294,5 +296,3 @@ export async function createRaffleApi(token: string, raffleData: any) {
 	)
 	return response.data
 }
-
-// '{"name":"test", "description": "The first raffle","contract":"0x5363502325735d7b27162b2b3482c107fD4c5B3C", "creator_name":"Shayan", "creator_address":"0xb57490CDAABEDb450df33EfCdd93079A24ac5Ce5", "prize_amount":"100000000", "prize_asset":"0x0000000000000000000000000000000000000000", "prize_name":"1 ETH", "prize_symbol":"ETH", "decimals": 6, "chain": 1, "constraints": [1, 3], "constraint_params": "eyJIYXZlVW5pdGFwUGFzcyI6eyJDSEFJTiI6IDF9fQ==", "deadline":"2023-09-25 21:00", "max_number_of_entries": 10, "start_at": "2023-09-25 10:00" }'

@@ -418,6 +418,60 @@ export const ProviderDashboardButtonSuccess = styled(PrimaryOutlinedButtonDashbo
 	}
 `;
 
+export const PrimaryOutlinedButtonDashboardVerifying = styled(Button)`
+	/* border: 1px solid ${DV.colors.primary}; */
+	color: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.gray100)};
+	background: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.gray70)};
+	position: relative;
+	z-index: 1;
+
+	&::before {
+		content: '';
+		display: block;
+		z-index: -1;
+		position: absolute;
+		background: ${DV.colors.gray50};
+		inset: 0;
+		margin: 1px;
+		border-radius: 5px;
+	}
+`;
+
+export const ProviderDashboardButtonVerifying = styled(PrimaryOutlinedButtonDashboardVerifying)`
+	width: 100%;
+	padding: 0px 5.3em;
+	font-weight: 500;
+	height: 24px;
+	max-width: 100px;
+	font-size: 10px;
+	border-radius: 6px;
+	&:not(:disabled) p {
+		background: ${DV.colors.space_green};
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	::before {
+		// background: ${DV.colors.gray50} !important;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+
+		background: ${DV.colors.gray50};
+
+		p {
+			-webkit-background-clip: none !important;
+			-webkit-text-fill-color: none !important;
+			color: ${DV.colors.gray100};
+		}
+
+		::before {
+			background: none !important;
+		}
+	}
+`;
+
 export const PrimaryOutlinedButtonDashboardNext = styled(Button)`
 	/* border: 1px solid ${DV.colors.primary}; */
 	color: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.space_green)};
@@ -677,6 +731,60 @@ export const ProviderDashboardButtonCheck = styled(PrimaryOutlinedButtonDashboar
 			-webkit-background-clip: none !important;
 			-webkit-text-fill-color: none !important;
 			color: ${DV.colors.warningRed};
+		}
+
+		::before {
+			background: none !important;
+		}
+	}
+`;
+
+export const PrimaryOutlinedButtonDashboardShowDetails = styled(Button)`
+	/* border: 1px solid ${DV.colors.primary}; */
+	color: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.gray100)};
+	background: ${({ disabled }) => (disabled ? '#C0AFC7' : DV.colors.gray70)};
+	position: relative;
+	z-index: 1;
+
+	&::before {
+		content: '';
+		display: block;
+		z-index: -1;
+		position: absolute;
+		background: #212130;
+		inset: 0;
+		margin: 1px;
+		border-radius: 12px;
+	}
+`;
+
+export const ProviderDashboardButtonShowDetails = styled(PrimaryOutlinedButtonDashboardShowDetails)`
+	font-size: 10px;
+	width: 100%;
+	padding: 0px 5.3em;
+	font-weight: 600;
+	height: 48px;
+	font-size: 10px;
+	border-radius: 12px;
+	&:not(:disabled) p {
+		background: ${DV.colors.dark};
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	::before {
+		// background: ${DV.colors.gray50} !important;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+
+		background: ${DV.colors.dark};
+
+		p {
+			-webkit-background-clip: none !important;
+			-webkit-text-fill-color: none !important;
+			color: ${DV.colors.gray100};
 		}
 
 		::before {

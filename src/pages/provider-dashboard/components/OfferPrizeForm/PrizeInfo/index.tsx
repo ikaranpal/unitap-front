@@ -18,7 +18,7 @@ export const PrizeInfoDescription = {
 };
 
 const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: ProviderFormPaginationProp) => {
-	const { data, handleChange, page, canGoStepTwo } = usePrizeOfferFormContext();
+	const { data, handleChange, page, canGoStepTwo, updateChainList } = usePrizeOfferFormContext();
 	const [showErrors, setShowErrors] = useState<boolean>(false);
 	const { account, chainId } = useWeb3React();
 	const { userProfile } = useContext(UserProfileContext);
@@ -31,11 +31,13 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Provi
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	useEffect(() => {
-		// const isCorrectChian = !data.selectedChain?.chainId ? true : Number(data.selectedChain?.chainId) == chainId;
-		const isCorrectChian = true;
+		const isCorrectChian = !data.selectedChain?.chainId ? true : Number(data.selectedChain?.chainId) == chainId;
 		setIsOpen(!(userProfile && account && isCorrectChian));
 	}, [account, userProfile, chainId, data.selectedChain?.chainId]);
 
+	useEffect(() => {
+		updateChainList();
+	}, []);
 	return (
 		<div className="flex flex-col justify-center w-full items-center">
 			<div className="flex flex-col select-not min-h-[340px] mb-5 gap-4 w-full items-center max-w-[452px]">

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import Icon from 'components/basic/Icon/Icon';
 import useAddRequirement from 'pages/provider-dashboard/hooks/useAddRequirement';
-import { ConstraintParams, ConstraintProps } from 'types';
+import { ConstraintParamValues, ConstraintParams, ConstraintProps } from 'types';
 
 interface CreateModalParam {
 	constraint: ConstraintProps;
@@ -11,9 +11,8 @@ interface CreateModalParam {
 const ConstraintModal = ({ constraint }: CreateModalParam) => {
 	const { handleBackToRequirementModal, requirementList } = usePrizeOfferFormContext();
 	const addRequirements = useAddRequirement();
-	const [params, setParams] = useState();
+	const [params, setParams] = useState<ConstraintParamValues | null>(null);
 	const existRequirement: any = requirementList.find((item) => item.pk == constraint.pk);
-
 	useEffect(() => {
 		if (existRequirement) {
 			setParams(existRequirement);
@@ -29,9 +28,7 @@ const ConstraintModal = ({ constraint }: CreateModalParam) => {
 	}
 
 	const CreateParams = ({ params }: CreateParamsProps) => {
-		console.log(params);
-
-		return <div>test</div>;
+		return <div></div>;
 	};
 
 	return (

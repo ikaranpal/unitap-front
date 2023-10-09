@@ -26,16 +26,18 @@ const NewAddedConstraint = ({ requirement }: Props) => {
 		<div className="m-0 p-0">
 			<div className="bg-gray50 h-[44px] rounded-xl flex justify-between  items-center px-4 border-2 border-gray60">
 				<div className="flex items-center gap-2">
-					<Icon iconSrc={constraint.imageSrc} />
+					{constraint.iconUrl && <Icon iconSrc={constraint.iconUrl} />}
 					<p>{constraint.title} requirement</p>
 				</div>
 				<div className="flex items-center gap-3">
-					<div
-						onClick={handleClick}
-						className="cursor-pointer flex items-center justify-center text-gray90 text-[10px] w-[60px] h-[20px] font-semibold bg-gray70 border border-gray80 rounded-[8px]"
-					>
-						Edit
-					</div>
+					{requirement.values && (
+						<div
+							onClick={handleClick}
+							className="cursor-pointer flex items-center justify-center text-gray90 text-[10px] w-[60px] h-[20px] font-semibold bg-gray70 border border-gray80 rounded-[8px]"
+						>
+							Edit
+						</div>
+					)}
 					<Icon
 						onClick={() => handleDelete(constraint.pk)}
 						className="cursor-pointer"

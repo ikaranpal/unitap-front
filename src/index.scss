@@ -502,12 +502,12 @@ body {
 
 .providerDashboard__header {
 	@apply bg-no-repeat bg-cover border border-3 rounded-3xl border-gray40;
-	background-image: url('../public/assets/images/provider-dashboard/bg-header.svg');
+	background-image: url('/assets/images/provider-dashboard/bg-header.svg');
 }
 
 .refill-token {
 	@apply bg-no-repeat bg-cover border border-2 rounded-3xl border-gray40;
-	background-image: url('../public/assets/images/provider-dashboard/bg.png');
+	background-image: url('/assets/images/provider-dashboard/bg.png');
 }
 
 .provider-dashboard__tabs {
@@ -531,7 +531,7 @@ body {
 	-webkit-text-stroke: 7px transparent;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-	font-size: 2.5em;
+	font-size: 1.8em;
 	font-weight: 600;
 	padding: 10px;
 
@@ -706,13 +706,22 @@ input[type='number'] {
 }
 
 .rmdp-wrapper {
-	background-color: #161623 !important;
-	@apply text-gray100
+	background-color: #1B1B29 !important;
+	@apply text-gray100;
+	border: 2px solid #4C4C5C !important;
+	border-radius: 16px !important;
+	
 }
 
 .sd {
-	color: white;
-	background-color: #10101b;
+	color: #B5B5C6 !important;
+	background-color: #242431;
+}
+
+
+.sd:hover {
+	background-color: #303043 !important;
+	color: #B5B5C6 !important;
 }
 
 .rmdp-arrow-container {
@@ -722,6 +731,13 @@ input[type='number'] {
 	width: 25px !important;
 }
 
+.rmdp-day {
+	font-weight: 600;
+}
+.rmdp-day > span:hover {
+	background-color: #303043 !important;
+	color: white !important;
+}
 
 
 .rmdp-arrow-container:hover {
@@ -729,8 +745,8 @@ input[type='number'] {
 }
 
 .rmdp-arrow {
-	border-right: 2px solid #b5b5c6 !important;
-	border-bottom: 2px solid #b5b5c6 !important;
+	border-right: 2px solid #B5B5C6 !important;
+	border-bottom: 2px solid #B5B5C6 !important;
 	display: flex !important;
 	align-items: center !important;
 	justify-content: center !important;
@@ -738,10 +754,32 @@ input[type='number'] {
 }
 
 
-.rmdp-header-values, .rmdp-week > div, .rmdp-day {
-	color: #b5b5c6 !important;
+.rmdp-header-values, .rmdp-day {
+	color: white !important;
+	font-size: 0 !important;
+	display: flex;
+  column-gap: 10px;
 }
 // .rmdp-arrow 
+
+
+.rmdp-header-values > span {
+	display: flex;
+	align-items: center !important;
+	justify-content: center !important;
+	font-size: 14px !important;
+	border-radius: 6px !important;
+	background-color: #242431 !important;
+	height: 27px !important;
+	min-width: 81px !important;
+	font-weight: 500 !important;
+} 
+
+.rmdp-week > div {
+	color:#67677B !important;
+	font-weight: 500;
+	letter-spacing: 0.42px;
+}
 
 .rmdp-week {
 	column-gap: 10px !important;
@@ -753,16 +791,26 @@ input[type='number'] {
 }
 
 .rmdp-selected > span{
-	background:#4ce6a157 !important;
+	background:#4CE6A1 !important;
+	color:#161623 !important;
+}
+
+.rmdp-selected > span:hover{
+	background:#4CE6A1 !important;
+	color:#161623 !important;
 }
 
 .rmdp-today > span {
-	background: none !important;
-	border: 2px solid #b5b5c6 ;
+	background: #242431 !important;
+	border: 2px solid #67677B ;
+	color: #B5B5C6 !important
 }
 
 .rmdp-time-picker input {
 	background: none !important;
+	color: white !important;
+	letter-spacing: 0.42px;
+	font-weight: 600;
 }
 
 .rmdp-time-picker {
@@ -781,6 +829,47 @@ input[type='number'] {
 	color:#b5b5c664;
 }
 
-.rmdp-action-buttons > button{
-	color:#b5b5c6 !important;
+.rmdp-action-buttons > button, .rmdp-am {
+	color:white !important;
+	font-weight: 600;
+}
+
+.rmdp-action-buttons {
+	border-top: none !important;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.rmdp-top-class {
+	border-bottom: 2px solid #4C4C5C !important;
+}
+
+
+.rmdp-action-buttons > button {
+	width: 155px;
+	border-radius: 8px;
+	border: 1px solid #242431;
+	color:white !important;
+}
+
+
+.rmdp-action-buttons > button:nth-child(2) {
+	background: #212130 !important;
+}
+
+.rmdp-day-picker  {
+	margin-top: 20px;
+}
+.rmdp-month-picker, .rmdp-year-picker {
+	margin-left: 10px;
+	background-color: #161623 !important;
+	border: 2px solid #1E1E2C !important;
+	max-width: 325px;
+}
+
+
+
+.setOpacity {
+	opacity: 0.3;
 }

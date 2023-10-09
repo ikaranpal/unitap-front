@@ -5,6 +5,7 @@ import { ProviderFormPaginationProp } from 'types';
 import NewAddedConstraint from '../../NewAddedConstraint';
 import Pagination from '../../PagInation';
 import SelectSatisfyDropdown from './components/SelectSatisfyDropdown';
+import { useEffect } from 'react';
 
 export const RequirementDescription = {
 	id: 2,
@@ -16,8 +17,11 @@ export const RequirementDescription = {
 };
 
 const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: ProviderFormPaginationProp) => {
-	const { openRequirementModal, page, requirementList } = usePrizeOfferFormContext();
+	const { openRequirementModal, page, requirementList, handleGetConstraints } = usePrizeOfferFormContext();
 
+	useEffect(() => {
+		handleGetConstraints();
+	}, []);
 	return (
 		<div className="flex flex-col justify-center items-center w-full">
 			<div className="text-gray100 min-h-[340px] text-[12px] font-medium flex flex-col w-full  max-w-[452px] min-w-[300px] select-not">

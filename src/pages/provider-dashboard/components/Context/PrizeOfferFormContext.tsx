@@ -1,10 +1,4 @@
-import {
-	createRaffleApi,
-	getConstraintsApi,
-	getProviderDashboardValidChain,
-	getUserRaffles,
-	updateCreateRaffleTx,
-} from 'api';
+import { getConstraintsApi, getProviderDashboardValidChain, getUserRaffles } from 'api';
 import {
 	createContext,
 	useState,
@@ -14,24 +8,21 @@ import {
 	SetStateAction,
 	useMemo,
 	useContext,
+	useRef,
 } from 'react';
-import { Chain, ProviderDashboardFormDataProp, ConstraintProps, ConstraintParamValues } from 'types';
+import { Chain, ProviderDashboardFormDataProp, ConstraintProps, ConstraintParamValues, UserRafflesProps } from 'types';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import { useWeb3React } from '@web3-react/core';
 import { ZERO_ADDRESS } from 'constants/addresses';
-import { getContract, isAddress } from 'utils';
-import Erc20_ABI from '../../../../abis/Erc20.json';
-import Erc721_ABI from '../../../../abis/Erc721.json';
-import {
-	approveErc20TokenCallback,
-	approveErc721TokenCallback,
-	createErc20RaffleCallback,
-	createErc721RaffleCallback,
-} from 'hooks/providerDashboard/providerCreateRaffle';
+import { isAddress } from 'utils';
 import { useTransactionAdder } from 'state/transactions/hooks';
-import PrizeTap_ABI from '../../../../abis/UnitapPrizeTap.json';
-import PrizeTap721_ABI from '../../../../abis/UnitapPrizeTap721.json';
-import { fromWei, toWei } from 'utils/numbers';
+import { getErc20TokenContract } from 'pages/provider-dashboard/utils/getErc20TokenContract';
+import { getErc721NftContract } from 'pages/provider-dashboard/utils/getErc721NftContract';
+import { approveErc20Token } from 'pages/provider-dashboard/utils/approveErc20Token';
+import { approveErc721Token } from 'pages/provider-dashboard/utils/approveErc721Token';
+import { createErc20Raffle } from 'pages/provider-dashboard/utils/createErc20Raffle';
+import { createErc721Raffle } from 'pages/provider-dashboard/utils/createErc721Raffle';
+import { RefreshContext } from 'context/RefreshContext';
 
 const initData: ProviderDashboardFormDataProp = {
 	provider: '',
@@ -139,10 +130,10 @@ const PrizeOfferFormContext = createContext<{
 	selectNewOffer: boolean;
 	handleSelectNewOffer: (select: boolean) => void;
 	handleGOToDashboard: () => void;
-	insertRequirement: (requirement: ConstraintParamValues) => void;
+	insertRequirement: (requirement: ConstraintParamValues | null, id: number) => void;
 	requirementList: ConstraintParamValues[];
 	deleteRequirement: (id: number) => void;
-	updateRequirement: (id: number, requirements: ConstraintParamValues) => void;
+	updateRequirement: (id: number, requirements: ConstraintParamValues | null) => void;
 	handleSelectNativeToken: (e: boolean) => void;
 	handleCreateRaffle: () => void;
 	isCreateRaffleModalOpen: boolean;
@@ -153,13 +144,18 @@ const PrizeOfferFormContext = createContext<{
 	isContractAddressValid: boolean;
 	isOwnerOfNft: boolean;
 	handleSetDate: (timeStamp: number, label: string) => void;
-	handleApproveToken: () => void;
+	handleApproveErc20Token: () => void;
 	isErc20Approved: boolean;
 	isNftApproved: boolean;
 	approveLoading: boolean;
 	constraintsList: ConstraintProps[];
 	handleApproveErc721Token: () => void;
 	canDisplayErrors: boolean;
+	userRaffles: UserRafflesProps[];
+	userRafflesLoading: boolean;
+	handleGetConstraints: () => void;
+	updateChainList: () => void;
+	canDisplayWrongAddress: boolean;
 }>({
 	page: 0,
 	setPage: () => {},
@@ -219,21 +215,28 @@ const PrizeOfferFormContext = createContext<{
 	isContractAddressValid: false,
 	isOwnerOfNft: false,
 	handleSetDate: () => {},
-	handleApproveToken: () => {},
+	handleApproveErc20Token: () => {},
 	isErc20Approved: false,
 	approveLoading: false,
 	constraintsList: [],
 	isNftApproved: false,
 	handleApproveErc721Token: () => {},
 	canDisplayErrors: false,
+	userRaffles: [],
+	userRafflesLoading: false,
+	handleGetConstraints: () => {},
+	updateChainList: () => {},
+	canDisplayWrongAddress: false,
 });
 
 export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
-	const [requirementList, setRequirementList] = useState<ConstraintParamValues[]>([]);
+	const { fastRefresh } = useContext(RefreshContext);
 
-	const insertRequirement = (requirement: ConstraintParamValues) => {
-		console.log(requirement);
-		setRequirementList([...requirementList, { pk: 2, values: { 1: 'test', 2: 'name', 3: 'lastName' } }]);
+	const insertRequirement = (requirement: ConstraintParamValues | null, id: number) => {
+		setRequirementList([
+			...requirementList,
+			{ pk: id, values: !requirement ? null : { 1: 'test', 2: 'name', 3: 'lastName' } },
+		]);
 	};
 
 	const [data, setData] = useState<ProviderDashboardFormDataProp>({
@@ -244,10 +247,10 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const addTransaction = useTransactionAdder();
 
-	const { userProfile } = useContext(UserProfileContext);
 	const { provider, account, chainId } = useWeb3React();
 
-	const updateRequirement = (id: number, requirements: ConstraintParamValues) => {
+	const updateRequirement = (id: number, requirements: ConstraintParamValues | null) => {
+		if (!requirements) return;
 		const newItem = requirementList.map((item) => {
 			if (item.pk == id) {
 				return { ...requirements };
@@ -262,8 +265,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setRequirementList((prev) => prev.filter((item) => item.pk != id));
 	};
 
-	const [selectNewOffer, setSelectNewOffer] = useState<boolean>(false);
-
 	const handleSelectNewOffer = (select: boolean) => {
 		setSelectNewOffer(select);
 	};
@@ -271,7 +272,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const [setDuration, setSetDuration] = useState<boolean>(false);
 
 	const handleSetDuration = (e: boolean) => {
-		console.log(e);
 		setSetDuration(e);
 	};
 
@@ -295,21 +295,43 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const checkAddress = async () => {
 		if (!data.isNft && data.tokenContractAddress == ZERO_ADDRESS) {
 			setIsContractAddressValid(true);
+			setCanDisplayWrongAddress(false);
 			setCheckContractInfo(false);
 			return true;
 		}
 		const res = await isValidContractAddress(data.isNft ? data.nftContractAddress : data.tokenContractAddress);
 		setIsContractAddressValid(res);
+		setCanDisplayWrongAddress(!res);
 		!res && setCheckContractInfo(false);
-		!data.isNft && res && provider ? getErc20TokenContract() : getErc721NftContract();
+		if (!data.isNft && res && provider && account) {
+			getErc20TokenContract(
+				data,
+				account,
+				provider,
+				setCheckContractInfo,
+				setIsContractAddressValid,
+				setData,
+				setIsErc20Approved,
+			);
+		}
+
+		if (data.isNft && res && provider && account) {
+			getErc721NftContract(
+				data,
+				account,
+				provider,
+				setCheckContractInfo,
+				setIsContractAddressValid,
+				setData,
+				setIsOwnerOfNft,
+				setIsNftApproved,
+			);
+		}
 	};
-
-	const [isContractAddressValid, setIsContractAddressValid] = useState<boolean>(false);
-
-	const [canDisplayErrors, setCanDisplayErrors] = useState<boolean>(false);
 
 	useEffect(() => {
 		setIsContractAddressValid(isAddressValid(data.tokenContractAddress));
+		setCanDisplayWrongAddress(!isAddressValid(data.tokenContractAddress));
 		setCanDisplayErrors(false);
 		const handler = setTimeout(() => {
 			if (isAddressValid(data.tokenContractAddress) && data.tokenAmount) {
@@ -326,9 +348,9 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	useEffect(() => {
 		setCanDisplayErrors(false);
-
 		setIsNftApproved(false);
 		setIsContractAddressValid(isAddressValid(data.nftContractAddress));
+		setCanDisplayWrongAddress(!isAddressValid(data.nftContractAddress));
 		const handler = setTimeout(() => {
 			if (isAddressValid(data.nftContractAddress) && data.nftTokenId) {
 				setCheckContractInfo(true);
@@ -340,6 +362,60 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		}, 1000);
 		return () => clearTimeout(handler);
 	}, [data.nftContractAddress, data.nftTokenId, chainId, account]);
+
+	const handleSetDate = (timeStamp: number, label: string) => {
+		label == 'startTime'
+			? setData((prevData) => ({ ...prevData, startTimeStamp: timeStamp }))
+			: setData((prevData) => ({ ...prevData, endTimeStamp: timeStamp }));
+	};
+
+	const [requirementList, setRequirementList] = useState<ConstraintParamValues[]>([]);
+
+	const [isContractAddressValid, setIsContractAddressValid] = useState<boolean>(false);
+
+	const [canDisplayErrors, setCanDisplayErrors] = useState<boolean>(false);
+
+	const [selectNewOffer, setSelectNewOffer] = useState<boolean>(false);
+
+	const [checkContractInfo, setCheckContractInfo] = useState<boolean>(false);
+
+	const [isOwnerOfNft, setIsOwnerOfNft] = useState<boolean>(false);
+
+	const [searchPhrase, setSearchPhrase] = useState<string>('');
+
+	const [selectedChain, setSelectedChain] = useState<any | null>(null);
+
+	const [chainName, setChainName] = useState<string>('');
+
+	const [page, setPage] = useState<number>(0);
+
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+	const [isCreateRaffleModalOpen, setIsCreateRaffleModalOpen] = useState<boolean>(false);
+
+	const [chainList, setChainList] = useState<Chain[]>([]);
+
+	const [isErc20Approved, setIsErc20Approved] = useState<boolean>(false);
+
+	const [allowListPrivate, setAllowListPrivate] = useState<boolean>(false);
+
+	const [createRaffleResponse, setCreteRaffleResponse] = useState<any | null>(null);
+
+	const [createRaffleLoading, setCreateRaffleLoading] = useState<boolean>(false);
+
+	const [userRafflesLoading, setUserRafflesLoading] = useState<boolean>(false);
+
+	const [isNftApproved, setIsNftApproved] = useState<boolean>(false);
+
+	const [selectedConstrains, setSelectedConstrains] = useState<ConstraintProps | null>(null);
+
+	const [selectedConstraintTitle, setSelectedConstraintTitle] = useState<string | null>(null);
+
+	const [userRaffles, setUserRaffles] = useState<UserRafflesProps[]>([]);
+
+	const [approveLoading, setApproveLoading] = useState<boolean>(false);
+
+	const [canDisplayWrongAddress, setCanDisplayWrongAddress] = useState<boolean>(false);
 
 	const canGoStepTwo = () => {
 		const {
@@ -356,7 +432,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		const checkToken = () => {
 			if (!data.isNft) {
 				const isValid = tokenContractAddress == ZERO_ADDRESS ? true : isAddressValid(tokenContractAddress);
-				if (!isValid || !tokenAmount || !isContractAddressValid) return false;
+				if (!isValid || !tokenAmount || Number(tokenAmount) <= 0) return false;
 				if (!isNativeToken && !tokenContractAddress) return false;
 				if (isNativeToken && tokenAmount && tokenContractAddress) return true;
 			}
@@ -371,12 +447,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 			return true;
 		};
 		return !!(provider && description && selectedChain && checkNft() && checkToken());
-	};
-
-	const handleSetDate = (timeStamp: number, label: string) => {
-		label == 'startTime'
-			? setData((prevData) => ({ ...prevData, startTimeStamp: timeStamp }))
-			: setData((prevData) => ({ ...prevData, endTimeStamp: timeStamp }));
 	};
 
 	const canGoStepThree = () => {
@@ -409,15 +479,10 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		}
 
 		if (!setDuration && endTimeStamp && startTimeStamp) {
-			// const sevenDaysAfterStartTime = data.startTimeStamp + 7 * 24 * 60 * 60;
 			if (endTimeStamp < startTimeStamp) {
 				errorObject.endDateStatus = false;
 				errorObject.endDateStatusMessage = errorMessages.endLessThanStart;
 			}
-			// if (endTimeStamp < sevenDaysAfterStartTime && endTimeStamp > startTimeStamp) {
-			// 	errorObject.endDateStatus = false;
-			// 	errorObject.endDateStatusMessage = errorMessages.period;
-			// }
 		}
 
 		if (setDuration && !data.numberOfDuration) {
@@ -439,121 +504,14 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	const canGoStepFive = () => {
-		console.log(data);
 		return true;
 		const { email } = data;
 		return !!email;
 	};
 
-	const [checkContractInfo, setCheckContractInfo] = useState<boolean>(false);
-
-	const [isOwnerOfNft, setIsOwnerOfNft] = useState<boolean>(false);
-
-	const [searchPhrase, setSearchPhrase] = useState<string>('');
-
-	const [selectedChain, setSelectedChain] = useState<any | null>(null);
-
-	const [chainName, setChainName] = useState<string>('');
-
-	const [page, setPage] = useState<number>(0);
-
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-	const [isCreateRaffleModalOpen, setIsCreateRaffleModalOpen] = useState<boolean>(false);
-
-	const [chainList, setChainList] = useState<Chain[]>([]);
-
-	const [isErc20Approved, setIsErc20Approved] = useState<boolean>(false);
-
-	const [allowListPrivate, setAllowListPrivate] = useState<boolean>(false);
-
-	const [createRaffleResponse, setCreteRaffleResponse] = useState<any | null>(null);
-	const [createRaffleLoading, setCreateRaffleLoading] = useState<boolean>(false);
-
-	const getErc20TokenContract = async () => {
-		if (provider && account) {
-			const erc20Contract = getContract(data.tokenContractAddress, Erc20_ABI, provider);
-			try {
-				await erc20Contract.decimals();
-			} catch (e) {
-				setCheckContractInfo(false);
-				setIsContractAddressValid(false);
-				return;
-			}
-			if (erc20Contract) {
-				Promise.all([
-					erc20Contract.name(),
-					erc20Contract.symbol(),
-					erc20Contract.decimals(),
-					erc20Contract.balanceOf(account),
-					erc20Contract.allowance(account, data.selectedChain.erc20PrizetapAddr),
-				]).then(([r1, r2, r3, r4, r5]) => {
-					setData((prevData) => ({
-						...prevData,
-						tokenName: r1,
-						tokenSymbol: r2,
-						tokenDecimals: r3,
-						userTokenBalance: r4?.toString(),
-					}));
-					setIsErc20Approved(
-						Number(fromWei(r5.toString(), r3)) != 0 &&
-							Number(fromWei(r5.toLocaleString(), r3)) >= Number(data.tokenAmount),
-					);
-					setCheckContractInfo(false);
-				});
-			}
-		}
-	};
-
-	const [isNftApproved, setIsNftApproved] = useState<boolean>(false);
-
-	const getErc721NftContract = async () => {
-		if (provider && account && data.nftTokenId && data.nftContractAddress) {
-			const erc721Contract = getContract(data.nftContractAddress, Erc721_ABI, provider);
-			try {
-				const ownerOf = await erc721Contract.ownerOf(data.nftTokenId);
-				if (ownerOf.toLocaleLowerCase() !== account.toLocaleLowerCase()) {
-					setIsOwnerOfNft(false);
-					setCheckContractInfo(false);
-					return;
-				}
-			} catch (e: any) {
-				if (!e.message.includes('ERC721: invalid token ID')) {
-					setIsOwnerOfNft(false);
-					setCheckContractInfo(false);
-					setIsContractAddressValid(false);
-				} else {
-					setIsOwnerOfNft(false);
-					setCheckContractInfo(false);
-				}
-				return;
-			}
-			setIsOwnerOfNft(true);
-			if (erc721Contract) {
-				Promise.all([
-					erc721Contract.name(),
-					erc721Contract.symbol(),
-					erc721Contract.balanceOf(account),
-					erc721Contract.tokenURI(data.nftTokenId),
-					erc721Contract.getApproved(data.nftTokenId),
-				]).then(([r1, r2, r3, r4, r5]) => {
-					setIsNftApproved(r5.toLocaleLowerCase() == data.selectedChain.erc721PrizetapAddr.toLocaleLowerCase());
-					setData((prevData) => ({
-						...prevData,
-						nftName: r1,
-						nftSymbol: r2,
-						userNftBalance: r3?.toString(),
-						nftTokenUri: r4,
-					}));
-					setCheckContractInfo(false);
-				});
-			}
-		}
-	};
-
 	const handleSelectNativeToken = (e: boolean) => {
 		if (!data.selectedChain) return;
-		setIsErc20Approved(true);
+		setIsErc20Approved(!e);
 		setData((prevData) => ({
 			...prevData,
 			isNativeToken: !e,
@@ -577,12 +535,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setAllowListPrivate(!allowListPrivate);
 	};
 
-	const [selectedConstrains, setSelectedConstrains] = useState<ConstraintProps | null>(null);
-
-	const [selectedConstraintTitle, setSelectedConstraintTitle] = useState<string | null>(null);
-
-	const [userRaffle, setUserRaffles] = useState([]);
-
 	const handleSelectTokenOrNft = (e: boolean) => {
 		if (!data.selectedChain) return;
 		setData((prevData) => ({
@@ -591,15 +543,28 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		}));
 	};
 
+	const refController: any = useRef();
+
+	useEffect(() => {
+		return () => refController.current?.abort();
+	}, []);
+
 	const handleGetUserRaffles = useCallback(async () => {
 		if (!userToken) return;
+		setUserRafflesLoading(true);
+		refController.current = new AbortController();
 		try {
-			const raffles = await getUserRaffles(userToken);
+			const raffles = await getUserRaffles(userToken, refController.current.signal);
+			refController.current = null;
 			setUserRaffles(raffles);
-		} catch (e) {
-			console.log(e);
+			setUserRafflesLoading(false);
+		} catch (e: any) {
+			if (e?.message !== 'canceled' || !e?.message) {
+				console.log(e);
+			}
+			setUserRafflesLoading(false);
 		}
-	}, []);
+	}, [userToken]);
 
 	const updateChainList = useCallback(async () => {
 		try {
@@ -644,11 +609,9 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setConstraintsList(res);
 	};
 
-	useEffect(() => {
-		updateChainList();
-		handleGetUserRaffles();
-		handleGetConstraints();
-	}, [updateChainList, handleGetUserRaffles]);
+	useEffect2(() => {
+		if (userRaffles.length == 0) handleGetUserRaffles();
+	}, [handleGetUserRaffles, fastRefresh]);
 
 	const handleSelectLimitEnrollPeopleCheck = () => {
 		setData((prevData) => ({
@@ -659,6 +622,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	const handleChange = (e: { target: { type: any; name: any; checked: any; value: any } }) => {
+		setCanDisplayWrongAddress(false);
 		const type = e.target.type;
 		const name = e.target.name;
 		const value = type == 'checkbox' ? e.target.checked : e.target.value;
@@ -743,260 +707,51 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setChainName('');
 		setSelectedChain(null);
 		setCreteRaffleResponse(null);
+		setRequirementList([]);
 	};
 
-	const [approveLoading, setApproveLoading] = useState<boolean>(false);
-
-	const handleApproveToken = useCallback(async () => {
+	const handleApproveErc20Token = () => {
 		if (provider && account) {
-			const erc20Contract: any = getContract(data.tokenContractAddress, Erc20_ABI, provider);
-			try {
-				setApproveLoading(true);
-				const response = await approveErc20TokenCallback(
-					account,
-					erc20Contract,
-					data.selectedChain.erc20PrizetapAddr,
-					data.tokenContractAddress,
-					provider,
-					data.tokenAmount,
-					data.tokenDecimals,
-					addTransaction,
-				);
-
-				if (response) {
-					response
-						.wait()
-						.then((res) => {
-							setApproveLoading(false);
-							setIsErc20Approved(true);
-						})
-						.catch(() => {
-							setApproveLoading(false);
-						});
-				}
-			} catch (e: any) {
-				console.log(e);
-				setApproveLoading(false);
-			}
+			approveErc20Token(data, provider, account, setApproveLoading, setIsErc20Approved, addTransaction);
 		}
-	}, [userProfile, provider, addTransaction, data]);
+	};
 
-	const handleApproveErc721Token = useCallback(async () => {
+	const handleApproveErc721Token = () => {
 		if (provider && account) {
-			const erc721Contract: any = getContract(data.nftContractAddress, Erc721_ABI, provider);
-			try {
-				setApproveLoading(true);
-				const response = await approveErc721TokenCallback(
-					account,
-					erc721Contract,
-					data.selectedChain.erc721PrizetapAddr,
-					data.nftContractAddress,
-					provider,
-					data.nftTokenId,
-					addTransaction,
-				);
-
-				if (response) {
-					response
-						.wait()
-						.then((res) => {
-							setApproveLoading(false);
-							setIsNftApproved(true);
-						})
-						.catch(() => {
-							setApproveLoading(false);
-						});
-				}
-			} catch (e: any) {
-				console.log(e);
-				setApproveLoading(false);
-			}
+			approveErc721Token(data, provider, account, setApproveLoading, setIsNftApproved, addTransaction);
 		}
-	}, [userProfile, provider, addTransaction, data]);
-
-	const createRaffleErc20WithMetamask = useCallback(async () => {
-		if (!userProfile || !provider || !account || !userToken) return;
-		const raffleContractAddress = data.selectedChain?.erc20PrizetapAddr;
-		const maximumNumberEnroll = data.maximumNumberEnroll ? data.maximumNumberEnroll : '1000000000';
-		const prizeName = data.isNativeToken
-			? data.tokenAmount + ' ' + data.selectedChain.symbol
-			: data.tokenAmount + ' ' + data.tokenSymbol;
-
-		const prizeSymbol = data.isNativeToken ? data.selectedChain.symbol : data.tokenSymbol;
-
-		const decimals = data.isNativeToken ? 18 : data.tokenDecimals;
-		const prizeAmount = toWei(data.tokenAmount, data.isNativeToken ? 18 : data.tokenDecimals);
-		const startAt =
-			new Date(data.startTimeStamp * 1000).getFullYear() +
-			'-' +
-			(Number(new Date(data.startTimeStamp * 1000).getMonth()) + 1) +
-			'-' +
-			new Date(data.startTimeStamp * 1000).getDate() +
-			' ' +
-			new Date(data.startTimeStamp * 1000).getHours() +
-			':' +
-			new Date(data.startTimeStamp * 1000).getMinutes();
-		const deadline =
-			new Date(data.endTimeStamp * 1000).getFullYear() +
-			'-' +
-			(Number(new Date(data.endTimeStamp * 1000).getMonth()) + 1) +
-			'-' +
-			new Date(data.endTimeStamp * 1000).getDate() +
-			' ' +
-			new Date(data.endTimeStamp * 1000).getHours() +
-			':' +
-			new Date(data.endTimeStamp * 1000).getMinutes();
-
-		const raffleData = {
-			name: data.provider,
-			description: data.description,
-			contract: raffleContractAddress,
-			creator_name: 'abbas test',
-			creator_address: account,
-			prize_amount: prizeAmount,
-			prize_asset: data.tokenContractAddress,
-			prize_name: prizeName,
-			prize_symbol: prizeSymbol,
-			decimals: decimals,
-			chain: Number(data.selectedChain.chainId),
-			constraint_params: [],
-			deadline: deadline,
-			max_number_of_entries: maximumNumberEnroll,
-			start_at: startAt,
-		};
-
-		const rafflePk = await createRaffleApi(userToken, raffleData);
-		console.log(rafflePk);
-		const raffleContract: any = getContract(raffleContractAddress, PrizeTap_ABI, provider);
-
-		try {
-			setCreateRaffleLoading(true);
-
-			const response = await createErc20RaffleCallback(
-				account,
-				raffleContract,
-				provider,
-				data.tokenAmount,
-				data.tokenDecimals,
-				addTransaction,
-				data.tokenContractAddress,
-				maximumNumberEnroll,
-				data.startTimeStamp,
-				data.endTimeStamp,
-				data.isNativeToken,
-			);
-
-			if (response) {
-				response
-					.wait()
-					.then((res) => {
-						console.log(res);
-						setCreteRaffleResponse({
-							success: true,
-							state: 'Done',
-							txHash: res.transactionHash,
-							message: 'Created raffle successfully.',
-						});
-						setCreateRaffleLoading(false);
-						// updateCreateRaffleTx(userToken, rafflePk, res.transactionHash, )
-					})
-					.catch(() => {
-						setCreteRaffleResponse({
-							success: false,
-							state: 'Retry',
-							message: 'Something went wrong. Please try again!',
-						});
-						setCreateRaffleLoading(false);
-					});
-			}
-		} catch (e: any) {
-			console.log(e);
-			setCreteRaffleResponse({
-				success: false,
-				state: 'Retry',
-				message: 'Something went wrong. Please try again!',
-			});
-			setCreateRaffleLoading(false);
-		}
-	}, [userProfile, provider, addTransaction, data, userToken]);
-
-	const createRaffleErc721WithMetamask = useCallback(async () => {
-		if (!userProfile || !provider || !account) return;
-		const raffleContractAddress = data.selectedChain?.erc721PrizetapAddr;
-		console.log(raffleContractAddress);
-		const maximumNumberEnroll = data.maximumNumberEnroll ? data.maximumNumberEnroll : '1000000000';
-
-		const raffleContract: any = getContract(raffleContractAddress, PrizeTap721_ABI, provider);
-
-		try {
-			setCreateRaffleLoading(true);
-
-			console.log(
-				account,
-				raffleContract,
-				data.nftContractAddress,
-				data.nftTokenId,
-				maximumNumberEnroll,
-				data.startTimeStamp,
-				data.endTimeStamp,
-			);
-
-			const response = await createErc721RaffleCallback(
-				account,
-				provider,
-				raffleContract,
-				data.nftContractAddress,
-				data.nftTokenId,
-				maximumNumberEnroll,
-				data.startTimeStamp,
-				data.endTimeStamp,
-				addTransaction,
-			);
-
-			if (response) {
-				response
-					.wait()
-					.then((res) => {
-						console.log(res);
-						setCreteRaffleResponse({
-							success: true,
-							state: 'Done',
-							txHash: res.transactionHash,
-							message: 'Created raffle successfully.',
-						});
-						setCreateRaffleLoading(false);
-					})
-					.catch(() => {
-						setCreteRaffleResponse({
-							success: false,
-							state: 'Retry',
-							message: 'Something went wrong. Please try again!',
-						});
-						setCreateRaffleLoading(false);
-					});
-			}
-		} catch (e: any) {
-			console.log(e);
-			setCreteRaffleResponse({
-				success: false,
-				state: 'Retry',
-				message: 'Something went wrong. Please try again!',
-			});
-			setCreateRaffleLoading(false);
-		}
-	}, [userProfile, provider, addTransaction, data]);
+	};
 
 	const handleSetCreateRaffleLoading = () => {
 		setCreateRaffleLoading(true);
 	};
 
-	const handleCreateRaffle = useCallback(async () => {
-		if (!data.isNft) {
-			createRaffleErc20WithMetamask();
-		} else {
-			createRaffleErc721WithMetamask();
+	const handleCreateRaffle = () => {
+		if (!data.isNft && account && provider && userToken) {
+			createErc20Raffle(
+				data,
+				provider,
+				requirementList,
+				account,
+				userToken,
+				setCreateRaffleLoading,
+				setCreteRaffleResponse,
+				addTransaction,
+			);
 		}
-	}, [createRaffleLoading, createRaffleErc20WithMetamask]);
+		if (data.isNft && account && provider && userToken) {
+			createErc721Raffle(
+				data,
+				provider,
+				requirementList,
+				account,
+				userToken,
+				setCreateRaffleLoading,
+				setCreteRaffleResponse,
+				addTransaction,
+			);
+		}
+	};
 
 	return (
 		<PrizeOfferFormContext.Provider
@@ -1055,13 +810,18 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				isContractAddressValid,
 				isOwnerOfNft,
 				handleSetDate,
-				handleApproveToken,
+				handleApproveErc20Token,
 				isErc20Approved,
 				approveLoading,
 				constraintsList,
 				isNftApproved,
 				handleApproveErc721Token,
 				canDisplayErrors,
+				userRaffles,
+				userRafflesLoading,
+				handleGetConstraints,
+				updateChainList,
+				canDisplayWrongAddress,
 			}}
 		>
 			{children}
@@ -1070,3 +830,20 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 };
 
 export default PrizeOfferFormContext;
+
+const useEffect2 = (callback: any, list: any) => {
+	const ref = useRef(false);
+	useEffect(() => {
+		if (ref.current) return callback();
+		ref.current = true;
+	}, [...list]);
+};
+
+//luck
+const useRunOnce = (callback: any) => {
+	const ref = useRef(true);
+	useEffect(() => {
+		if (ref.current) return callback();
+		ref.current = false;
+	}, []);
+};

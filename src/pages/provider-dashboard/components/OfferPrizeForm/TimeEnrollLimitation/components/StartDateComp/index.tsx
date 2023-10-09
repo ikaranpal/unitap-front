@@ -2,7 +2,6 @@ import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
 import { ErrorProps } from 'types';
 import DatePicker from 'react-multi-date-picker';
 import TimePicker from 'react-multi-date-picker/plugins/time_picker';
-import 'react-multi-date-picker/styles/backgrounds/bg-dark.css';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -14,12 +13,11 @@ interface StartDateCompProp {
 
 const StartDateComp = ({ showErrors }: StartDateCompProp) => {
 	const { data, handleSetDate } = usePrizeOfferFormContext();
-	const sevenDaysLater: Date = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 	const [startDate, setStartDate] = useState<any>();
 
 	useEffect(() => {
 		if (startDate?.unix) {
-			handleSetDate(startDate.unix, 'startTime');
+			handleSetDate(Math.round(new Date(startDate.unix * 1000).setSeconds(0) / 1000), 'startTime');
 		}
 	}, [startDate]);
 
@@ -49,11 +47,11 @@ const StartDateComp = ({ showErrors }: StartDateCompProp) => {
 						width: '100%',
 					}}
 					name="startTime"
-					format="DD/MM/YYYY - HH:mm:ss"
+					format="DD/MM/YYYY - hh:mm A"
 					inputClass="custom-input"
-					plugins={[<TimePicker position="bottom" />]}
+					plugins={[<TimePicker position="bottom" hideSeconds />]}
 					render={
-						<Input className="date-picker-input" onChange={handleChange} readOnly placeholder="DD/MM/YYYY - HH:MM:SS" />
+						<Input className="date-picker-input" onChange={handleChange} readOnly placeholder="DD/MM/YYYY - HH:MM" />
 					}
 					onChange={setStartDate}
 					value={startDate}

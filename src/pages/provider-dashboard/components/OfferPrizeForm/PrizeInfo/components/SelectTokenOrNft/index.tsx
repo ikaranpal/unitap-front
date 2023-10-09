@@ -16,15 +16,16 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 		isContractAddressValid,
 		isOwnerOfNft,
 		isErc20Approved,
-		handleApproveToken,
+		handleApproveErc20Token,
 		handleApproveErc721Token,
 		approveLoading,
 		isNftApproved,
 		canDisplayErrors,
+		canDisplayWrongAddress,
 	} = usePrizeOfferFormContext();
 
 	return (
-		<div className={`${!data.selectedChain ? 'opacity-[.3]' : ''} w-full`}>
+		<div className={data.selectedChain ? 'w-full' : 'setOpacity w-full'}>
 			<section className="flex text-gray80 text-[12px] bg-gray30 border border-gray50 rounded-[12px] h-[44px] items-center w-full max-w-[452px] overflow-hidden">
 				<div
 					className={`${
@@ -49,7 +50,6 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 						className="flex items-center justify-center gap-1 text-white text-[10px] mb-[-5px] cursor-pointer max-w-[90px]"
 						onClick={() => handleSelectNativeToken(data.isNativeToken)}
 					>
-						<p>Native Token</p>
 						<Icon
 							height="12px"
 							width="12px"
@@ -59,6 +59,7 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 									: '../assets/images/provider-dashboard/check-true.svg'
 							}`}
 						/>
+						<p>Native Token</p>
 					</div>
 					<div className="relative">
 						<div
@@ -91,7 +92,8 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 							!data.isNativeToken &&
 							data.tokenContractAddress &&
 							!checkContractInfo &&
-							!isContractAddressValid && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Wrong address</p>}
+							!isContractAddressValid &&
+							canDisplayWrongAddress && <p className="text-error text-[8px] m-0 p-0 absolute left-1">Wrong address</p>}
 					</div>
 
 					<div className="relative">
@@ -121,7 +123,7 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 					data.tokenDecimals &&
 					isContractAddressValid &&
 					canDisplayErrors ? (
-						<ProviderDashboardButtonNext onClick={handleApproveToken}>
+						<ProviderDashboardButtonNext onClick={handleApproveErc20Token}>
 							{approveLoading ? 'Approving...' : 'Approve'}
 						</ProviderDashboardButtonNext>
 					) : null}
@@ -145,13 +147,15 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 						{showErrors && data.isNft && !data.nftContractAddress && (
 							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Required</p>
 						)}
-						{data.isNft && data.nftContractAddress && !isContractAddressValid && (
+						{data.isNft && data.nftContractAddress && !isContractAddressValid && canDisplayWrongAddress && (
 							<p className="text-error text-[8px] m-0 p-0 absolute left-1">Wrong address</p>
 						)}
 					</div>
 
 					<div className="relative">
-						<div className="flex relative gap-2 text-gray80 text-[12px] bg-gray40 border border-gray50 rounded-[12px] h-[44px] pr-4 items-center justify-between overflow-hidden w-full max-w-[452px]">
+						<div
+							className={`flex relative gap-2 text-gray80 text-[12px] bg-gray40 border border-gray50 rounded-[12px] h-[44px] pr-4 items-center justify-between overflow-hidden w-full max-w-[452px]`}
+						>
 							<div className="bg-gray30 flex h-full w-full max-w-[148px] items-center items-center justify-center">
 								<p>Token ID</p>
 							</div>
@@ -162,6 +166,7 @@ const SelectTokenOrNft = ({ showErrors }: Prop) => {
 								className="provider-dashboard-input"
 								type="number"
 								onChange={handleChange}
+								min={0}
 							/>
 						</div>
 						{showErrors && data.isNft && !data.nftTokenId && (
