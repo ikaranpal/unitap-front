@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAccount, useBalance, useNetwork, usePublicClient, useTransaction, useWalletClient } from 'wagmi';
+import { useAccount, useBalance, useConnect, useDisconnect, useNetwork, usePublicClient, useWalletClient } from 'wagmi';
 
 export const useWalletAccount = () => {
 	const { address, connector, ...rest } = useAccount();
@@ -31,4 +31,12 @@ export const useWalletSigner = () => {
 
 export const useWalletBalance = ({ address, chainId }: { address: any; chainId: number | undefined }) => {
 	return useBalance({ address, chainId });
+};
+
+export const useWalletDisconnect = () => {
+	return useDisconnect();
+};
+
+export const useWalletConnect = () => {
+	return useConnect();
 };

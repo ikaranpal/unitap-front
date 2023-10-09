@@ -521,8 +521,7 @@ body {
 
 .claimed-prize {
 	p {
-		
-		background: linear-gradient(91.35deg,#4BF2A2 0.66%,#A89FE7 10.06%,#E1C4F4 20.07%,#DD40CD 28.44%);
+		background: linear-gradient(91.35deg, #4bf2a2 0.66%, #a89fe7 10.06%, #e1c4f4 20.07%, #dd40cd 28.44%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		font-size: 14px;
@@ -549,7 +548,6 @@ body {
 	}
 }
 
-
 .prize__amount {
 	position: relative;
 	@apply text-gray20;
@@ -573,9 +571,8 @@ body {
 	}
 }
 
-
 .raffle-logo-container {
-	background: linear-gradient(#4BF2A200, #A89FE700, #C990EE, #71969E);
+	background: linear-gradient(#4bf2a200, #a89fe700, #c990ee, #71969e);
 	border-radius: 14px;
 	z-index: -1;
 }

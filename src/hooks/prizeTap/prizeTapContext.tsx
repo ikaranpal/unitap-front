@@ -8,9 +8,9 @@ import {
 } from '../../api';
 import { EnrollmentSignature, Prize } from '../../types';
 import { RefreshContext } from '../../context/RefreshContext';
-import { useWeb3React } from '@web3-react/core';
 import { useUnitapPrizeCallback } from './useUnitapPrizeCallback';
 import { UserProfileContext } from 'hooks/useUserProfile';
+import { useWalletAccount, useWalletProvider } from 'utils/hook/wallet';
 
 export const PrizeTapContext = createContext<{
 	rafflesList: Prize[];
@@ -55,7 +55,9 @@ const PrizeTapProvider = ({ children }: { children: ReactNode }) => {
 	const [selectedRaffleForEnroll, setSelectedRaffleForEnroll] = useState<Prize | null>(null);
 	const [claimOrEnrollLoading, setClaimOrEnrollLoading] = useState<boolean>(false);
 
-	const { provider, account } = useWeb3React();
+	const { address } = useWalletAccount();
+
+	const provider = useWalletProvider();
 
 	const [enrollOrClaimPayload, setEnrollOrClaimPayload] = useState<EnrollmentSignature | null>(null);
 	const [claimOrEnrollWithMetamaskResponse, setClaimOrEnrollWithMetamaskResponse] = useState<any | null>(null);
@@ -193,7 +195,7 @@ const PrizeTapProvider = ({ children }: { children: ReactNode }) => {
 				setClaimOrEnrollSignatureLoading(false);
 			}
 		};
-		if (method == 'Enroll' && account) {
+		if (method == 'Enroll' && address) {
 			getSignature();
 		}
 		if (method == 'Claim') {
@@ -206,7 +208,7 @@ const PrizeTapProvider = ({ children }: { children: ReactNode }) => {
 				},
 			});
 		}
-	}, [selectedRaffleForEnroll, userProfile, method, account]);
+	}, [selectedRaffleForEnroll, userProfile, method, address]);
 
 	const handleClaimPrize = useCallback(async () => {
 		if (!selectedRaffleForEnroll || claimOrEnrollLoading) return;

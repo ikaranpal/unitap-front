@@ -2,7 +2,7 @@ import { FC, useEffect, useMemo, useState, useContext } from 'react';
 import { Prize } from 'types';
 import Icon from 'components/basic/Icon/Icon';
 import { ClaimAndEnrollButton, ClaimPrizeButton, EnrolledButton } from 'components/basic/Button/button';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { PrizeTapContext } from 'hooks/prizeTap/prizeTapContext';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import styled from 'styled-components';

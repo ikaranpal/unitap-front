@@ -16,6 +16,8 @@ import {
 	sepolia,
 	gnosis,
 } from '@wagmi/core/chains';
+import { MetaMaskConnector } from '@wagmi/core/connectors/metaMask';
+import { SafeConnector } from '@wagmi/connectors/safe';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
 	[mainnet, avalanche, bsc, polygon, polygon, fantom, holesky, goerli, polygonMumbai, bscTestnet, sepolia, gnosis],
@@ -36,6 +38,8 @@ export const config = createConfig({
 	publicClient,
 	webSocketPublicClient,
 	connectors: [
+		new MetaMaskConnector({ chains }),
+		new SafeConnector({ chains }),
 		new InjectedConnector({ chains }),
 		new CoinbaseWalletConnector({
 			chains,
@@ -49,6 +53,11 @@ export const config = createConfig({
 			chains,
 			options: {
 				projectId: '31516b299852311acdc936c61cd7892c',
+				qrModalOptions: {
+					themeVariables: {
+						'--wcm-z-index': '100',
+					},
+				},
 			},
 		}),
 	],

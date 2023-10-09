@@ -4,7 +4,9 @@ import { useMemo } from 'react';
 import { useTransactionAdder } from 'state/transactions/hooks';
 import { TransactionInfo } from 'state/transactions/types';
 import { calculateGasMargin } from 'utils/calculateGasMargin';
+import { useWalletProvider, useWalletSigner } from 'utils/hook/wallet';
 import isZero from 'utils/isZero';
+import { TransactionEIP2930 } from 'viem';
 
 interface Call {
 	address: string;
@@ -29,17 +31,20 @@ interface FailedCall extends CallEstimate {
 export default function useUnitapPrizeTransaction(
 	account: string | null | undefined,
 	chainId: number | undefined,
-	provider: JsonRpcProvider | undefined,
 	calls: Call[],
 	info: TransactionInfo,
-): { callback: null | (() => Promise<TransactionResponse>) } {
+): { callback: null | (() => Promise<any>) } {
+	const signer = useWalletSigner();
+	const provider = useWalletProvider();
+
 	const addTransaction = useTransactionAdder();
+
 	return useMemo(() => {
 		if (!provider || !account || !chainId) {
 			return { callback: null };
 		}
 		return {
-			callback: async function onDibs(): Promise<TransactionResponse> {
+			callback: async function onDibs(): Promise<{ hash: string; from: string; chainId?: number } | undefined> {
 				const estimatedCalls: CallEstimate[] = await Promise.all(
 					calls.map((call) => {
 						const { address, calldata, value } = call;
@@ -50,11 +55,16 @@ export default function useUnitapPrizeTransaction(
 										from: account,
 										to: address,
 										data: calldata,
-										value,
+										value: value,
 								  };
 
 						return provider
-							.estimateGas(tx)
+							.estimateGas({
+								account: account as any,
+								to: address as any,
+								data: tx.data as any,
+								value: value as any,
+							})
 							.then((gasEstimate) => {
 								return {
 									call,
@@ -64,7 +74,12 @@ export default function useUnitapPrizeTransaction(
 							.catch((gasError) => {
 								console.debug('Gas estimate failed, trying eth_call to extract error', call);
 								return provider
-									.call(tx)
+									.call({
+										account: account as any,
+										to: address as any,
+										data: tx.data as any,
+										value: value as any,
+									})
 									.then((result) => {
 										console.debug('Unexpected successful call after failed estimate gas', call, gasError, result);
 										console.log(gasError.data.message);
@@ -102,18 +117,17 @@ export default function useUnitapPrizeTransaction(
 					call: { address, calldata },
 				} = bestCallOption;
 
-				return provider
-					.getSigner()
-					.sendTransaction({
-						from: account,
-						to: address,
-						data: calldata,
+				return signer
+					?.sendTransaction({
+						account: account as any,
+						to: address as any,
+						data: calldata as any,
 						// let the wallet try if we can't estimate the gas
 						...('gasEstimate' in bestCallOption ? { gasLimit: calculateGasMargin(bestCallOption.gasEstimate) } : {}),
 					})
 					.then((response) => {
 						addTransaction(response, info);
-						return response;
+						return { hash: response, from: account, info, chainId };
 					})
 					.catch((error) => {
 						// if the user rejected the tx, pass this along
