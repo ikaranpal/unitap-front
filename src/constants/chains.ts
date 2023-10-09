@@ -5,14 +5,12 @@ export enum SupportedChainId {
   MAINNET = 1,
   GOERLI = 5,
   GNOSIS = 100,
-  MUMBAI = 80001,
 }
 
 export const CHAIN_IDS_TO_NAMES = {
   [SupportedChainId.MAINNET]: 'mainnet',
   [SupportedChainId.GOERLI]: 'goerli',
   [SupportedChainId.GNOSIS]: 'gnosis',
-  [SupportedChainId.MUMBAI]: 'mumbai',
 };
 
 /**
