@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { PublicClient } from 'viem';
 import { useAccount, useBalance, useConnect, useDisconnect, useNetwork, usePublicClient, useWalletClient } from 'wagmi';
 
 export const useWalletAccount = () => {
@@ -39,4 +40,29 @@ export const useWalletDisconnect = () => {
 
 export const useWalletConnect = () => {
 	return useConnect();
+};
+
+export type EstimateGasProps = {
+	from: string;
+	to: string;
+	value?: bigint;
+	data?: string;
+};
+
+export const estimateGas = (provider: PublicClient, { from, to, value, data }: EstimateGasProps) => {
+	return provider.estimateGas({
+		account: from as `0x{string}`,
+		to: to as `0x{string}`,
+		value,
+		data: data as `0x{string}`,
+	});
+};
+
+export const callProvider = (provider: PublicClient, { from, to, value, data }: EstimateGasProps) => {
+	return provider.call({
+		account: from as `0x{string}`,
+		to: to as `0x{string}`,
+		value,
+		data: data as `0x{string}`,
+	});
 };

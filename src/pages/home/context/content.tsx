@@ -15,6 +15,7 @@ import SelectChainModal from 'pages/fund/components/SelectChainModal/selectChain
 import { submitDonationTxHash } from 'api';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import {
+	estimateGas,
 	useWalletAccount,
 	useWalletBalance,
 	useWalletNetwork,
@@ -122,15 +123,13 @@ const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
 
 		setSubmittingFundTransaction(true);
 
-		const estimatedGas = await provider
-			.estimateGas({
-				account: address,
-				value: tx.value,
-				to: tx.to,
-			})
-			.catch((err: any) => {
-				return err;
-			});
+		const estimatedGas = await estimateGas(provider, {
+			from: address,
+			to: selectedChain.fundManagerAddress,
+			value: tx.value,
+		}).catch((err: any) => {
+			return err;
+		});
 
 		if (typeof estimatedGas !== 'bigint') {
 			handleTransactionError(estimatedGas);

@@ -2,11 +2,11 @@ import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, 
 import { claimTokenAPI, getClaimedTokensListAPI, getTokensListAPI, updateClaimFinished } from '../../api';
 import { ClaimedToken, PK, Token, TokenClaimPayload } from '../../types';
 import { RefreshContext } from '../../context/RefreshContext';
-import { useWeb3React } from '@web3-react/core';
 import { useEVMTokenTapContract } from '../useContract';
 import { claimTokenCallback } from './tokenTapClaimToken';
 import { useTransactionAdder } from 'state/transactions/hooks';
 import { UserProfileContext } from 'hooks/useUserProfile';
+import { useWalletAccount, useWalletNetwork, useWalletProvider, useWalletSigner } from 'utils/hook/wallet';
 
 export const TokenTapContext = createContext<{
 	tokensList: Token[];
@@ -63,7 +63,13 @@ const TokenTapProvider = ({ children }: { children: ReactNode }) => {
 	const [claimTokenLoading, setClaimTokenLoading] = useState<boolean>(false);
 	const [claimingTokenPk, setClaimingTokenPk] = useState<PK | null>(null);
 
-	const { provider, account, chainId } = useWeb3React();
+	const provider = useWalletProvider();
+	const signer = useWalletSigner();
+	const { address } = useWalletAccount();
+
+	const { chain } = useWalletNetwork();
+	const chainId = chain?.id;
+
 	const EVMTokenTapContract = useEVMTokenTapContract();
 
 	const { userToken } = useContext(UserProfileContext);
@@ -135,7 +141,7 @@ const TokenTapProvider = ({ children }: { children: ReactNode }) => {
 
 				const txPayload = res?.payload ?? claimTokenPayload;
 
-				if (!txPayload || !account || !chainId || !claimAddress) {
+				if (!txPayload || !address || !chainId || !claimAddress) {
 					return;
 				}
 
@@ -148,19 +154,24 @@ const TokenTapProvider = ({ children }: { children: ReactNode }) => {
 					txPayload.nonce,
 					txPayload.signature,
 					EVMTokenTapContract,
-					account,
+					address,
 					chainId,
 					provider,
+					signer,
 					addTransaction,
 					claimAddress,
+					selectedTokenForClaim!.chain,
 				);
 
 				setClaimTokenLoading(true);
 				setClaimingTokenPk(selectedTokenForClaim!.id);
 
 				if (response) {
-					response
-						.wait()
+					provider
+						.waitForTransactionReceipt({
+							hash: response,
+							confirmations: 1,
+						})
 						.then(async (res) => {
 							setClaimTokenWithMetamaskResponse({
 								success: true,
@@ -189,7 +200,7 @@ const TokenTapProvider = ({ children }: { children: ReactNode }) => {
 				setClaimTokenLoading(false);
 			}
 		},
-		[userToken, provider, selectedTokenForClaim, claimToken, EVMTokenTapContract, account, addTransaction, chainId],
+		[userToken, provider, selectedTokenForClaim, claimToken, EVMTokenTapContract, address, addTransaction, chainId],
 	);
 
 	const openClaimModal = useCallback(

@@ -227,36 +227,37 @@ const ProfileDropdown: FC = () => {
 	};
 
 	return (
-		<div className="absolute left-5 bg-cover text-white bg-[url('/assets/images/navbar/dropdown-bg.svg')] h-[250px] w-[370px] z-10 top-full mt-2 ">
-			<div className="p-3 rounded-t-xl flex items-center justify-between bg-[url('/assets/images/navbar/gradient-unitap.svg')] font-normal text-sm">
-				<button className="relative text-left px-2 h-8 flex items-center w-40 z-10 text-white">
-					<img className="absolute inset-0 -z-10" src="/assets/images/navbar/logout-button.svg" alt="" />
-					<p className="mb-1 font-semibold">@ {userProfile?.username}</p>
-					<img src="/assets/images/navbar/arrow-right.svg" className="ml-auto mr-6 mb-1" alt="arrow-right" />
-				</button>
+		<div className="absolute left-5 rounded-lg bg-cover text-white bg-gray30 z-10 top-full mt-2">
+			<div className="bg-[url('/assets/images/navbar/dropdown-bg.svg')] h-[260px] w-[385px]">
+				<div className="p-3 rounded-t-xl flex items-center justify-between bg-[url('/assets/images/navbar/gradient-unitap.svg')] font-normal text-sm">
+					<button className="relative text-left px-2 h-8 flex items-center w-40 z-10 text-white">
+						<img className="absolute inset-0 -z-10" src="/assets/images/navbar/logout-button.svg" alt="" />
+						<p className="mb-1 font-semibold">@ {userProfile?.username}</p>
+						<img src="/assets/images/navbar/arrow-right.svg" className="ml-auto mr-6 mb-1" alt="arrow-right" />
+					</button>
 
-				<button onClick={onLogout} className="rounded-lg relative text-xs z-10 px-5 py-2">
-					<div className="absolute rounded-lg -z-10 inset-0 bg-gray20 opacity-50" />
-					Log Out
-				</button>
-			</div>
-
-			<div className="px-4 overflow-y-auto h-[194px]">
-				{userProfile?.wallets.map((wallet, key) => (
-					<WalletItem wallet={wallet.address} isActive={address === wallet.address} key={key} />
-				))}
-
-				<div className="mt-10 text-right text-xs flex items-center gap-5 flex-wrap justify-between">
-					{connectors.map((item, key) => (
-						<div className="text-center cursor-pointer" onClick={() => connect({ connector: item })} key={key}>
-							<img
-								src={WalletsImage[item.id] ?? '/assets/images/modal/claim_spaceman.svg'}
-								className="w-10 h-10 object-contain mx-auto"
-								alt=""
-							/>
-							<p className="m-1">{item.id}</p>
-						</div>
+					<button onClick={onLogout} className="rounded-lg relative text-xs z-10 px-5 py-2">
+						<div className="absolute rounded-lg -z-10 inset-0 bg-gray20 opacity-50" />
+						Log Out
+					</button>
+				</div>
+				<div className="px-4 overflow-y-auto h-[194px]">
+					{userProfile?.wallets.map((wallet, key) => (
+						<WalletItem wallet={wallet.address} isActive={address === wallet.address} key={key} />
 					))}
+
+					<div className="mt-10 text-right text-xs flex items-center gap-5 flex-wrap justify-between">
+						{connectors.map((item, key) => (
+							<div className="text-center cursor-pointer" onClick={() => connect({ connector: item })} key={key}>
+								<img
+									src={WalletsImage[item.id] ?? '/assets/images/modal/claim_spaceman.svg'}
+									className="w-10 h-10 object-contain mx-auto"
+									alt=""
+								/>
+								<p className="m-1">{item.id}</p>
+							</div>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>
