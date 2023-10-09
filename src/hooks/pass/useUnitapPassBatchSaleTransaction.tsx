@@ -111,7 +111,7 @@ export default function useUnitapPassBatchSaleTransaction(
 						...(value && !isZero(value) ? { value } : {}),
 					})
 					.then((response) => {
-						addTransaction(response, info);
+						// addTransaction(response, info);
 						return response;
 					})
 					.catch((error) => {

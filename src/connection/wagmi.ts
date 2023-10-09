@@ -19,8 +19,37 @@ import {
 import { MetaMaskConnector } from '@wagmi/core/connectors/metaMask';
 import { SafeConnector } from '@wagmi/connectors/safe';
 
+const IDChain = {
+	id: 74,
+	name: 'IDChain Mainnet',
+	nativeCurrency: {
+		decimals: 18,
+		name: 'EIDI',
+		symbol: 'EIDI',
+	},
+	network: 'IDChain',
+	rpcUrls: {
+		default: { http: ['https://idchain.one/rpc/'] },
+		public: { http: ['https://idchain.one/rpc/'] },
+	},
+};
+
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-	[mainnet, avalanche, bsc, polygon, polygon, fantom, holesky, goerli, polygonMumbai, bscTestnet, sepolia, gnosis],
+	[
+		mainnet,
+		avalanche,
+		bsc,
+		polygon,
+		polygon,
+		fantom,
+		holesky,
+		goerli,
+		polygonMumbai,
+		bscTestnet,
+		sepolia,
+		gnosis,
+		IDChain,
+	],
 	[
 		jsonRpcProvider({
 			rpc(chain) {

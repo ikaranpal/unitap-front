@@ -127,33 +127,34 @@ export const claimTokenCallback = async (
 		call: { address, calldata, value },
 	} = bestCallOption;
 
+	// console.log({
+	// 	id: Number(chain.chainId),
+	// 	name: chain.chainName,
+	// 	nativeCurrency: {
+	// 		decimals: chain.decimals,
+	// 		name: chain.nativeCurrencyName,
+	// 		symbol: chain.symbol,
+	// 	},
+	// 	network: chain.chainName,
+	// 	rpcUrls: {
+	// 		default: {
+	// 			http: [chain.rpcUrl],
+	// 		},
+	// 		public: {
+	// 			http: [chain.rpcUrl],
+	// 		},
+	// 	},
+	// });
+
 	return signer
 		?.sendTransaction({
-			account: address as any,
-			to: account as any,
+			account: account as any,
+			to: address as any,
 			data: calldata as any,
 			...('gasEstimate' in bestCallOption
 				? { gasLimit: calculateGasMargin(BigNumber.from(bestCallOption.gasEstimate)) }
 				: {}),
 			...(value && !isZero(value) ? { value } : {}),
-			chain: {
-				id: Number(chain.chainId),
-				name: chain.chainName,
-				nativeCurrency: {
-					decimals: chain.decimals,
-					name: chain.nativeCurrencyName,
-					symbol: chain.symbol,
-				},
-				network: chain.chainName,
-				rpcUrls: {
-					default: {
-						http: [chain.rpcUrl],
-					},
-					public: {
-						http: [chain.rpcUrl],
-					},
-				},
-			},
 		})
 		.then((response) => {
 			addTransaction(response, info);

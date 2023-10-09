@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { claimTokenAPI, getClaimedTokensListAPI, getTokensListAPI, updateClaimFinished } from '../../api';
+import { waitForTransaction } from '@wagmi/core';
 import { ClaimedToken, PK, Token, TokenClaimPayload } from '../../types';
 import { RefreshContext } from '../../context/RefreshContext';
 import { useEVMTokenTapContract } from '../useContract';
@@ -136,6 +137,8 @@ const TokenTapProvider = ({ children }: { children: ReactNode }) => {
 
 			const claimAddress = selectedTokenForClaim!.chain.tokentapContractAddress;
 
+			const chainId = Number(selectedTokenForClaim!.chain.chainId);
+
 			try {
 				const res = await claimToken(selectedTokenForClaim!);
 
@@ -167,11 +170,11 @@ const TokenTapProvider = ({ children }: { children: ReactNode }) => {
 				setClaimingTokenPk(selectedTokenForClaim!.id);
 
 				if (response) {
-					provider
-						.waitForTransactionReceipt({
-							hash: response,
-							confirmations: 1,
-						})
+					waitForTransaction({
+						hash: response,
+						confirmations: 1,
+						chainId,
+					})
 						.then(async (res) => {
 							setClaimTokenWithMetamaskResponse({
 								success: true,
@@ -182,7 +185,8 @@ const TokenTapProvider = ({ children }: { children: ReactNode }) => {
 							await updateClaimFinished(userToken, claimId!, res.transactionHash);
 							setClaimTokenLoading(false);
 						})
-						.catch(() => {
+						.catch((e) => {
+							console.log(e);
 							setClaimTokenWithMetamaskResponse({
 								success: false,
 								state: 'Retry',
