@@ -248,14 +248,19 @@ const ProfileDropdown: FC = () => {
 
 					<div className="mt-10 text-right text-xs flex items-center gap-5 flex-wrap justify-between">
 						{connectors.map((item, key) => (
-							<div className="text-center cursor-pointer" onClick={() => connect({ connector: item })} key={key}>
+							<button
+								disabled={!item.ready}
+								className="text-center cursor-pointer"
+								onClick={() => connect({ connector: item })}
+								key={key}
+							>
 								<img
 									src={WalletsImage[item.id] ?? '/assets/images/modal/claim_spaceman.svg'}
 									className="w-10 h-10 object-contain mx-auto"
 									alt=""
 								/>
 								<p className="m-1">{item.id}</p>
-							</div>
+							</button>
 						))}
 					</div>
 				</div>
