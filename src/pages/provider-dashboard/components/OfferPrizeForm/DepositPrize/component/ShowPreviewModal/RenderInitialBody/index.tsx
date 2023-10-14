@@ -1,6 +1,7 @@
 import { ProviderDashboardFormDataProp } from 'types';
 import RenderSocialMedia from '../RenderSocialMedia';
 import FormYouFilled from '../FormYouFilled';
+import { ProviderDashboardButtonSubmit } from 'components/basic/Button/button';
 
 interface Prop {
 	data: ProviderDashboardFormDataProp;
@@ -8,16 +9,15 @@ interface Prop {
 
 const RenderInitialBody = ({ data }: Prop) => {
 	return (
-		<div className="flex flex-col gap-10">
-			<FormYouFilled data={data} />
-			<RenderSocialMedia data={data} />
-			<div className=" bg-gray40 text-gray100 text-[12px] p-2 px-4 rounded-xl text-justify">
-				Lorem ipsum dolor sit amet consectetur. Turpis urna iaculis est aliquet ullamcorper. Velit urna pellentesque mi
-				nisi sem. Non nisl elementum sed eget eget parturient. Bibendum enim fames urna at posuere eros tempor tempus
-				aliquam. Cum vel aliquet in semper sit. Tincidunt duis facilisi facilisis um posuere viverra egestas. Mi sit
-				quam diam mi in molestie amet. Sem non ipsum dolor enim est. Tristique sit tortor mauris in leo facilisis nulla
-				ac.
+		<div className="flex flex-col">
+			<div className="text-gray100 text-[14px] ">
+				This is how your card will appear. If you are sure of the accuracy of the form you filled out, please submit
+				your contribution.
 			</div>
+			<FormYouFilled data={data} />
+			<ProviderDashboardButtonSubmit width="208px" className="text-[14px] md:text-[12px] lg:text-[14px] mt-10">
+				<p>Submit Contribution</p>
+			</ProviderDashboardButtonSubmit>
 		</div>
 	);
 };

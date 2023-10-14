@@ -20,6 +20,7 @@ const Pagination = ({ handleNextPage, func }: PagInationProp) => {
 			<div className="flex flex-col flex-col-reverse sm:flex-row w-full gap-5">
 				{func === 'submit' ? (
 					<ProviderDashboardButtonSubmit
+						width="100%"
 						onClick={handleNextPage}
 						className="text-[14px] md:text-[12px] lg:text-[14px] "
 					>

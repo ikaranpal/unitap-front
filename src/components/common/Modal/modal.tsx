@@ -15,9 +15,20 @@ type props = {
 	size?: 'small' | 'medium' | 'large';
 	closeModalHandler: () => void;
 	errorSource?: APIErrorsSource;
+	backgroundColor?: string;
 };
 
-const Modal = ({ title, titleLeft, children, isOpen, closeModalHandler, className, size, errorSource }: props) => {
+const Modal = ({
+	title,
+	titleLeft,
+	children,
+	isOpen,
+	closeModalHandler,
+	className,
+	size,
+	errorSource,
+	backgroundColor,
+}: props) => {
 	const { getError } = React.useContext(ErrorsContext);
 
 	return (
@@ -25,7 +36,9 @@ const Modal = ({ title, titleLeft, children, isOpen, closeModalHandler, classNam
 			{isOpen && (
 				<ModalWrapper className={className} onClick={(_e) => closeModalHandler()} data-testid="modal-wrapper">
 					<ModalContent
-						className={`bg-gray30 rounded-2xl border-2 border-gray80 ${
+						className={`${
+							backgroundColor ? backgroundColor : 'bg-gray30'
+						} lg:!overflow-y-hidden !overflow-y-scroll rounded-2xl border-2 border-gray80 ${
 							errorSource && getError(errorSource) ? '!border-error ' : ''
 						}`}
 						onClick={(e) => e.stopPropagation()}
@@ -43,7 +56,11 @@ const Modal = ({ title, titleLeft, children, isOpen, closeModalHandler, classNam
 						>
 							<Icon iconSrc="assets/images/modal/exit.svg" />
 						</span>
-						<ModalChildrenWrapper className="bg-gray30 max-h-[70vh] !rounded-none styled-scroll" size={size}>
+						<ModalChildrenWrapper
+							className={`${
+								backgroundColor ? backgroundColor : 'bg-gray30'
+							} bg-gray30 max-h-[70vh] !rounded-none styled-scroll"} size={size}`}
+						>
 							{children}
 						</ModalChildrenWrapper>
 					</ModalContent>

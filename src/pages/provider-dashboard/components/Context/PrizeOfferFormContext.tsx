@@ -130,7 +130,7 @@ const PrizeOfferFormContext = createContext<{
 	selectNewOffer: boolean;
 	handleSelectNewOffer: (select: boolean) => void;
 	handleGOToDashboard: () => void;
-	insertRequirement: (requirement: ConstraintParamValues | null, id: number) => void;
+	insertRequirement: (requirement: ConstraintParamValues | null, id: number, name: string) => void;
 	requirementList: ConstraintParamValues[];
 	deleteRequirement: (id: number) => void;
 	updateRequirement: (id: number, requirements: ConstraintParamValues | null) => void;
@@ -232,10 +232,10 @@ const PrizeOfferFormContext = createContext<{
 export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const { fastRefresh } = useContext(RefreshContext);
 
-	const insertRequirement = (requirement: ConstraintParamValues | null, id: number) => {
+	const insertRequirement = (requirement: ConstraintParamValues | null, id: number, name: string) => {
 		setRequirementList([
 			...requirementList,
-			{ pk: id, values: !requirement ? null : { 1: 'test', 2: 'name', 3: 'lastName' } },
+			{ pk: id, values: !requirement ? null : { 1: 'test', 2: 'name', 3: 'lastName' }, name },
 		]);
 	};
 
@@ -505,8 +505,8 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const canGoStepFive = () => {
 		return true;
-		const { email } = data;
-		return !!email;
+		const { email, creatorUrl } = data;
+		return !!(email && creatorUrl);
 	};
 
 	const handleSelectNativeToken = (e: boolean) => {
@@ -608,6 +608,10 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		const res = await getConstraintsApi();
 		setConstraintsList(res);
 	};
+
+	useEffect(() => {
+		updateChainList();
+	}, []);
 
 	useEffect2(() => {
 		if (userRaffles.length == 0) handleGetUserRaffles();

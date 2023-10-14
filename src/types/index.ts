@@ -404,6 +404,7 @@ export interface ConstraintProps {
 }
 
 export interface ConstraintParamValues {
+	name:string;
 	pk: number;
 	values: Record<number, string | number | boolean> | null;
 }

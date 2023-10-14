@@ -21,11 +21,20 @@ const EndDateComp = ({ showErrors }: EndDateCompProp) => {
 		}
 	}, []);
 
-	useEffect(() => {
-		if (endDate?.unix) {
-			handleSetDate(Math.round(new Date(endDate.unix * 1000).setSeconds(0) / 1000), 'endTime');
+	// useEffect(() => {
+	// 	console.log(new Date(endDate?.unix * 1000));
+	// 	if (endDate?.unix) {
+	// 		handleSetDate(Math.round(new Date(endDate.unix * 1000).setSeconds(0) / 1000), 'endTime');
+	// 	}
+	// }, [endDate]);
+
+	const changeTime = (e: any) => {
+		console.log(e);
+		if (e?.unix) {
+			handleSetDate(Math.round(new Date(e.unix * 1000).setSeconds(0) / 1000), 'endTime');
 		}
-	}, [endDate]);
+		setEndDate(e);
+	};
 
 	const handleChange = () => {};
 	return (
@@ -53,7 +62,7 @@ const EndDateComp = ({ showErrors }: EndDateCompProp) => {
 					render={
 						<Input className="date-picker-input" onChange={handleChange} readOnly placeholder="DD/MM/YYYY - HH:MM" />
 					}
-					onChange={setEndDate}
+					onChange={changeTime}
 					value={endDate}
 					minDate={Date.now()}
 					className="rmdp-mobile"

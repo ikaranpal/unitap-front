@@ -538,7 +538,6 @@ body {
 	&:after {
 		content: attr(data-amount);
 		position: absolute;
-		// top:50px;
 		z-index: 9;
 		background: linear-gradient(91.35deg, #4bf2a2 -4.66%, #a89fe7 56.06%, #e1c4f4 73.07%, #dd40cd 111.44%);
 		@apply text-gray20;
@@ -547,19 +546,6 @@ body {
 		-webkit-text-fill-color: #13131e;
 		left: 10px;
 	}
-
-	// &:before {
-	// 	content: attr(data-amount);
-	// 	position: absolute;
-	// 	top:50px;
-	// 	// left:12px;
-	//   background: radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2A3837 0%, #3F2B44 42.19%, #322837 100%);
-	// 	-webkit-background-clip:text;
-	// 	-webkit-text-stroke:3px #13131E;
-	// 	-webkit-text-fill-color:transparent;
-	// 	z-index: 99999;
-
-	// }
 }
 
 .offerPrize-Steps {
@@ -868,8 +854,33 @@ input[type='number'] {
 	max-width: 325px;
 }
 
-
-
 .setOpacity {
 	opacity: 0.3;
 }
+
+
+.providePrize__amount_modal {
+	position: relative;
+	@apply text-gray20;
+	background: radial-gradient(174.04% 3217.67% at 17.05% 37.02%, #2a3837 0%, #3f2b44 42.19%, #322837 100%);
+	-webkit-text-stroke: 4px transparent;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 1.4em;
+	font-weight: 600;
+	// padding: 10px;
+	letter-spacing: .5px;
+
+	&:after {
+		content: attr(data-amount);
+		position: absolute;
+		z-index: 9;
+		background: linear-gradient(91.35deg, #4bf2a2 -4.66%, #a89fe7 56.06%, #e1c4f4 73.07%, #dd40cd 111.44%);
+		@apply text-gray20;
+		-webkit-text-stroke: 1px transparent;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: #13131e;
+	}
+}
+
+

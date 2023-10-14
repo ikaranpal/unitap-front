@@ -15,11 +15,11 @@ const StartDateComp = ({ showErrors }: StartDateCompProp) => {
 	const { data, handleSetDate } = usePrizeOfferFormContext();
 	const [startDate, setStartDate] = useState<any>();
 
-	useEffect(() => {
-		if (startDate?.unix) {
-			handleSetDate(Math.round(new Date(startDate.unix * 1000).setSeconds(0) / 1000), 'startTime');
-		}
-	}, [startDate]);
+	// useEffect(() => {
+	// 	if (startDate?.unix) {
+	// 		handleSetDate(Math.round(new Date(startDate.unix * 1000).setSeconds(0) / 1000), 'startTime');
+	// 	}
+	// }, [startDate]);
 
 	useEffect(() => {
 		if (data.startTimeStamp) {
@@ -28,6 +28,13 @@ const StartDateComp = ({ showErrors }: StartDateCompProp) => {
 	}, []);
 
 	const handleChange = () => {};
+
+	const timeChange = (e: any) => {
+		if (e?.unix) {
+			handleSetDate(Math.round(new Date(e.unix * 1000).setSeconds(0) / 1000), 'startTime');
+		}
+		setStartDate(e);
+	};
 
 	return (
 		<div className="relative w-full">
@@ -53,7 +60,7 @@ const StartDateComp = ({ showErrors }: StartDateCompProp) => {
 					render={
 						<Input className="date-picker-input" onChange={handleChange} readOnly placeholder="DD/MM/YYYY - HH:MM" />
 					}
-					onChange={setStartDate}
+					onChange={timeChange}
 					value={startDate}
 					minDate={Date.now()}
 					className="rmdp-mobile"

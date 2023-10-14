@@ -20,7 +20,7 @@ const ConstraintModal = ({ constraint }: CreateModalParam) => {
 	}, []);
 
 	const handleAddRequirement = () => {
-		addRequirements(existRequirement, params, constraint.pk);
+		addRequirements(existRequirement, params, constraint.pk, constraint.name);
 	};
 
 	interface CreateParamsProps {

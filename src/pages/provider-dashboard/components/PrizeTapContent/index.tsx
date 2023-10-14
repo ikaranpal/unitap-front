@@ -32,7 +32,7 @@ enum RaffleStatus {
 
 const PrizeCard = ({ prize }: PrizeCardProp) => {
 	return (
-		<div className="bg-gray30 border-2 border-gray40 w-full  p-4 rounded-xl relative h-[512px]">
+		<div className="bg-gray30 border-2 border-gray40 w-full  p-4 rounded-xl relative h-[512px] select-not">
 			<div className="providePrize-item-container">
 				<div className="providePrize__amountBox bg-gray20 border border-gray40 h-[288px] rounded-2xl flex flex-col items-center justify-center relative">
 					<div className="providePrize__chainName absolute top-0 mt-2 w-full max-w-[100px] py-1 flex items-center justify-center bg-gray50 border border-gray70 rounded-[6px]">
@@ -122,7 +122,7 @@ const PrizeTapContent = () => {
 				<div>
 					<div className="flex flex-col md:flex-row  items-center justify-between ">
 						<SearchInput className="w-full md:w-1/3" />
-						<div className="provider-dashboard__status justify-center mt-5 md:mt-0 flex h-[40px] text-[12px] items-center align-center text-gray90 bg-gray40 border-2 border-gray30 rounded-xl w-full  md:w-auto">
+						<div className="provider-dashboard__status select-not justify-center mt-5 md:mt-0 flex h-[40px] text-[12px] items-center align-center text-gray90 bg-gray40 border-2 border-gray30 rounded-xl w-full  md:w-auto">
 							<div
 								className={`${RaffleStatus.ALL == selectedFilter ? 'text-gray100' : ''}`}
 								onClick={() => handleSelectFilter(RaffleStatus.ALL)}

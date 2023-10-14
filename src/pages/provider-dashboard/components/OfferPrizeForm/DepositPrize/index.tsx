@@ -6,6 +6,8 @@ import DisplaySelectedTokenOrChain from './component/DisplaySelectedTokenOrChain
 import Pagination from '../../PagInation';
 import CreateRaffleModal from '../../CreateRaffleModal';
 import { useEffect } from 'react';
+import ShowPreviewModal from './component/ShowPreviewModal';
+import Icon from 'components/basic/Icon/Icon';
 
 export const DepositDescription = {
 	id: 4,
@@ -63,17 +65,17 @@ const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 						)}
 					</div>
 				</section>
-				{/* 
+
 				<section
 					className="flex items-center gap-2 text-white font-semibold cursor-pointer max-w-[130px]"
 					onClick={openShowPreviewModal}
 				>
 					<p>Show preview</p>
 					<Icon iconSrc="assets/images/provider-dashboard/ic_link_white.svg" />
-				</section> */}
+				</section>
 
 				<DisplaySelectedTokenOrChain data={data} />
-				{/* <ShowPreviewModal /> */}
+				<ShowPreviewModal />
 			</div>
 			<Pagination
 				handleChangeFormPagePrev={handleChangeFormPagePrev}

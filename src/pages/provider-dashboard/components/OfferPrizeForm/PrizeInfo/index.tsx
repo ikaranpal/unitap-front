@@ -22,6 +22,7 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Provi
 	const [showErrors, setShowErrors] = useState<boolean>(false);
 	const { account, chainId } = useWeb3React();
 	const { userProfile } = useContext(UserProfileContext);
+
 	const handleNextPage = () => {
 		const res = canGoStepTwo();
 		setShowErrors(!res);

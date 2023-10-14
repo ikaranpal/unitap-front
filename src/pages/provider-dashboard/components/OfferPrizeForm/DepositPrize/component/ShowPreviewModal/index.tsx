@@ -21,7 +21,13 @@ const ShowPreviewModal = () => {
 
 	return (
 		<>
-			<Modal title="Form you Filled" size="large" closeModalHandler={closeShowPreviewModal} isOpen={isOpen}>
+			<Modal
+				backgroundColor="bg-gray20"
+				title="Form you Filled"
+				size="large"
+				closeModalHandler={closeShowPreviewModal}
+				isOpen={isOpen}
+			>
 				<ShowPreviewModalBody />
 			</Modal>
 		</>

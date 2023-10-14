@@ -330,12 +330,7 @@ export const PrimaryOutlinedButtonDashboardSubmit = styled(Button)`
 `;
 
 export const ProviderDashboardButtonSubmit = styled(PrimaryOutlinedButtonDashboardSubmit)`
-	width: 100%;
-	// padding: 0px 2.5em;
 	font-weight: 700;
-	height: 44px;
-	font-size: 14px;
-	border-radius: 12px;
 	white-space: nowrap;
 	&:not(:disabled) p {
 		background: ${DV.bgGradient.primary};
