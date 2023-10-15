@@ -614,7 +614,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	}, []);
 
 	useEffect2(() => {
-		if (userRaffles.length == 0) handleGetUserRaffles();
+		handleGetUserRaffles();
 	}, [handleGetUserRaffles, fastRefresh]);
 
 	const handleSelectLimitEnrollPeopleCheck = () => {
