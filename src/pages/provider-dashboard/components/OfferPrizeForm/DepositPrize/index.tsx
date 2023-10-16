@@ -46,7 +46,7 @@ const DepositPrize = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 	}, [createRaffleResponse]);
 
 	return (
-		<div className="flex flex-col w-full justify-center items-center">
+		<div className="flex flex-col w-full justify-center items-center animate-fadeIn">
 			<div className="flex flex-col min-h-[340px] gap-5 w-full max-w-[452px] min-w-[300px]">
 				<section>
 					<div className="text-center">

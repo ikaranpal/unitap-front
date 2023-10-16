@@ -36,11 +36,17 @@ const PrizeInfo = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Provi
 		setIsOpen(!(userProfile && account && isCorrectChian));
 	}, [account, userProfile, chainId, data.selectedChain?.chainId]);
 
+	const [fadeClass, setFadeClass] = useState('');
+
+	useEffect(() => {
+		setFadeClass(page == 0 ? 'animate-fadeIn' : 'animate-fadeOut');
+	}, [page]);
+
 	useEffect(() => {
 		updateChainList();
 	}, []);
 	return (
-		<div className="flex flex-col justify-center w-full items-center">
+		<div className={`flex flex-col justify-center w-full items-center ${fadeClass}`}>
 			<div className="flex flex-col select-not min-h-[340px] mb-5 gap-4 w-full items-center max-w-[452px]">
 				<section className="w-full relative">
 					<div className="flex gap-2 text-gray80 text-[12px] bg-gray40 border border-gray50 rounded-[12px] h-[44px] pr-4 items-center justify-between overflow-hidden w-full max-w-[452px]">

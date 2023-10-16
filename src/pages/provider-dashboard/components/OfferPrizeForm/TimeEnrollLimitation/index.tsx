@@ -1,5 +1,5 @@
 import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorProps, ProviderFormPaginationProp } from 'types';
 import Pagination from '../../PagInation';
 import StartDateComp from './components/StartDateComp';
@@ -21,6 +21,10 @@ const TimeEnrollLimitation = ({ handleChangeFormPagePrev, handleChangeFormPageNe
 	const { page, canGoStepThree, setDuration } = usePrizeOfferFormContext();
 
 	const [showErrors, setShowErrors] = useState<ErrorProps | null>(null);
+	const [fadeClass, setFadeClass] = useState('');
+	useEffect(() => {
+		setFadeClass(page == 1 ? 'animate-fadeIn' : 'animate-fadeOut');
+	}, [page]);
 
 	const handleNextPage = () => {
 		const res: any = canGoStepThree();
@@ -33,7 +37,7 @@ const TimeEnrollLimitation = ({ handleChangeFormPagePrev, handleChangeFormPageNe
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-center w-full">
+		<div className={`flex flex-col items-center justify-center w-full animate-fadeIn ${fadeClass}`}>
 			<div className="flex flex-col min-h-[340px] gap-4 w-full items-center max-w-[452px]">
 				<StartDateComp showErrors={showErrors} />
 				<SetDuration />

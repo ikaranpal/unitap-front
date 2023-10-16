@@ -15,7 +15,7 @@ const GasTapContent = () => {
 					<div>finished</div>
 				</div>
 			</div>
-			<div className="refill-token h-auto md:h-[78px] mt-5 flex w-full justify-between overflow-hidden items-center">
+			<div className="refill-token h-auto md:h-[78px] mt-4 flex w-full justify-between overflow-hidden items-center">
 				<div className="flex flex-col sm:flex-row justify-between w-full items-center py-5 px-7 text-white">
 					<div className="flex items-center relative">
 						<div>
@@ -33,7 +33,7 @@ const GasTapContent = () => {
 					</div>
 				</div>
 			</div>
-			<div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+			<div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 				<div className="bg-gray30 border-2 border-gray40 w-full  p-4 rounded-xl">
 					<div className="flex justify-between items-center text-gray90">
 						<div className="flex items-center text-white gap-2 font-medium text-[16px];">

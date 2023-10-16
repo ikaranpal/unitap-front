@@ -26,7 +26,7 @@ enum RaffleStatus {
 	PENDING = 'PENDING',
 	VERIFIED = 'Verified',
 	FINISHED = 'Finished',
-	REJECTED = 'Rejected',
+	REJECTED = 'REJECTED',
 	ALL = 'all',
 }
 
@@ -54,7 +54,7 @@ const PrizeCard = ({ prize }: PrizeCardProp) => {
 							<ProviderDashboardButtonSuccess>Verified</ProviderDashboardButtonSuccess>
 						) : prize.status === RaffleStatus.PENDING ? (
 							<ProviderDashboardButtonVerifying>Verifying</ProviderDashboardButtonVerifying>
-						) : prize.status === RaffleStatus.REJECTED ? (
+						) : prize.status === RaffleStatus.FINISHED ? (
 							<ProviderDashboardButtonVerifying>Finished</ProviderDashboardButtonVerifying>
 						) : (
 							<ProviderDashboardButtonRejected>Rejected</ProviderDashboardButtonRejected>
@@ -155,7 +155,7 @@ const PrizeTapContent = () => {
 							</div>
 						</div>
 					</div>
-					<div className="refill-token h-auto md:h-[78px] mt-5 flex w-full justify-between overflow-hidden items-center">
+					<div className="refill-token h-auto md:h-[78px] mt-4 flex w-full justify-between overflow-hidden items-center">
 						<div className="flex flex-col sm:flex-row justify-between w-full items-center py-5 px-7 text-white">
 							<div className="flex items-center relative">
 								<div>
@@ -176,7 +176,7 @@ const PrizeTapContent = () => {
 						</div>
 					</div>
 					{filteredRaffles && filteredRaffles.length > 0 && (
-						<div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+						<div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 							{filteredRaffles.map((item, index) => (
 								<PrizeCard key={index} prize={item} />
 							))}

@@ -15,7 +15,7 @@ export const InformationVerificationDes = {
 const InformationVerification = () => {
 	const { handleGOToDashboard } = usePrizeOfferFormContext();
 	return (
-		<div className="flex flex-col gap-5 w-full max-w-[452px] text-gray100 font-medium text-[12px] text-center">
+		<div className="flex flex-col gap-5 w-full max-w-[452px] text-gray100 font-medium text-[12px] text-center animate-fadeIn">
 			<Icon iconSrc="assets/images/provider-dashboard/diamond.png" />
 			<div className="flex items-center text-[14px] justify-center text-white font-semibold gap-2 justify-center">
 				<p>Validating</p>

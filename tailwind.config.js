@@ -110,11 +110,16 @@ module.exports = {
 					'0%': { transform: 'translateY(0)' },
 					'100%': { transform: 'translateY(-15px)' },
 				},
+				fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        }
 			},
 			animation: {
 				wiggle: 'wiggle 1s ease-in-out, wiggle 1s ease-in-out',
 				flip: 'flip 0.5s ease-in ',
 				rocket: 'rocket 1500ms infinite  alternate;',
+				fadeIn: 'fadeIn 0.5s ease-in-out',
 			},
 			transitionProperty: {
 				height: 'height',

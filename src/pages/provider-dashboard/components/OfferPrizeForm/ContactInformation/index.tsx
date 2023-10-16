@@ -58,7 +58,7 @@ const ContactInformation = ({ handleChangeFormPagePrev, handleChangeFormPageNext
 	};
 
 	return (
-		<div className="flex flex-col w-full items-center justify-center">
+		<div className="flex flex-col w-full items-center justify-center animate-fadeIn">
 			<div className="text-gray100 text-[12px] min-h-[340px] font-medium flex flex-col gap-4 w-full max-w-[452px]">
 				{contactFields.map((field, index) => (
 					<section className="relative" key={index}>

@@ -23,7 +23,7 @@ const Requirements = ({ handleChangeFormPagePrev, handleChangeFormPageNext }: Pr
 		handleGetConstraints();
 	}, []);
 	return (
-		<div className="flex flex-col justify-center items-center w-full">
+		<div className="flex flex-col justify-center items-center w-full animate-fadeIn">
 			<div className="text-gray100 min-h-[340px] text-[12px] font-medium flex flex-col w-full  max-w-[452px] min-w-[300px] select-not">
 				<p>Add any requirements for Enrolling or leave it free.</p>
 
