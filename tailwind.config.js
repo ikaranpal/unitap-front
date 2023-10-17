@@ -119,7 +119,7 @@ module.exports = {
 				wiggle: 'wiggle 1s ease-in-out, wiggle 1s ease-in-out',
 				flip: 'flip 0.5s ease-in ',
 				rocket: 'rocket 1500ms infinite  alternate;',
-				fadeIn: 'fadeIn 0.5s ease-in-out',
+				fadeIn: 'fadeIn 0.8s ease-in-out',
 			},
 			transitionProperty: {
 				height: 'height',

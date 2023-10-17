@@ -141,7 +141,8 @@ const PrizeOfferFormContext = createContext<{
 	createRaffleLoading: boolean;
 	handleSetCreateRaffleLoading: () => void;
 	checkContractInfo: boolean;
-	isContractAddressValid: boolean;
+	isTokenContractAddressValid: boolean;
+	isNftContractAddressValid: boolean;
 	isOwnerOfNft: boolean;
 	handleSetDate: (timeStamp: number, label: string) => void;
 	handleApproveErc20Token: () => void;
@@ -212,7 +213,8 @@ const PrizeOfferFormContext = createContext<{
 	createRaffleLoading: false,
 	handleSetCreateRaffleLoading: () => {},
 	checkContractInfo: false,
-	isContractAddressValid: false,
+	isTokenContractAddressValid: false,
+	isNftContractAddressValid: false,
 	isOwnerOfNft: false,
 	handleSetDate: () => {},
 	handleApproveErc20Token: () => {},
@@ -294,13 +296,14 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const checkAddress = async () => {
 		if (!data.isNft && data.tokenContractAddress == ZERO_ADDRESS) {
-			setIsContractAddressValid(true);
-			setCanDisplayWrongAddress(false);
+			setIsTokenContractAddressValid(true);
+			// setIsNftContractAddressValid(true);
+			// setCanDisplayWrongAddress(false);
 			setCheckContractInfo(false);
 			return true;
 		}
 		const res = await isValidContractAddress(data.isNft ? data.nftContractAddress : data.tokenContractAddress);
-		setIsContractAddressValid(res);
+		data.isNft ? setIsNftContractAddressValid(res) : setIsTokenContractAddressValid(res);
 		setCanDisplayWrongAddress(!res);
 		!res && setCheckContractInfo(false);
 		if (!data.isNft && res && provider && account) {
@@ -309,7 +312,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				account,
 				provider,
 				setCheckContractInfo,
-				setIsContractAddressValid,
+				setIsTokenContractAddressValid,
 				setData,
 				setIsErc20Approved,
 			);
@@ -321,7 +324,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				account,
 				provider,
 				setCheckContractInfo,
-				setIsContractAddressValid,
+				setIsTokenContractAddressValid,
 				setData,
 				setIsOwnerOfNft,
 				setIsNftApproved,
@@ -330,9 +333,10 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	useEffect(() => {
-		setIsContractAddressValid(isAddressValid(data.tokenContractAddress));
+		setIsTokenContractAddressValid(isAddressValid(data.tokenContractAddress));
 		setCanDisplayWrongAddress(!isAddressValid(data.tokenContractAddress));
 		setCanDisplayErrors(false);
+		if (Number(data.tokenAmount) <= 0) return;
 		const handler = setTimeout(() => {
 			if (isAddressValid(data.tokenContractAddress) && data.tokenAmount) {
 				setCheckContractInfo(true);
@@ -349,7 +353,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	useEffect(() => {
 		setCanDisplayErrors(false);
 		setIsNftApproved(false);
-		setIsContractAddressValid(isAddressValid(data.nftContractAddress));
+		setIsNftContractAddressValid(isAddressValid(data.nftContractAddress));
 		setCanDisplayWrongAddress(!isAddressValid(data.nftContractAddress));
 		const handler = setTimeout(() => {
 			if (isAddressValid(data.nftContractAddress) && data.nftTokenId) {
@@ -371,7 +375,8 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 
 	const [requirementList, setRequirementList] = useState<ConstraintParamValues[]>([]);
 
-	const [isContractAddressValid, setIsContractAddressValid] = useState<boolean>(false);
+	const [isTokenContractAddressValid, setIsTokenContractAddressValid] = useState<boolean>(false);
+	const [isNftContractAddressValid, setIsNftContractAddressValid] = useState<boolean>(false);
 
 	const [canDisplayErrors, setCanDisplayErrors] = useState<boolean>(false);
 
@@ -479,7 +484,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		}
 
 		if (!setDuration && endTimeStamp && startTimeStamp) {
-			if (endTimeStamp < startTimeStamp) {
+			if (endTimeStamp <= startTimeStamp) {
 				errorObject.endDateStatus = false;
 				errorObject.endDateStatusMessage = errorMessages.endLessThanStart;
 			}
@@ -811,7 +816,8 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				createRaffleLoading,
 				handleSetCreateRaffleLoading,
 				checkContractInfo,
-				isContractAddressValid,
+				isTokenContractAddressValid,
+				isNftContractAddressValid,
 				isOwnerOfNft,
 				handleSetDate,
 				handleApproveErc20Token,

@@ -45,7 +45,7 @@ const PrizeCard = ({ prize }: PrizeCardProp) => {
 				</div>
 				<div>
 					<div className="providePrize_stats flex justify-between my-2">
-						<div className="text-white text-[14px] font-medium">{prize.prizeName}</div>
+						<div className={'text-white text-[14px] font-medium'}>{prize.prizeName}</div>
 						{prize.status === 'Ongoing' ? (
 							<ProviderDashboardButton>
 								<p>Ongoing...</p>
@@ -186,7 +186,11 @@ const PrizeTapContent = () => {
 						<div className="flex items-center justify-center mt-5 text-gray100">No items found</div>
 					)}
 					{filteredRaffles.length == 0 && userRafflesLoading && (
-						<div className="flex items-center justify-center mt-5 text-gray100">Loading ...</div>
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-center justify-center mt-5 text-gray100">
+							<Skeleton />
+							<Skeleton />
+							<Skeleton />
+						</div>
 					)}
 				</div>
 			)}
@@ -194,6 +198,31 @@ const PrizeTapContent = () => {
 			{selectNewOffer && <OfferPrizeForm />}
 
 			<PrizeInfoConnectModal chain={null} isOpen={isOpen} />
+		</div>
+	);
+};
+
+const Skeleton = () => {
+	return (
+		<div className="animate-pulse">
+			<div className="bg-gray30 border-2 border-gray40 w-full p-4 rounded-xl relative h-[512px] select-not relative">
+				<div className="providePrize-item-container">
+					<div className="providePrize__amountBox bg-gray20 border border-gray40 h-[288px] rounded-2xl flex flex-col items-center justify-center relative">
+						<div className="providePrize__chainName absolute h-[22px] top-0 mt-2 w-full max-w-[100px] py-1 flex items-center justify-center bg-gray50 border border-gray70 rounded-[6px]"></div>
+					</div>
+					<div>
+						<div className="providePrize_stats flex justify-between my-2">
+							<div className="text-white text-[14px] font-medium bg-gray30 rounded bg-ani bg-gray50 w-[30%] h-[20px]"></div>
+							<div className="text-white text-[14px] font-medium bg-gray30 rounded bg-ani bg-gray50 w-[30%] h-[20px]"></div>
+						</div>
+						<div className="providePrize_creator text-[12px] text-gray90 font-medium bg-gray50 w-[30%] h-[20px] mt-5"></div>
+					</div>
+
+					<div className="providePrize_timer absolute bottom-3 right-4 left-4">
+						<div className="providePrize_timer absolute bottom-3 right-4 left-4 bg-gray50 w-[95%] h-[40px] rounded-xl"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };
