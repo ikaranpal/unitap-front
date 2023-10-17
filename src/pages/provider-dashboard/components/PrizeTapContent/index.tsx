@@ -218,8 +218,8 @@ const Skeleton = () => {
 						<div className="providePrize_creator text-[12px] text-gray90 font-medium bg-gray50 w-[30%] h-[20px] mt-5"></div>
 					</div>
 
-					<div className="providePrize_timer absolute bottom-3 right-4 left-4">
-						<div className="providePrize_timer absolute bottom-3 right-4 left-4 bg-gray50 w-[95%] h-[40px] rounded-xl"></div>
+					<div className="absolute bottom-3 right-4 left-0">
+						<div className=" absolute bottom-3 right-4 left-4 bg-gray50 w-[95%] h-[40px] rounded-xl"></div>
 					</div>
 				</div>
 			</div>
