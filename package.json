@@ -83,6 +83,8 @@
 		"@typescript-eslint/eslint-plugin": "^5.20.0",
 		"@typescript-eslint/parser": "^5.20.0",
 		"@vitejs/plugin-react-swc": "^3.3.2",
+		"@wagmi/cli": "^1.5.2",
+		"@web3-react/injected-connector": "^6.0.7",
 		"@zxing/browser": "^0.1.1",
 		"@zxing/library": "^0.19.1",
 		"cross-env": "^7.0.3",
