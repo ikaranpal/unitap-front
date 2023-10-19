@@ -6,7 +6,7 @@ import {
 } from 'components/basic/Button/button';
 import Icon from 'components/basic/Icon/Icon';
 import SearchInput from '../SearchInput/searchInput';
-import CardTimer from '../CardTimer';
+import { RaffleCardTimer } from 'pages/prize-tap/components/RafflesList/RafflesList';
 
 const TokenTapContent = () => {
 	const startTime = '20 Januray 2023 12:00 PM UTC';
@@ -49,7 +49,7 @@ const TokenTapContent = () => {
 								<p className="text-[14px] font-medium text-white">BTC</p>
 							</div>
 							<div>
-								<ProviderDashboardButton>
+								<ProviderDashboardButton className="animate-blinking">
 									<p>Ongoing...</p>
 								</ProviderDashboardButton>
 							</div>
@@ -70,7 +70,7 @@ const TokenTapContent = () => {
 						</div>
 						<div className="provideToken_timer absolute bottom-2 right-4 left-4">
 							<p className="text-white font-medium text-[8px] mb-2">Ends in:</p>
-							<CardTimer startTime={startTime} FinishTime={FinishTime} />
+							<RaffleCardTimer startTime={startTime} FinishTime={FinishTime} />
 						</div>
 					</div>
 				</div>
@@ -99,7 +99,7 @@ const TokenTapContent = () => {
 						</div>
 						<div className="provideToken_timer absolute bottom-2 right-4 left-4">
 							<p className="text-white font-medium text-[8px] mb-2">starts in:</p>
-							<CardTimer startTime={startTime} FinishTime={FinishTime} />
+							<RaffleCardTimer startTime={startTime} FinishTime={FinishTime} />
 						</div>
 					</div>
 				</div>

@@ -55,7 +55,7 @@ const GasTapContent = () => {
 							</div>
 						</div>
 						<div>
-							<ProviderDashboardButton>
+							<ProviderDashboardButton className="animate-blinking">
 								<p>Pending...</p>
 							</ProviderDashboardButton>
 						</div>

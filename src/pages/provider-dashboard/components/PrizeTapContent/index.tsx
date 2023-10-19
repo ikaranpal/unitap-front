@@ -46,8 +46,8 @@ const PrizeCard = ({ prize }: PrizeCardProp) => {
 				<div>
 					<div className="providePrize_stats flex justify-between my-2">
 						<div className={'text-white text-[14px] font-medium'}>{prize.prizeName}</div>
-						{prize.status === 'Ongoing' ? (
-							<ProviderDashboardButton>
+						{prize.status === RaffleStatus.ONGOING ? (
+							<ProviderDashboardButton className="animate-blinking">
 								<p>Ongoing...</p>
 							</ProviderDashboardButton>
 						) : prize.status === RaffleStatus.VERIFIED ? (
@@ -160,7 +160,7 @@ const PrizeTapContent = () => {
 							<div className="flex items-center relative">
 								<div>
 									<p className="text-[16px] font-semibold">Offer a New Prize</p>{' '}
-									<p className="text-[14px] text-gray100">Here you can provide a NFT or Token for Prize Tap.</p>
+									<p className="text-[14px] text-gray100">Here you can provide an NFT or Token for Prize Tap.</p>
 								</div>
 								<Icon
 									className="absolute left-0 sm:right-[-45px] top-[-17px]  h-[150px] sm:h-[80px]"
