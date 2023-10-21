@@ -95,7 +95,6 @@ const PrizeOfferFormContext = createContext<{
 	data: ProviderDashboardFormDataProp;
 	selectedConstrains: ConstraintProps | null;
 	title: any;
-	canSubmit: boolean;
 	handleChange: (e: any) => void;
 	handleSelectTokenOrNft: (e: boolean) => void;
 	handleSelectLimitEnrollPeopleCheck: () => void;
@@ -167,7 +166,6 @@ const PrizeOfferFormContext = createContext<{
 	title: {
 		...title,
 	},
-	canSubmit: false,
 	handleChange: () => {},
 	handleSelectTokenOrNft: () => {},
 	handleSelectLimitEnrollPeopleCheck: () => {},
@@ -679,10 +677,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 		setSelectedConstraintTitle(null);
 	};
 
-	const { ...requiredInputs } = data;
-
-	const canSubmit = [...Object.values(requiredInputs)].every(Boolean) && page === Object.keys(title).length - 1;
-
 	const closeRequirementModal = () => {
 		setSelectedConstrains(null);
 		setSelectedConstraintTitle(null);
@@ -769,7 +763,6 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 				setPage,
 				data,
 				title,
-				canSubmit,
 				handleChange,
 				handleSelectTokenOrNft,
 				handleSelectLimitEnrollPeopleCheck,
