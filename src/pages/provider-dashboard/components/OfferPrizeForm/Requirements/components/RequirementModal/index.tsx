@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import Modal from 'components/common/Modal/modal';
 import RenderInitialBody from '../RenderInitialBody';
 import ConstraintModal from '../ConstraintModal';

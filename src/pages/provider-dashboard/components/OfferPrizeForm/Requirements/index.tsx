@@ -1,6 +1,6 @@
 import Icon from 'components/basic/Icon/Icon';
 import RequirementModal from './components/RequirementModal';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import { ProviderFormPaginationProp } from 'types';
 import NewAddedConstraint from '../../NewAddedConstraint';
 import Pagination from '../../PagInation';

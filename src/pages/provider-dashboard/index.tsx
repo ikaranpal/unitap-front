@@ -6,7 +6,8 @@ import PrizeTapContent from './components/PrizeTapContent';
 import GasTapContent from './components/GasTapContent';
 import TokenTapContent from './components/TokenTapContent';
 import { PrizeOfferFormProvider } from './components/Context/PrizeOfferFormContext';
-
+import { GatTapProvider } from './components/Context/GasTapContext';
+import { ClaimProvider } from 'hooks/useChainList';
 interface SelectedTabProps {
 	onSelectTab: (tab: string) => void;
 	selectedTab: string;
@@ -21,7 +22,13 @@ const ProviderDashboard = () => {
 			<div className="content-wrapper-provider-dashboard">
 				<Header />
 				<ProviderDashboardTabs onSelectTab={setSelectedTab} selectedTab={selectedTab} />
-				{selectedTab == tabs.gasTap && <GasTapContent />}
+				{selectedTab == tabs.gasTap && (
+					<GatTapProvider>
+						<ClaimProvider>
+							<GasTapContent />
+						</ClaimProvider>
+					</GatTapProvider>
+				)}
 				{selectedTab == tabs.tokenTap && <TokenTapContent />}
 				{selectedTab == tabs.prizeTap && (
 					<PrizeOfferFormProvider>

@@ -1,5 +1,5 @@
 import Icon from 'components/basic/Icon/Icon';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 
 const RenderInitialBody = () => {
 	const { handleSelectConstraint, constraintsList } = usePrizeOfferFormContext();

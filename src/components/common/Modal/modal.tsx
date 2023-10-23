@@ -45,7 +45,7 @@ const Modal = ({
 						data-testid="modal-content"
 						size={size}
 					>
-						{titleLeft && <p className="text-xl text-left relative z-10 text-white"> {titleLeft} </p>}
+						{titleLeft && <p className="text-xl text-left relative z-9 text-white"> {titleLeft} </p>}
 						{title && (
 							<p className="modal-title font-bold text-sm relative text-center mx-auto text-white"> {title} </p>
 						)}
@@ -54,7 +54,7 @@ const Modal = ({
 							className="close absolute right-4 top-4 cursor-pointer"
 							data-testid="close-modal"
 						>
-							<Icon iconSrc="assets/images/modal/exit.svg" />
+							<Icon iconSrc="assets/images/modal/exit.svg" className="z-10 cursor-pointer" />
 						</span>
 						<ModalChildrenWrapper
 							className={`${

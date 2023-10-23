@@ -1,7 +1,7 @@
 import { ProviderDashboardButtonNext } from 'components/basic/Button/button';
 import Icon from 'components/basic/Icon/Icon';
 import { ZERO_ADDRESS } from 'constants/addresses';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 
 interface Prop {
 	showErrors: boolean;

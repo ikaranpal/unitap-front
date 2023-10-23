@@ -1,4 +1,4 @@
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import PrizeInfo from './PrizeInfo';
 import TimeEnrollLimitation from './TimeEnrollLimitation';
 import Requirements from './Requirements';

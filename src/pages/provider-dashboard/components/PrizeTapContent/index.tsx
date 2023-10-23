@@ -10,7 +10,7 @@ import Icon from 'components/basic/Icon/Icon';
 import SearchInput from '../SearchInput/searchInput';
 import OfferPrizeForm from '../OfferPrizeForm';
 import { RaffleCardTimer } from 'pages/prize-tap/components/RafflesList/RafflesList';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import { UserRafflesProps } from 'types';
 import { useWeb3React } from '@web3-react/core';
 import { useContext, useEffect, useState } from 'react';

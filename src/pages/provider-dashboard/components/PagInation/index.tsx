@@ -3,7 +3,7 @@ import {
 	ProviderDashboardButtonPrevious,
 	ProviderDashboardButtonSubmit,
 } from 'components/basic/Button/button';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 
 interface PagInationProp {
 	handleChangeFormPagePrev: () => void;

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import { ProviderFormPaginationProp } from 'types';
 import SelectChainDropDown from './components/SelectChainDropDown';
 import Pagination from '../../PagInation';

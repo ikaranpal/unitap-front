@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import Icon from 'components/basic/Icon/Icon';
 import useAddRequirement from 'pages/provider-dashboard/hooks/useAddRequirement';
 import { ConstraintParamValues, ConstraintParams, ConstraintProps } from 'types';

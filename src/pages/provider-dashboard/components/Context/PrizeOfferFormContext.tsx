@@ -374,6 +374,7 @@ export const PrizeOfferFormProvider = ({ children }: PropsWithChildren<{}>) => {
 	const [requirementList, setRequirementList] = useState<ConstraintParamValues[]>([]);
 
 	const [isTokenContractAddressValid, setIsTokenContractAddressValid] = useState<boolean>(false);
+
 	const [isNftContractAddressValid, setIsNftContractAddressValid] = useState<boolean>(false);
 
 	const [canDisplayErrors, setCanDisplayErrors] = useState<boolean>(false);

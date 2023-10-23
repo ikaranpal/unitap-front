@@ -1,7 +1,7 @@
 import { ProviderDashboardButtonSubmit } from 'components/basic/Button/button';
 import Icon from 'components/basic/Icon/Icon';
 import { DV } from 'components/basic/designVariables';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import { RaffleCardTimerSubmitContribution } from 'pages/prize-tap/components/RafflesList/RafflesList';
 import styled from 'styled-components';
 import { ProviderDashboardFormDataProp } from 'types';

@@ -1,6 +1,6 @@
 import Icon from 'components/basic/Icon/Icon';
 import { ProviderDashboardGoToDashBoard } from 'components/basic/Button/button';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import { ProviderFormPaginationProp } from 'types';
 
 export const InformationVerificationDes = {

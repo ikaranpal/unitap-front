@@ -1,4 +1,4 @@
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import { useEffect, useState } from 'react';
 import { ErrorProps, ProviderFormPaginationProp } from 'types';
 import Pagination from '../../PagInation';

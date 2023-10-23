@@ -1,4 +1,4 @@
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 
 const SetDuration = () => {
 	const { handleSetDuration, setDuration } = usePrizeOfferFormContext();

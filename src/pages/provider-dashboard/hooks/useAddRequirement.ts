@@ -1,4 +1,4 @@
-import usePrizeOfferFormContext from "hooks/usePrizeOfferFormContext";
+import {usePrizeOfferFormContext} from "hooks/usePrizeOfferFormContext";
 import { ConstraintParamValues } from "types";
 
 const useAddRequirement =  () => {

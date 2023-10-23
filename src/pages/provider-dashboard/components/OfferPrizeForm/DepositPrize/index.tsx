@@ -1,5 +1,5 @@
 // import ShowPreviewModal from './component/ShowPreviewModal';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import { ProviderFormPaginationProp } from 'types';
 import DepositContent from './component/DepositContent';
 import DisplaySelectedTokenOrChain from './component/DisplaySelectedTokenOrChain';

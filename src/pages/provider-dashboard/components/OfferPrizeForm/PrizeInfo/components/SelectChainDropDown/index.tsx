@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core';
 import Icon from 'components/basic/Icon/Icon';
-import usePrizeOfferFormContext from 'hooks/usePrizeOfferFormContext';
+import { usePrizeOfferFormContext } from 'hooks/usePrizeOfferFormContext';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import { useContext, useState } from 'react';
 
