@@ -211,8 +211,10 @@ export async function getEnrollmentApi(token: string, raffleID: number) {
 }
 
 export async function getMuonApi(raffleEntryId: number) {
+	const app = Number(process.env.IS_STAGE) ? 'stage_unitap' : 'unitap';
+
 	const response = await axios.post<EnrollmentSignature>(
-		`https://shield.unitap.app/v1/?app=unitap&method=raffle-entry&params[raffleEntryId]=${raffleEntryId}`,
+		`https://shield.unitap.app/v1/?app=${app}&method=raffle-entry&params[raffleEntryId]=${raffleEntryId}`,
 		null,
 	);
 	return response.data;
@@ -241,6 +243,22 @@ export async function getRaffleConstraintsVerifications(rafflePk: number, token:
 			Authorization: `Token ${token}`,
 		},
 	});
+
+	return response.data;
+}
+
+export async function getTokenConstraintsVerifications(tokenPk: number, token: string) {
+	const response = await axiosInstance.get('/api/tokentap/get-token-constraints/' + tokenPk + '/', {
+		headers: {
+			Authorization: `Token ${token}`,
+		},
+	});
+
+	return response.data;
+}
+
+export async function getLineaRaffleEntries() {
+	const response = await axiosInstance.get('/api/prizetap/get-linea-entries/');
 
 	return response.data;
 }

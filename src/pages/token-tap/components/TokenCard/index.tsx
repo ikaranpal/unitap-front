@@ -61,17 +61,6 @@ const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHig
 		[token],
 	);
 
-	const permissionVerificationsList = useMemo(
-		() =>
-			token.permissions
-				.filter((permission) => permission.type === 'VER')
-				.map((permission) => isPermissionVerified(permission)),
-		[token.permissions, isPermissionVerified],
-	);
-
-	const needsVerification =
-		permissionVerificationsList.includes(false) || permissionVerificationsList.includes(undefined);
-
 	return (
 		<div key={token.id}>
 			<div
@@ -98,7 +87,7 @@ const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHig
 							</span>
 						</div>
 
-						<div className={'flex items-center justify-end flex-col md:flex-row !w-full sm:w-auto'}>
+						<div className={'flex items-center gap-2 justify-end flex-col md:flex-row !w-full sm:w-auto'}>
 							<div className="w-full sm:w-auto items-center sm:items-end">
 								{token.chain.chainName === 'Lightning' || (
 									<AddMetamaskButton
@@ -135,13 +124,10 @@ const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHig
 										<ClaimButton
 											data-testid={`chain-show-claim-${token.id}`}
 											mlAuto
-											disabled={needsVerification}
 											onClick={() => openClaimModal(token)}
 											className="text-sm m-auto"
 										>
-											<p>
-												{needsVerification ? 'Complete Verifications' : `Claim ${calculateClaimAmount} ${token.token}`}
-											</p>
+											<p>{`Claim ${calculateClaimAmount} ${token.token}`}</p>
 										</ClaimButton>
 									) : (
 										<ClaimedButton
@@ -160,13 +146,10 @@ const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHig
 									<ClaimButton
 										data-testid={`chain-show-claim-${token.id}`}
 										mlAuto
-										disabled={needsVerification}
 										onClick={() => openClaimModal(token)}
 										className="text-sm m-auto"
 									>
-										<p data-testid={`token-claim-text-${token.id}`}>
-											{needsVerification ? 'Complete Verifications' : `Claim ${calculateClaimAmount} ${token.token}`}
-										</p>{' '}
+										<p data-testid={`token-claim-text-${token.id}`}>{`Claim ${calculateClaimAmount} ${token.token}`}</p>
 									</ClaimButton>
 								) : (
 									<ClaimedButton
@@ -188,31 +171,19 @@ const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHig
 					<div
 						className={`${
 							isHighlighted ? 'bg-g-primary-low' : 'bg-gray40'
-						} p-3 flex items-center flex-wrap text-xs gap-2 text-white`}
+						} pl-6 md:pl-16 pr-6 text-justify pb-3 flex items-center flex-wrap text-xs gap-2 text-white`}
 					>
 						{(showAllPermissions
 							? token.permissions
 							: token.permissions.filter((permission) => permission.type === 'VER').slice(0, 6)
 						).map((permission, key) => (
 							<Tooltip
-								className={
-									'border-gray70 bg-gray50 hover:bg-gray10 transition-colors border px-3 py-2 rounded-lg ' +
-									(permissionVerificationsList[key] ? 'text-space-green' : 'text-[#D7AC5A]')
-								}
+								className={'border-gray70 bg-gray50 hover:bg-gray10 transition-colors border px-3 py-2 rounded-lg '}
 								data-testid={`token-verification-${token.id}-${permission.name}`}
 								key={key}
 								text={permission.description}
 							>
-								<div className="flex items-center gap-3">
-									<img
-										src={
-											permissionVerificationsList[key]
-												? '/assets/images/token-tap/check.svg'
-												: '/assets/images/token-tap/not-verified.svg'
-										}
-									/>
-									{permission.title}
-								</div>
+								<div className="flex items-center gap-3">{permission.title}</div>
 							</Tooltip>
 						))}
 
@@ -223,6 +194,7 @@ const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHig
 							>
 								<span>{showAllPermissions ? 'Show less' : 'Show more'}</span>
 								<img
+									alt="angle-down"
 									src="/assets/images/token-tap/angle-down.svg"
 									className={`ml-2 ${showAllPermissions ? 'rotate-180' : ''} transition-transform`}
 								/>
@@ -247,7 +219,7 @@ const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHig
 					{!!timePermissionVerification && (
 						<div
 							data-testid={`token-verification-${token.id}-${timePermissionVerification.name}`}
-							className="bg-gray20 flex items-center justify-center px-5 py-2 static md:absolute rounded top-0 bottom-0 left-1/2 -translate-x-1/2 text-xs text-gray80"
+							className="bg-gray20 flex items-center justify-center px-5 py-2 static md:absolute rounded top-0 bottom-0 left-1/2 md:-translate-x-1/2 text-xs text-gray80"
 						>
 							{timePermissionVerification.title}
 							<Icon

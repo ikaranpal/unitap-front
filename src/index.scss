@@ -498,6 +498,10 @@ body {
 	@apply lg:bg-[url("../public/assets/images/prize-tap/nft-cover.svg")] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;
 }
 
+.prize-card-linea {
+	@apply lg:bg-[url('/assets/images/prize-tap/linia-raffle-bg.svg')] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;
+}
+
 .prize-card-bg-2 {
 	@apply lg:bg-[url("../public/assets/images/prize-tap/cover.svg")] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;
 }

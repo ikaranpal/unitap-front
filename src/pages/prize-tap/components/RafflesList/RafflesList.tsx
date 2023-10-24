@@ -10,6 +10,7 @@ import { DV } from 'components/basic/designVariables';
 import { getTxUrl, shortenAddress } from 'utils';
 import Tooltip from 'components/basic/Tooltip';
 import { numberWithCommas } from 'utils/numbers';
+import { LineaRaffleCard } from '../LiniaRaffle';
 
 const Action = styled.div`
 	display: flex;
@@ -53,7 +54,7 @@ const RafflesList = () => {
 			)}
 			{!!prizesSortListMemo.length && (
 				<div>
-					<RaffleCard
+					<RaffleCardWrapper
 						raffle={prizesSortListMemo[0]}
 						isHighlighted={highlightedPrize.toLocaleLowerCase() === rafflesList[0].name.toLocaleLowerCase()}
 					/>
@@ -62,11 +63,17 @@ const RafflesList = () => {
 
 			{prizesSortListMemo.slice(1).map((rafflesList, index) => (
 				<div key={index}>
-					<RaffleCard key={rafflesList.pk} raffle={rafflesList} />
+					<RaffleCardWrapper key={rafflesList.pk} raffle={rafflesList} />
 				</div>
 			))}
 		</div>
 	);
+};
+
+const RaffleCardWrapper: FC<{ raffle: Prize; isHighlighted?: boolean }> = (props) => {
+	if (props.raffle.pk === 70) return <LineaRaffleCard {...props} />;
+
+	return <RaffleCard {...props} />;
 };
 
 const RaffleCard: FC<{ raffle: Prize; isHighlighted?: boolean }> = ({ raffle, isHighlighted }) => {
@@ -251,7 +258,9 @@ const RaffleCard: FC<{ raffle: Prize; isHighlighted?: boolean }> = ({ raffle, is
 										<div className="flex flex-col gap-1">
 											<p className="text-[10px] text-white">{start ? 'Winner in:' : 'Starts in:'}</p>
 											<p className="text-[10px] text-gray100">
-												{!isRemainingPercentLessThanTen
+												{maxNumberOfEntries > 1_000_000_000
+													? `${numberWithCommas(maxNumberOfEntries)} people enrolled`
+													: !isRemainingPercentLessThanTen
 													? `
 											${numberOfOnchainEntries} / ${numberWithCommas(maxNumberOfEntries)} people enrolled`
 													: remainingPeople > 0
@@ -285,7 +294,9 @@ const RaffleCard: FC<{ raffle: Prize; isHighlighted?: boolean }> = ({ raffle, is
 										<div className="flex flex-col gap-1">
 											<p className="text-[10px] text-white">{start ? 'Winner in:' : 'Starts in:'}</p>
 											<p className="text-[10px] text-gray100">
-												{!isRemainingPercentLessThanTen
+												{maxNumberOfEntries > 1_000_000_000
+													? `${numberWithCommas(maxNumberOfEntries)} people enrolled`
+													: !isRemainingPercentLessThanTen
 													? `
 													${numberOfOnchainEntries} / ${numberWithCommas(maxNumberOfEntries)} people enrolled`
 													: remainingPeople > 0
@@ -320,7 +331,9 @@ const RaffleCard: FC<{ raffle: Prize; isHighlighted?: boolean }> = ({ raffle, is
 										<div className="flex flex-col gap-1">
 											<p className="text-[10px] text-white">{start ? 'Winner in:' : 'Starts in:'}</p>
 											<p className="text-[10px] text-gray100">
-												{!isRemainingPercentLessThanTen
+												{maxNumberOfEntries > 1_000_000_000
+													? `${numberWithCommas(maxNumberOfEntries)} people enrolled`
+													: !isRemainingPercentLessThanTen
 													? `
 													${numberOfOnchainEntries} / ${numberWithCommas(maxNumberOfEntries)} people enrolled`
 													: remainingPeople > 0
@@ -438,7 +451,7 @@ type RaffleCardTimerProps = {
 	FinishTime: string;
 };
 
-const RaffleCardTimer = ({ startTime, FinishTime }: RaffleCardTimerProps) => {
+export const RaffleCardTimer = ({ startTime, FinishTime }: RaffleCardTimerProps) => {
 	const [now, setNow] = useState(new Date());
 	const [days, setDays] = useState('00');
 	const [hours, setHours] = useState('00');

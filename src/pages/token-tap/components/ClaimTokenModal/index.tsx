@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Text } from 'components/basic/Text/text.style';
 import { DropIconWrapper } from 'pages/home/components/ClaimModal/claimModal.style';
 import Icon from 'components/basic/Icon/Icon';
@@ -8,7 +8,6 @@ import { shortenAddress } from 'utils';
 import WalletAddress from 'pages/home/components/ClaimModal/walletAddress';
 import Modal from 'components/common/Modal/modal';
 import useWalletActivation from 'hooks/useWalletActivation';
-import { useWeb3React } from '@web3-react/core';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import { TokenTapContext } from 'hooks/token-tap/tokenTapContext';
 import { switchChain } from 'utils/switchChain';
@@ -21,6 +20,7 @@ import animation from 'assets/animations/GasFee-delivery2.json';
 import ModelViewer from '@metamask/logo';
 import { GlobalContext } from 'hooks/useGlobalContext';
 import { useWalletAccount, useWalletConnect, useWalletNetwork } from 'utils/hook/wallet';
+import TokenPermissions from '../permissions';
 
 const ClaimTokenModalBody = ({ chain }: { chain: Chain }) => {
 	const { address, isConnected } = useWalletAccount();
@@ -30,6 +30,8 @@ const ClaimTokenModalBody = ({ chain }: { chain: Chain }) => {
 	const chainId = activatedChain?.id;
 
 	const metamaskLogo = useRef<HTMLDivElement>(null);
+
+	const [isPermissionsVerified, setIsPermissionsVerified] = useState(false);
 
 	const { tryActivation } = useWalletActivation();
 	const {
@@ -41,9 +43,10 @@ const ClaimTokenModalBody = ({ chain }: { chain: Chain }) => {
 		claimTokenWithMetamaskResponse,
 		claimTokenSignatureLoading,
 	} = useContext(TokenTapContext);
+
 	const { openBrightIdModal } = useContext(GlobalContext);
 
-	const { userProfile } = useContext(UserProfileContext);
+	const { userProfile, weeklyTokenClaimLimit } = useContext(UserProfileContext);
 
 	const collectedToken = claimedTokensList.find((item) => item.tokenDistribution.id === selectedTokenForClaim!.id);
 
@@ -244,6 +247,10 @@ const ClaimTokenModalBody = ({ chain }: { chain: Chain }) => {
 	function renderInitialBody() {
 		if (!selectedTokenForClaim) {
 			return null;
+		}
+
+		if (selectedTokenForClaim.isExpired || selectedTokenForClaim.isMaxedOut) {
+			return renderMaxedOutBody();
 		}
 
 		const calculateClaimAmount = selectedTokenForClaim.amount / 10 ** selectedTokenForClaim.chain.decimals;
@@ -479,7 +486,11 @@ const ClaimTokenModalBody = ({ chain }: { chain: Chain }) => {
 
 		if (claimTokenLoading) return renderPendingBody();
 
-		if (claimedTokensList.length >= 3 && !collectedToken) return claimMaxedOutBody();
+		if (claimedTokensList.length >= (weeklyTokenClaimLimit ?? 4) && !collectedToken) return claimMaxedOutBody();
+
+		if (!isPermissionsVerified) {
+			return <TokenPermissions token={selectedTokenForClaim!} onClose={() => setIsPermissionsVerified(true)} />;
+		}
 
 		return renderInitialBody();
 	};
