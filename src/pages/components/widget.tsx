@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import UButton from '../../../components/basic/Button/UButton';
+import UButton from 'components/basic/Button/UButton';
 
 export interface WidgetPropsInterface extends React.HTMLAttributes<HTMLElement> {
 	className?: string;

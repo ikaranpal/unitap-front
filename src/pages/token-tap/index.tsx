@@ -3,7 +3,6 @@ import Footer from 'components/common/Footer/footer';
 import TokensList from './components/TokensList/TokensList';
 import SearchInput from './components/SearchInput/searchInput';
 import ClaimTokenModal from './components/ClaimTokenModal';
-import BrightConnectionModal from 'pages/home/components/BrightConnectionModal/brightConnectionModal';
 import { useContext } from 'react';
 import { TokenTapContext } from 'hooks/token-tap/tokenTapContext';
 import TokenTapLoading from './loading';
@@ -27,7 +26,6 @@ const TokenTap = () => {
 			<Footer />
 
 			<ClaimTokenModal />
-			<BrightConnectionModal />
 		</>
 	);
 };

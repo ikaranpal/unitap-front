@@ -4,7 +4,7 @@ import RoutePath from 'routes';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUnitapBatchSale } from 'hooks/pass/useUnitapBatchSale';
 import { getTotalTestNetworks } from 'utils';
-import { getTotalNetworks } from '../../utils';
+import { getTotalNetworks } from '../utils';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import Icon from 'components/basic/Icon/Icon';
 import { ClaimButton } from 'components/basic/Button/button';
@@ -14,7 +14,6 @@ import TokenTapLandingLazy from './components/token-tap';
 import { countGasClaimedAPI, countUsersAPI } from 'api';
 import { Chain, Prize } from 'types';
 import UButton from 'components/basic/Button/UButton';
-import PrizeTapLandingLazy from './components/prize-tap';
 import { getRafflesListAPI } from 'api';
 import PrizeTapLanding from './components/prize-tap/page';
 
@@ -62,8 +61,6 @@ export const futureTaps = [
 ];
 
 const TokenTapLandingComponent = lazy(TokenTapLandingLazy);
-
-const PrizeTapLandingComponent = lazy(PrizeTapLandingLazy);
 
 const GasTapLandingComponent = lazy(GasTapLandingLazy);
 

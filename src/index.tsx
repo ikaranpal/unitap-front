@@ -7,6 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createRoot } from 'react-dom/client';
 import { StrictMode } from 'react';
+import Providers from 'providers';
 
 if (process.env.NODE_ENV === 'production') {
 	Sentry.init({
@@ -24,7 +25,9 @@ const container = document.getElementById('root') as HTMLElement;
 
 createRoot(container).render(
 	<StrictMode>
-		<App />
+		<Providers>
+			<App />
+		</Providers>
 	</StrictMode>,
 );
 

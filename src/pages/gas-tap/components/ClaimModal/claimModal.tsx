@@ -1,13 +1,13 @@
 import { useContext, useEffect, useMemo, useRef } from 'react';
 import { Text } from 'components/basic/Text/text.style';
-import { DropIconWrapper } from 'pages/home/components/ClaimModal/claimModal.style';
+import { DropIconWrapper } from 'pages/gas-tap/components/ClaimModal/claimModal.style';
 import Icon from 'components/basic/Icon/Icon';
 import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/basic/Button/button';
 import { BrightIdModalState, Chain, ClaimReceiptState } from 'types';
 import { getChainClaimIcon, getTxUrl, shortenAddress } from 'utils';
 import { ClaimContext } from 'hooks/useChainList';
 import { formatWeiBalance } from 'utils/numbers';
-import WalletAddress from 'pages/home/components/ClaimModal/walletAddress';
+import WalletAddress from 'pages/gas-tap/components/ClaimModal/walletAddress';
 import lottie from 'lottie-web';
 import animation from 'assets/animations/GasFee-delivery2.json';
 import Modal from 'components/common/Modal/modal';

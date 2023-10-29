@@ -1,4 +1,4 @@
-import { Filters } from 'pages/home/page';
+import { Filters } from 'pages/gas-tap/page';
 import SearchInput from './components/SearchInput/searchInput';
 import { ClaimContext } from 'hooks/useChainList';
 import { useContext } from 'react';

@@ -1,6 +1,6 @@
 import { Suspense, lazy, useContext } from 'react';
 import ChainList from './components/Chainlist/chainlist';
-import Header from 'pages/home/components/Header/header';
+import Header from 'pages/gas-tap/components/Header/header';
 import SearchInput from './components/SearchInput/searchInput';
 import { Network } from 'types';
 import { ClaimContext } from 'hooks/useChainList';

@@ -1,27 +1,18 @@
 import './App.css';
 
-import { UserProfileProvider } from './hooks/useUserProfile';
-import { RefreshContextProvider } from './context/RefreshContext';
-import store from './state';
-import { Provider } from 'react-redux';
-import Web3Provider from 'components/Web3Provider';
-
-import ConnectBrightIdModal from 'pages/home/components/ConnectBrightIdModal/connectBrightIdModal';
-import BrightConnectionModal from 'pages/home/components/BrightConnectionModal/brightConnectionModal';
-import ConnectMetamaskModal from 'pages/home/components/ConnectMetamaskModal/connectMetamaskModal';
-import CreateBrightIdAccountModal from 'pages/home/components/CreateBrightIdAccountModal/createBrightIdAccountModal';
-import { BlockNumberProvider } from 'lib/hooks/useBlockNumber';
 import ApplicationUpdater from 'state/application/updater';
 import TransactionUpdater from 'state/transactions/updater';
 import UserUpdater from 'state/user/updater';
 import { MulticallUpdater } from 'lib/state/multicall';
-import { ErrorsProvider } from './context/ErrorsProvider';
 
 import 'typeface-jetbrains-mono';
 
-import GlobalContextProvider from 'hooks/useGlobalContext';
 import Router from 'router';
 import Layout from 'layout';
+import BrightConnectionModal from 'components/containers/modals/BrightConnectionModal/brightConnectionModal';
+import ConnectBrightIdModal from 'components/containers/modals/ConnectBrightIdModal/connectBrightIdModal';
+import ConnectMetamaskModal from 'components/containers/modals/ConnectMetamaskModal/connectMetamaskModal';
+import CreateBrightIdAccountModal from 'components/containers/modals/CreateBrightIdAccountModal/createBrightIdAccountModal';
 
 function Updaters() {
 	return (
@@ -36,29 +27,15 @@ function Updaters() {
 
 function App() {
 	return (
-		<Provider store={store}>
-			<Web3Provider>
-				<RefreshContextProvider>
-					<ErrorsProvider>
-						<UserProfileProvider>
-							<GlobalContextProvider>
-								<BlockNumberProvider>
-									<Router>
-										<Layout>
-											<Updaters />
-											<ConnectBrightIdModal />
-											<BrightConnectionModal />
-											<ConnectMetamaskModal />
-											<CreateBrightIdAccountModal />
-										</Layout>
-									</Router>
-								</BlockNumberProvider>
-							</GlobalContextProvider>
-						</UserProfileProvider>
-					</ErrorsProvider>
-				</RefreshContextProvider>
-			</Web3Provider>
-		</Provider>
+		<Router>
+			<Layout>
+				<Updaters />
+				<ConnectBrightIdModal />
+				<BrightConnectionModal />
+				<ConnectMetamaskModal />
+				<CreateBrightIdAccountModal />
+			</Layout>
+		</Router>
 	);
 }
 

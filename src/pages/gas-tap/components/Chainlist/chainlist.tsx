@@ -11,7 +11,7 @@ import { Chain, ChainType, ClaimReceipt, ClaimReceiptState, Network, PK } from '
 import { useLocation } from 'react-router-dom';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import EmptyChainListCard from './EmptyChainListCard';
-import { FundContext } from 'pages/home/context/fundContext';
+import { FundContext } from 'pages/gas-tap/context/fundContext';
 
 const AddMetamaskButton = styled(SecondaryButton)`
 	display: flex;
