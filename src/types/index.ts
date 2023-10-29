@@ -1,5 +1,10 @@
 export type PK = number;
 
+export type MetaData = {
+	title?: string;
+	description?: string;
+};
+
 export type Chain = {
 	pk: PK;
 	chainName: string;
