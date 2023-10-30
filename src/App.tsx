@@ -1,5 +1,4 @@
 import './App.css';
-// import 'typeface-jetbrains-mono';
 
 import ApplicationUpdater from 'state/application/updater';
 import TransactionUpdater from 'state/transactions/updater';
@@ -7,10 +6,13 @@ import { MulticallUpdater } from 'lib/state/multicall';
 
 import Router from 'router';
 import Layout from 'layout';
-import BrightConnectionModal from 'components/containers/modals/brightConnectionModal';
-import ConnectBrightIdModal from 'components/containers/modals/connectBrightIdModal';
-import ConnectMetamaskModal from 'components/containers/modals/connectMetamaskModal';
-import CreateBrightIdAccountModal from 'components/containers/modals/createBrightIdAccountModal';
+
+import {
+	ConnectBrightIdModal,
+	BrightConnectionModal,
+	ConnectMetamaskModal,
+	CreateBrightIdAccountModal,
+} from 'components/containers/modals';
 
 function Updaters() {
 	return (
