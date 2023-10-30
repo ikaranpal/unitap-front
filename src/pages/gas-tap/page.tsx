@@ -6,9 +6,9 @@ import { Network } from 'types';
 import { GasClaimContext } from 'hooks/useChainList';
 import { ChainType } from 'types';
 
-const ClaimModal = lazy(() => import('./components/Modals/ClaimModal/claimModal'));
+const ClaimModal = lazy(() => import('./components/Modals/ClaimModal'));
 
-const ClaimNonEVMModal = lazy(() => import('./components/Modals/ClaimNonEVMModal/claimNonEVMModal'));
+const ClaimNonEVMModal = lazy(() => import('./components/Modals/claimNonEVMModal'));
 
 const Home = () => {
 	const { searchPhrase } = useContext(GasClaimContext);

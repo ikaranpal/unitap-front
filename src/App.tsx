@@ -1,14 +1,14 @@
 import './App.css';
+import 'typeface-jetbrains-mono';
 
 import ApplicationUpdater from 'state/application/updater';
 import TransactionUpdater from 'state/transactions/updater';
 import UserUpdater from 'state/user/updater';
 import { MulticallUpdater } from 'lib/state/multicall';
 
-import 'typeface-jetbrains-mono';
-
 import Router from 'router';
 import Layout from 'layout';
+
 import BrightConnectionModal from 'components/containers/modals/BrightConnectionModal/brightConnectionModal';
 import ConnectBrightIdModal from 'components/containers/modals/ConnectBrightIdModal/connectBrightIdModal';
 import ConnectMetamaskModal from 'components/containers/modals/ConnectMetamaskModal/connectMetamaskModal';

@@ -3,7 +3,7 @@ import { ClaimButton } from 'components/basic/Button/button';
 import Modal from 'components/containers/common/Modal/modal';
 import { GasClaimContext } from 'hooks/useChainList';
 import Icon from 'components/basic/Icon/Icon';
-import { formatWeiBalance } from '../../../../../utils/numbers';
+import { formatWeiBalance } from '../../../../utils/numbers';
 
 const HighGasFeeModalContent = () => {
 	const { changeIsHighGasFeeModalOpen } = useContext(GasClaimContext);

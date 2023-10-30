@@ -12,7 +12,7 @@ import { getChainClaimIcon, getTxUrl } from 'utils';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import lottie from 'lottie-web';
 import animation from 'assets/animations/GasFee-delivery2.json';
-import ClaimNotAvailable from '../ClaimNotRemaining';
+import ClaimNotAvailable from './ClaimNotRemaining';
 import { GlobalContext } from 'hooks/useGlobalContext';
 
 const lightingChainId = '286621';

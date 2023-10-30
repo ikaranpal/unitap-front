@@ -16,7 +16,7 @@ export const FundContext = createContext<FundContextType>({
 	setChainId: () => undefined,
 });
 
-const FundContextProvider: FC<PropsWithChildren> = ({ children }) => {
+const FundGasModal: FC<PropsWithChildren> = ({ children }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [chainId, setChainId] = useState<number>();
 
@@ -39,4 +39,4 @@ const FundContextProvider: FC<PropsWithChildren> = ({ children }) => {
 	);
 };
 
-export default FundContextProvider;
+export default FundGasModal;
