@@ -52,12 +52,12 @@ const ChainCard = ({ chain }: props) => {
 	}, [nativeCurrency, fundManagerBalance]);
 
 	return (
-		<div className="chain p-5 lg:w-36 xl:w-40 sm:border-r-2 border-r-gray30">
-			<div className="chain__name flex mb-4 text-white">
+		<div className="chain p-5 flex flex-col h-full lg:w-36 xl:w-40 sm:border-r-2 border-r-gray30">
+			<div className="chain__name flex-1 flex mb-4 text-white">
 				{chain.chainName}
 				<Icon className="ml-2" iconSrc={chain.logoUrl} width="auto" height="22px" />
 			</div>
-			<p className="chain__info text-xs text-gray90 flex">
+			<p className="chain__info text-xs mt-auto text-gray90 flex">
 				balance:
 				<span className="chain__info__balance text-white ml-1">
 					{fundManagerBalanceAmount

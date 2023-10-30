@@ -1,12 +1,10 @@
 import Icon from 'components/basic/Icon/Icon';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { Chain, ClaimReceipt, ClaimReceiptState } from 'types';
 import { getChainClaimIcon, getTxUrl } from 'utils';
 import { formatWeiBalance } from 'utils/numbers';
 import { DropIconWrapper } from '../claimModal.style';
 import { Text } from 'components/basic/Text/text.style';
-import lottie from 'lottie-web';
-import animation from 'assets/animations/GasFee-delivery2.json';
 
 const ClaimSuccessBody: FC<{ chain: Chain; activeClaimReceipt: ClaimReceipt }> = ({ chain, activeClaimReceipt }) => {
 	const handleClick = () => {
@@ -17,21 +15,6 @@ const ClaimSuccessBody: FC<{ chain: Chain; activeClaimReceipt: ClaimReceipt }> =
 		)}&url=${encodeURIComponent('unitap.app/gas-tap?hc=' + encodeURIComponent(chain.chainName))}`;
 		window.open(twitterUrl, '_blank');
 	};
-
-	useEffect(() => {
-		if (activeClaimReceipt?.status === ClaimReceiptState.PENDING) {
-			const animationElement = document.querySelector('#animation');
-			if (animationElement) {
-				animationElement.innerHTML = '';
-			}
-			lottie.loadAnimation({
-				container: document.querySelector('#animation') as HTMLInputElement,
-				animationData: animation,
-				loop: true,
-				autoplay: true,
-			});
-		}
-	}, [activeClaimReceipt?.status]);
 
 	return (
 		<>

@@ -42,7 +42,7 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 		return <ClaimSuccessBody activeClaimReceipt={activeClaimReceipt} chain={chain} />;
 
 	if (activeClaimReceipt?.status === ClaimReceiptState.PENDING)
-		return <ClaimPendingBody chain={chain} closeClaimModal={closeClaimModal} />;
+		return <ClaimPendingBody activeClaimReceipt={activeClaimReceipt} chain={chain} closeClaimModal={closeClaimModal} />;
 
 	if (activeClaimReceipt?.status === ClaimReceiptState.REJECTED)
 		return <ClaimFailedBody chain={chain} claim={claim} claimLoading={claimLoading} />;
