@@ -1,13 +1,13 @@
 import { useContext, useEffect } from 'react';
 
 import Modal from 'components/containers/common/Modal/modal';
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/عه/Icon/Icon';
 import { GasClaimContext } from 'hooks/useChainList';
 import { ClaimNonEVMModalState, ClaimReceiptState } from 'types';
 
 import { formatChainBalance } from 'utils/numbers';
-import { Text } from 'components/basic/Text/text.style';
-import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/basic/Button/button';
+import { Text } from 'components/عه/Text/text.style';
+import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/عه/Button/button';
 import { getChainClaimIcon, getTxUrl } from 'utils';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import lottie from 'lottie-web';

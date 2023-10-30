@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import Input from 'components/basic/Input/input';
+import Input from 'components/عه/Input/input';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useGasClaimContext } from 'hooks';
 

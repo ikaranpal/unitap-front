@@ -1,6 +1,6 @@
-import Icon from 'components/basic/Icon/Icon';
-import { Text } from 'components/basic/Text/text.style';
-import { LightOutlinedButtonNew } from '../../basic/Button/button';
+import Icon from 'components/عه/Icon/Icon';
+import { Text } from 'components/عه/Text/text.style';
+import { LightOutlinedButtonNew } from '../../عه/Button/button';
 
 const BrightStatusModal = ({ success }: { success: boolean }) => {
 	function successState() {

@@ -1,4 +1,4 @@
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/عه/Icon/Icon';
 import Timer from './timer';
 import { useUserProfileContext } from 'hooks/useUserProfile';
 import { useGasClaimContext } from 'hooks/useChainList';

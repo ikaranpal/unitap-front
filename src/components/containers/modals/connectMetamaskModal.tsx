@@ -1,11 +1,11 @@
 import { useCallback, useContext, useState } from 'react';
-import { Text } from 'components/basic/Text/text.style';
+import { Text } from 'components/عه/Text/text.style';
 import { UserProfileContext } from 'hooks/useUserProfile';
 
-import { ClaimButton } from 'components/basic/Button/button';
+import { ClaimButton } from 'components/عه/Button/button';
 import BrightStatusModal from './brightStatusModal';
 import Modal from 'components/containers/common/Modal/modal';
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/عه/Icon/Icon';
 import useGenerateKeys from 'hooks/useGenerateKeys';
 import { GlobalContext } from 'hooks/useGlobalContext';
 

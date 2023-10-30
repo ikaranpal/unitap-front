@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Icon from 'components/basic/Icon/Icon';
-import Input from 'components/basic/Input/input';
+import Icon from 'components/عه/Icon/Icon';
+import Input from 'components/عه/Input/input';
 import { TokenTapContext } from 'hooks/token-tap/tokenTapContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 

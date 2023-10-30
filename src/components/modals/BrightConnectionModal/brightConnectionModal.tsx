@@ -1,13 +1,13 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { UserProfileContext } from 'hooks/useUserProfile';
 
-import { ClaimButton } from 'components/basic/Button/button';
+import { ClaimButton } from 'components/عه/Button/button';
 import { QRCode } from 'react-qrcode-logo';
 
 import { APIError, APIErrorsSource, BrightIdConnectionModalState } from 'types';
 import BrightStatusModal from '../BrightStatusModal/brightStatusModal';
 import Modal from 'components/common/Modal/modal';
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/عه/Icon/Icon';
 import useGenerateKeys from 'hooks/useGenerateKeys';
 import { sponsorAPI } from 'api';
 import { ErrorsContext } from '../../../context/ErrorsProvider';

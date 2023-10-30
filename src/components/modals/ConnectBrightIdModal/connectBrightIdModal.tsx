@@ -1,13 +1,13 @@
 import { useContext } from 'react';
-import { Text } from 'components/basic/Text/text.style';
+import { Text } from 'components/عه/Text/text.style';
 import { UserProfileContext } from 'hooks/useUserProfile';
 
-import { ClaimButton, WhiteOutlinedButton } from 'components/basic/Button/button';
+import { ClaimButton, WhiteOutlinedButton } from 'components/عه/Button/button';
 
 import { BrightIdModalState } from 'types';
 import BrightStatusModal from '../BrightStatusModal/brightStatusModal';
 import Modal from 'components/common/Modal/modal';
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/عه/Icon/Icon';
 import { GlobalContext } from 'hooks/useGlobalContext';
 
 const ConnectBrightIdModalContent = () => {
