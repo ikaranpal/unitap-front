@@ -1,6 +1,6 @@
 import { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { ClaimButton } from 'components/عه/Button/button';
-import Icon from 'components/عه/Icon/Icon';
+import { ClaimButton } from 'components/ui/Button/button';
+import Icon from 'components/ui/Icon/Icon';
 import { GasClaimContext } from 'hooks/useChainList';
 import { Chain, ChainType } from 'types';
 import { parseEther } from '@ethersproject/units';

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { DV } from 'components/عه/designVariables';
+import { DV } from 'components/ui/designVariables';
 
-import Icon from 'components/عه/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 
 type props = {
 	editable?: boolean;

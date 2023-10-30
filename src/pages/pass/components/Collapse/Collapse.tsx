@@ -1,4 +1,4 @@
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import React, { useState } from 'react';
 
 interface CollapseProps {

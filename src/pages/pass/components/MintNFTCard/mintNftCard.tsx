@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ClaimButton } from 'components/basic/Button/button';
+import { ClaimButton } from 'components/ui/Button/button';
 
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import { useUnitapPassMultiMintCallback } from '../../../../hooks/pass/useUnitapPassMultiMintCallback';
 import { useUnitapBatchSale } from '../../../../hooks/pass/useUnitapBatchSale';
 import JSBI from 'jsbi';

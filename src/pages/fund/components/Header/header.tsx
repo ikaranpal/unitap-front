@@ -1,4 +1,4 @@
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import { HeaderWrapper } from 'pages/fund/components/Header/header.style';
 
 const Header = () => {

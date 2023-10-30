@@ -6,14 +6,14 @@ import { useUnitapBatchSale } from 'hooks/pass/useUnitapBatchSale';
 import { getTotalTestNetworks } from 'utils';
 import { getTotalNetworks } from '../utils';
 import { UserProfileContext } from 'hooks/useUserProfile';
-import Icon from 'components/عه/Icon/Icon';
-import { ClaimButton } from 'components/عه/Button/button';
+import Icon from 'components/ui/Icon/Icon';
+import { ClaimButton } from 'components/ui/Button/button';
 import TapLoading from './components/loading';
 import GasTapLandingLazy from './components/gas-tap';
 import TokenTapLandingLazy from './components/token-tap';
 import { countGasClaimedAPI, countUsersAPI } from 'api';
 import { Chain, Prize } from 'types';
-import UButton from 'components/عه/Button/UButton';
+import UButton from 'components/ui/Button/UButton';
 import { getRafflesListAPI } from 'api';
 import PrizeTapLanding from './components/prize-tap/page';
 

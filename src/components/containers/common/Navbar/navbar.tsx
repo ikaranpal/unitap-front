@@ -4,14 +4,14 @@ import {
 	BrightPrimaryButton,
 	GradientOutlinedButton,
 	LightOutlinedButton,
-} from 'components/basic/Button/button';
+} from 'components/ui/Button/button';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import { shortenAddress } from 'utils';
 import { DesktopNav, MobileNav } from './navbar.style';
 import { Link } from 'react-router-dom';
 import RoutePath from 'routes';
 import useWalletActivation from 'hooks/useWalletActivation';
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import NavbarDropdown from './navbarDropdown';
 // import { useUnitapPass } from '../../../hooks/pass/useUnitapPass';
 import { GlobalContext } from 'hooks/useGlobalContext';

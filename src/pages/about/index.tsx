@@ -1,4 +1,4 @@
-import Icon from 'components/عه/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import Footer from 'components/containers/common/Footer/footer';
 
 const About = () => {

@@ -1,4 +1,4 @@
-import Icon from 'components/عه/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import { GasClaimContext, useGasClaimContext } from 'hooks/useChainList';
 import { useContext, useEffect, useState } from 'react';
 import { ClaimReceiptState } from 'types';

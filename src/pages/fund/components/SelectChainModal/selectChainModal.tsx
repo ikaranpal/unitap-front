@@ -4,7 +4,7 @@ import { SelectChainModalWrapper } from './selectChainModal.style';
 import ChainItem from './chainItem';
 import { GasClaimContext } from '../../../../hooks/useChainList';
 import { Chain, ChainType } from '../../../../types';
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 
 const SelectChainModal = ({
 	selectedChain,

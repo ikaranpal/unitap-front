@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { ClaimButton } from 'components/عه/Button/button';
+import { ClaimButton } from 'components/ui/Button/button';
 import Modal from 'components/containers/common/Modal/modal';
 import { GasClaimContext } from 'hooks/useChainList';
-import Icon from 'components/عه/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import { formatWeiBalance } from '../../../../utils/numbers';
 
 const HighGasFeeModalContent = () => {

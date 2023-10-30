@@ -1,5 +1,5 @@
-import { PrizeTapCard } from 'components/basic/Button/button';
-import Icon from 'components/basic/Icon/Icon';
+import { PrizeTapCard } from 'components/ui/Button/button';
+import Icon from 'components/ui/Icon/Icon';
 
 const RaffleWinCard = () => {
 	return (

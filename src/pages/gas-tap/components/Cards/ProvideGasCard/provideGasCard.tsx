@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { LightOutlinedButton } from 'components/basic/Button/button';
+import { LightOutlinedButton } from 'components/ui/Button/button';
 import { useGasClaimContext } from 'hooks/useChainList';
 import ChainCard from './chainCard';
 import { FundContext } from 'pages/gas-tap/components/Modals/FundGasModal';

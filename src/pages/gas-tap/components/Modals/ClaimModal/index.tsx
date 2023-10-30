@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { Text } from 'components/عه/Text/text.style';
+import { Text } from 'components/ui/Text/text.style';
 import { DropIconWrapper } from 'pages/gas-tap/components/Modals/ClaimModal/claimModal.style';
-import Icon from 'components/عه/Icon/Icon';
-import { ClaimButton } from 'components/عه/Button/button';
+import Icon from 'components/ui/Icon/Icon';
+import { ClaimButton } from 'components/ui/Button/button';
 import { BrightIdModalState, Chain, ClaimReceiptState } from 'types';
 import { getChainClaimIcon, shortenAddress } from 'utils';
 import { useGasClaimContext } from 'hooks/useChainList';

@@ -1,11 +1,11 @@
-import { ClaimAndEnrollButton, Button } from 'components/basic/Button/button';
-import Icon from 'components/basic/Icon/Icon';
-import Tooltip from 'components/basic/Tooltip';
+import { ClaimAndEnrollButton, Button } from 'components/ui/Button/button';
+import Icon from 'components/ui/Icon/Icon';
+import Tooltip from 'components/ui/Tooltip';
 import { PrizeTapContext } from 'hooks/prizeTap/prizeTapContext';
 import { FC, useContext, useState, useEffect, useMemo } from 'react';
 import { Prize } from 'types';
 import { RaffleCardTimer } from '../RafflesList/RafflesList';
-import { DV } from 'components/basic/designVariables';
+import { DV } from 'components/ui/designVariables';
 import styled from 'styled-components';
 import { LineaRaffleEntry } from '../types';
 import { getLineaRaffleEntries } from 'api';

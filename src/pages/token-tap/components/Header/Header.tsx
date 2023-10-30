@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import Icon from 'components/عه/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import { range } from 'utils';
 import { TokenTapContext } from 'hooks/token-tap/tokenTapContext';

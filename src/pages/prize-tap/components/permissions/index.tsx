@@ -1,6 +1,6 @@
 import { getRaffleConstraintsVerifications } from 'api';
-import { ClaimAndEnrollButton } from 'components/basic/Button/button';
-import Tooltip from 'components/basic/Tooltip';
+import { ClaimAndEnrollButton } from 'components/ui/Button/button';
+import Tooltip from 'components/ui/Tooltip';
 import { PrizeTapContext } from 'hooks/prizeTap/prizeTapContext';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import { FC, useContext, useEffect, useState } from 'react';

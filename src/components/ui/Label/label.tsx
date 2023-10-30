@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import { DV } from 'components/basic/designVariables';
+import { DV } from 'components/ui/designVariables';
 
 interface props {
 	children: ReactNode;

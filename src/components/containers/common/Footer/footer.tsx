@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 
-import { DV } from 'components/basic/designVariables';
+import { DV } from 'components/ui/designVariables';
 
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 
 const FooterWrapper = styled.div`
 	width: 100%;

@@ -1,10 +1,10 @@
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import { FC } from 'react';
 import { Chain, ClaimReceipt, ClaimReceiptState } from 'types';
 import { getChainClaimIcon, getTxUrl } from 'utils';
 import { formatWeiBalance } from 'utils/numbers';
 import { DropIconWrapper } from '../claimModal.style';
-import { Text } from 'components/basic/Text/text.style';
+import { Text } from 'components/ui/Text/text.style';
 
 const ClaimSuccessBody: FC<{ chain: Chain; activeClaimReceipt: ClaimReceipt }> = ({ chain, activeClaimReceipt }) => {
 	const handleClick = () => {

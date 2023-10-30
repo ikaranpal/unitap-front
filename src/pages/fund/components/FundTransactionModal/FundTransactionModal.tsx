@@ -1,7 +1,7 @@
 import { FundTransactionModalWrapper } from './FundTransactionModal.style';
-import Icon from 'components/basic/Icon/Icon';
-import { Text } from 'components/basic/Text/text.style';
-import { SecondaryButton } from 'components/basic/Button/button';
+import Icon from 'components/ui/Icon/Icon';
+import { Text } from 'components/ui/Text/text.style';
+import { SecondaryButton } from 'components/ui/Button/button';
 import { Chain } from '../../../../types';
 import { formatBalance } from '../../../../utils/numbers';
 import { getTxUrl } from '../../../../utils';

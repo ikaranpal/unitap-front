@@ -1,5 +1,5 @@
-import { ClaimButton } from 'components/basic/Button/button';
-import Icon from 'components/basic/Icon/Icon';
+import { ClaimButton } from 'components/ui/Button/button';
+import Icon from 'components/ui/Icon/Icon';
 import { useGlobalContext } from 'hooks/useGlobalContext';
 import { FC } from 'react';
 import { DropIconWrapper } from '../claimModal.style';

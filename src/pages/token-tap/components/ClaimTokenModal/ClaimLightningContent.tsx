@@ -1,10 +1,10 @@
 import { FC, useContext, useEffect, useMemo, useState } from 'react';
 
-import Icon from 'components/عه/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import { Chain, ClaimReceiptState, Permission, PermissionType } from 'types';
 import lottie from 'lottie-web';
-import { Text } from 'components/عه/Text/text.style';
-import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/عه/Button/button';
+import { Text } from 'components/ui/Text/text.style';
+import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/ui/Button/button';
 import { UserProfileContext } from '../../../../hooks/useUserProfile';
 import { TokenTapContext } from 'hooks/token-tap/tokenTapContext';
 import { DropIconWrapper } from 'pages/gas-tap/components/Modals/ClaimModal/claimModal.style';

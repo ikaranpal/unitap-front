@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/';
-import { DV } from 'components/basic/designVariables';
-import { ClaimButton, ClaimedButton, SecondaryButton } from 'components/basic/Button/button';
+import { DV } from 'components/ui/designVariables';
+import { ClaimButton, ClaimedButton, SecondaryButton } from 'components/ui/Button/button';
 import { useGasClaimContext } from 'hooks/useChainList';
 import { formatChainBalance, numberWithCommas } from 'utils/numbers';
 import { getChainIcon } from 'utils';

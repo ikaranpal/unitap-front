@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DV } from 'components/عه/designVariables';
+import { DV } from 'components/ui/designVariables';
 
 interface colProps {
 	xlg?: number;

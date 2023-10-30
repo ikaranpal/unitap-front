@@ -1,5 +1,5 @@
-import { SecondaryGreenColorButton } from 'components/basic/Button/button';
-import { Text } from 'components/basic/Text/text.style';
+import { SecondaryGreenColorButton } from 'components/ui/Button/button';
+import { Text } from 'components/ui/Text/text.style';
 import { FC, useEffect } from 'react';
 import { Chain, ClaimReceipt, ClaimReceiptState } from 'types';
 import lottie from 'lottie-web';

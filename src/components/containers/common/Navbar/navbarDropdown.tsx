@@ -1,4 +1,4 @@
-import Icon from 'components/عه/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RoutePath from 'routes';

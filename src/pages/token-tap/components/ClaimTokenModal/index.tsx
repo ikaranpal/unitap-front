@@ -1,8 +1,8 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { Text } from 'components/عه/Text/text.style';
+import { Text } from 'components/ui/Text/text.style';
 import { DropIconWrapper } from 'pages/gas-tap/components/Modals/ClaimModal/claimModal.style';
-import Icon from 'components/عه/Icon/Icon';
-import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/عه/Button/button';
+import Icon from 'components/ui/Icon/Icon';
+import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/ui/Button/button';
 import { Chain, ClaimReceiptState, Permission, PermissionType } from 'types';
 import { shortenAddress } from 'utils';
 import WalletAddress from 'pages/gas-tap/components/Modals/ClaimModal/walletAddress';

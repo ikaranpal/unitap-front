@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 
 import { Chain, ChainType } from 'types';
 import { BigNumber } from '@ethersproject/bignumber';

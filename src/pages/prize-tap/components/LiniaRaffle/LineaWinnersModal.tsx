@@ -1,4 +1,4 @@
-import Icon from 'components/basic/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import Modal from 'components/containers/common/Modal/modal';
 import { PrizeTapContext } from 'hooks/prizeTap/prizeTapContext';
 import { FC, useCallback, useContext, useMemo, useState } from 'react';
@@ -6,7 +6,7 @@ import { LineaRaffleEntry } from '../types';
 import { shortenAddress } from 'utils';
 import { getUserEntry } from '.';
 import { useWeb3React } from '@web3-react/core';
-import UButton from 'components/basic/Button/UButton';
+import UButton from 'components/ui/Button/UButton';
 import useWalletActivation from 'hooks/useWalletActivation';
 
 const LineaWinnersModal: FC<{}> = ({}) => {

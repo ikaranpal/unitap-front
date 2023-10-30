@@ -3,7 +3,7 @@ import { PrizeTapContext } from 'hooks/prizeTap/prizeTapContext';
 import { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { ReactComponent as CheckCircleImage } from './check-circle.svg';
-import UButton from 'components/basic/Button/UButton';
+import UButton from 'components/ui/Button/UButton';
 import useWalletActivation from 'hooks/useWalletActivation';
 import { numberWithCommas } from 'utils/numbers';
 

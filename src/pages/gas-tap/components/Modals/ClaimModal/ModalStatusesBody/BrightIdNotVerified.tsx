@@ -1,5 +1,5 @@
-import { LightOutlinedButtonNew } from 'components/basic/Button/button';
-import Icon from 'components/basic/Icon/Icon';
+import { LightOutlinedButtonNew } from 'components/ui/Button/button';
+import Icon from 'components/ui/Icon/Icon';
 
 const BrightIdNotVerifiedBody = () => {
 	return (

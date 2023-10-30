@@ -1,5 +1,5 @@
 import styled from 'styled-components/';
-import { DV } from 'components/basic/designVariables';
+import { DV } from 'components/ui/designVariables';
 
 interface props {
 	size?: 'small' | 'medium' | 'large';

@@ -1,10 +1,10 @@
-import { ClaimButton } from 'components/basic/Button/button';
-import Icon from 'components/basic/Icon/Icon';
+import { ClaimButton } from 'components/ui/Button/button';
+import Icon from 'components/ui/Icon/Icon';
 import { FC } from 'react';
 import { Chain } from 'types';
 import { getChainClaimIcon } from 'utils';
 import { DropIconWrapper } from '../claimModal.style';
-import { Text } from 'components/basic/Text/text.style';
+import { Text } from 'components/ui/Text/text.style';
 
 const ClaimFailedBody: FC<{ chain: Chain; claimLoading: boolean; claim: (chainPK: number) => void }> = ({
 	chain,

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { HaveBrightIdAccountModalState } from 'types';
 import Modal from 'components/common/Modal/modal';
-import Icon from 'components/عه/Icon/Icon';
+import Icon from 'components/ui/Icon/Icon';
 import { GlobalContext } from 'hooks/useGlobalContext';
 
 const CreateBrightIdAccountModalContent = () => {

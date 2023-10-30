@@ -1,4 +1,4 @@
-import { ClaimButton } from 'components/basic/Button/button';
+import { ClaimButton } from 'components/ui/Button/button';
 import useWalletActivation from 'hooks/useWalletActivation';
 import { FC, useRef, useEffect } from 'react';
 import { DropIconWrapper } from '../claimModal.style';

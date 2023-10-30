@@ -1,16 +1,16 @@
 import { FC, useContext, useState, useMemo } from 'react';
 import { Token } from 'types';
 import { useWeb3React } from '@web3-react/core';
-import Icon from 'components/عه/Icon/Icon';
-import Tooltip from 'components/عه/Tooltip';
+import Icon from 'components/ui/Icon/Icon';
+import Tooltip from 'components/ui/Tooltip';
 import { TokenTapContext } from 'hooks/token-tap/tokenTapContext';
 import usePermissionResolver from 'hooks/token-tap/usePermissionResolver';
 import { getChainIcon } from 'utils';
 import { numberWithCommas } from 'utils/numbers';
 import Markdown from '../Markdown';
 import styled from 'styled-components/';
-import { DV } from 'components/عه/designVariables';
-import { SecondaryButton, NoCurrencyButton, ClaimButton, ClaimedButton } from 'components/عه/Button/button';
+import { DV } from 'components/ui/designVariables';
+import { SecondaryButton, NoCurrencyButton, ClaimButton, ClaimedButton } from 'components/ui/Button/button';
 import { useWalletAccount } from 'utils/hook/wallet';
 
 const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHighlighted }) => {

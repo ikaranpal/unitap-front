@@ -1,6 +1,6 @@
 import { getTokenConstraintsVerifications } from 'api';
-import { ClaimAndEnrollButton } from 'components/عه/Button/button';
-import Tooltip from 'components/عه/Tooltip';
+import { ClaimAndEnrollButton } from 'components/ui/Button/button';
+import Tooltip from 'components/ui/Tooltip';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import { FC, useContext, useEffect, useState } from 'react';
 import { Permission, Token } from 'types';
