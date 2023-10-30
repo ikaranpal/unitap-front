@@ -357,7 +357,7 @@ body {
 				rgba(27, 27, 41, 0) 63.02%,
 				rgba(77, 52, 81, 0.6) 100%
 			),
-			url('../public/assets/images/gas-tap/header-wave.svg'), linear-gradient(#1b1b26, #1b1b26);
+			url('/assets/images/gas-tap/header-wave.svg'), linear-gradient(#1b1b26, #1b1b26);
 	}
 }
 
@@ -371,7 +371,7 @@ body {
 				rgba(27, 27, 41, 0) 63.02%,
 				rgba(77, 52, 81, 0.6) 100%
 			),
-			url('../public/assets/images/token-tap/header-background.svg'), linear-gradient(#1b1b26, #1b1b26);
+			url('/assets/images/token-tap/header-background.svg'), linear-gradient(#1b1b26, #1b1b26);
 	}
 
 	&__final-version-container {
@@ -383,7 +383,7 @@ body {
 				rgba(22, 22, 33, 0.91) 91.6%,
 				rgba(22, 22, 33, 0.99) 100%
 			),
-			url('../public/assets/images/token-tap/final-version-background.svg');
+			url('/assets/images/token-tap/final-version-background.svg');
 		background-repeat: no-repeat;
 		background-position: right top;
 	}
@@ -451,7 +451,7 @@ body {
 
 .claim-stat__not-claimed__text {
 	@apply bg-no-repeat bg-cover bg-center;
-	background-image: url('../public/assets/images/gas-tap/connect-bright-id-to-see-claims-bg.svg');
+	background-image: url('/assets/images/gas-tap/connect-bright-id-to-see-claims-bg.svg');
 }
 
 @keyframes dabe-waiting {
@@ -495,7 +495,7 @@ body {
 }
 
 .prize-card-bg-1 {
-	@apply lg:bg-[url("../public/assets/images/prize-tap/nft-cover.svg")] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;
+	@apply lg:bg-[url("/assets/images/prize-tap/nft-cover.svg")] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;
 }
 
 .prize-card-linea {
@@ -503,11 +503,11 @@ body {
 }
 
 .prize-card-bg-2 {
-	@apply lg:bg-[url("../public/assets/images/prize-tap/cover.svg")] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;
+	@apply lg:bg-[url("/assets/images/prize-tap/cover.svg")] bg-no-repeat p-0 pl-0 lg:pr-0 lg:p-4 lg:pl-6;
 }
 
 .prize-tap-header-bg {
-	background-image: url('../public/assets/images/prize-tap/header-bg.svg');
+	background-image: url('/assets/images/prize-tap/header-bg.svg');
 	@apply bg-no-repeat bg-cover bg-center;
 }
 
@@ -519,7 +519,7 @@ body {
 
 .winner-box-bg {
 	background-color: #10101b;
-	// background-image: url('../public/assets/images/prize-tap/winner_bg.svg');
+	// background-image: url('/assets/images/prize-tap/winner_bg.svg');
 	@apply bg-no-repeat bg-cover bg-center;
 }
 
