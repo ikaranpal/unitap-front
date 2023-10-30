@@ -7,11 +7,13 @@ import { BlockNumberProvider } from 'lib/hooks/useBlockNumber';
 import { ErrorsProvider } from './context/ErrorsProvider';
 import GlobalContextProvider from 'hooks/useGlobalContext';
 import { FC, PropsWithChildren } from 'react';
+import { WagmiConfig } from 'wagmi';
+import { config } from 'connection/wagmi';
 
 const Providers: FC<PropsWithChildren> = ({ children }) => {
 	return (
 		<Provider store={store}>
-			<Web3Provider>
+			<WagmiConfig config={config}>
 				<RefreshContextProvider>
 					<ErrorsProvider>
 						<UserProfileProvider>
@@ -21,7 +23,7 @@ const Providers: FC<PropsWithChildren> = ({ children }) => {
 						</UserProfileProvider>
 					</ErrorsProvider>
 				</RefreshContextProvider>
-			</Web3Provider>
+			</WagmiConfig>
 		</Provider>
 	);
 };

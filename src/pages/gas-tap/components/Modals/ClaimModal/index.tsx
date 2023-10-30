@@ -9,7 +9,6 @@ import { useGasClaimContext } from 'hooks/useChainList';
 import { formatWeiBalance } from 'utils/numbers';
 import WalletAddress from 'pages/gas-tap/components/Modals/ClaimModal/walletAddress';
 import Modal from 'components/containers/common/Modal/modal';
-import { useWeb3React } from '@web3-react/core';
 import { useUserProfileContext } from 'hooks/useUserProfile';
 import ClaimNotAvailable from '../ClaimNotRemaining';
 import { useGlobalContext } from 'hooks/useGlobalContext';
@@ -21,10 +20,10 @@ import {
 	ClaimFailedBody,
 	BrightIdNotConnectedBody,
 } from './ModalStatusesBody';
+import { useWalletAccount } from 'utils/hook/wallet';
 
 const ClaimModalBody = ({ chain }: { chain: Chain }) => {
-	const { account } = useWeb3React();
-	const walletConnected = !!account;
+	const { address, isConnected } = useWalletAccount();
 
 	const { claim, closeClaimModal, activeClaimReceipt, claimLoading, activeChain } = useGasClaimContext();
 
@@ -34,7 +33,7 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 
 	if (!userProfile.isMeetVerified) return <BrightIdNotVerifiedBody />;
 
-	if (!walletConnected) return <WalletNotConnectedBody chainPk={chain.pk} />;
+	if (!isConnected) return <WalletNotConnectedBody chainPk={chain.pk} />;
 
 	if (!activeClaimReceipt && (!remainingClaims || remainingClaims <= 0)) return <ClaimNotAvailable />;
 
@@ -63,7 +62,7 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 			<Text width="100%" fontSize="14">
 				Wallet Address
 			</Text>
-			<WalletAddress fontSize="12">{walletConnected ? shortenAddress(account) : ''}</WalletAddress>
+			<WalletAddress fontSize="12">{isConnected ? shortenAddress(address) : ''}</WalletAddress>
 			<ClaimButton
 				onClick={() => claim(chain.pk)}
 				width="100%"
