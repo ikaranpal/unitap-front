@@ -1,5 +1,5 @@
 import ScrollToTop from 'components/basic/ScrollToTop/scrollToTop';
-import { Component, FC, Fragment, PropsWithChildren } from 'react';
+import { FC, Fragment, PropsWithChildren } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MetaData } from 'types';
 
@@ -16,7 +16,7 @@ const routes = Object.entries(pages)
 		return { path: route, component: component.default as FC, metadata: component.metadata };
 	});
 
-const loadingRoutes: { [key: string]: { component: FC; path: string } } = {};
+// const loadingRoutes: { [key: string]: { component: FC; path: string } } = {};
 
 const providers: { [key: string]: { component: FC } } = {};
 
@@ -25,11 +25,12 @@ routes.forEach((route) => {
 		const index = route.path.indexOf('providers');
 
 		providers[route.path.slice(0, index)] = route;
-	} else if (route.path.endsWith('/loading')) {
-		const index = route.path.indexOf('loading');
-
-		loadingRoutes[route.path.slice(0, index)] = route;
 	}
+	// else if (route.path.endsWith('/loading')) {
+	// 	const index = route.path.indexOf('loading');
+
+	// 	loadingRoutes[route.path.slice(0, index)] = route;
+	// }
 });
 
 const Router: FC<PropsWithChildren> = ({ children }) => {

@@ -2,16 +2,16 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/';
 import { DV } from 'components/basic/designVariables';
 import { ClaimButton, ClaimedButton, SecondaryButton } from 'components/basic/Button/button';
-import { GasClaimContext } from 'hooks/useChainList';
+import { useGasClaimContext } from 'hooks/useChainList';
 import { formatChainBalance, numberWithCommas } from 'utils/numbers';
-import { getChainIcon } from '../../../../utils';
-import useSelectChain from '../../../../hooks/useSelectChain';
+import { getChainIcon } from 'utils';
+import useSelectChain from 'hooks/useSelectChain';
 import { useWeb3React } from '@web3-react/core';
 import { Chain, ChainType, ClaimReceipt, ClaimReceiptState, Network, PK } from 'types';
 import { useLocation } from 'react-router-dom';
-import { UserProfileContext } from 'hooks/useUserProfile';
+import { useUserProfileContext } from 'hooks/useUserProfile';
 import EmptyChainListCard from './EmptyChainListCard';
-import { FundContext } from 'pages/gas-tap/context/fundContext';
+import { FundContext } from 'pages/gas-tap/components/Modals/DonateModal/fundContext';
 
 const AddMetamaskButton = styled(SecondaryButton)`
 	display: flex;
@@ -31,9 +31,9 @@ const AddMetamaskButton = styled(SecondaryButton)`
 `;
 
 const ChainList = () => {
-	const { chainList, chainListSearchResult, setSelectedNetwork } = useContext(GasClaimContext);
+	const { chainList, chainListSearchResult, setSelectedNetwork } = useGasClaimContext();
 
-	const { isGasTapAvailable } = useContext(UserProfileContext);
+	const { isGasTapAvailable } = useUserProfileContext();
 
 	const [highlightedChain, setHighlightedChain] = useState('');
 
@@ -96,19 +96,18 @@ type ChainCardProps = {
 };
 
 const ChainCard = ({ chain, isHighlighted }: ChainCardProps) => {
-	const { openClaimModal } = useContext(GasClaimContext);
+	const { openClaimModal, activeClaimHistory } = useGasClaimContext();
+
 	const { setChainId, setIsOpen } = useContext(FundContext);
 	const addAndSwitchToChain = useSelectChain();
 	const { account } = useWeb3React();
+
 	const active = !!account;
 
 	const handleRefillButtonClicked = (chainId: PK) => {
 		setChainId(chainId);
 		setIsOpen(true);
-		// navigate(RoutePath.FUND + `?chain=${chainId}`);
 	};
-
-	const { activeClaimHistory } = useContext(GasClaimContext);
 
 	return (
 		<div>

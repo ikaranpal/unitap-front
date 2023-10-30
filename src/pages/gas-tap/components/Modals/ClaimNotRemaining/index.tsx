@@ -1,11 +1,11 @@
 import Icon from 'components/basic/Icon/Icon';
-import { GasClaimContext } from 'hooks/useChainList';
+import { GasClaimContext, useGasClaimContext } from 'hooks/useChainList';
 import { useContext, useEffect, useState } from 'react';
 import { ClaimReceiptState } from 'types';
-import { diffToNextMonday } from 'utils';
+import { diffToNextMonth } from 'utils';
 
 const ClaimNotAvailable = () => {
-	const { activeClaimHistory } = useContext(GasClaimContext);
+	const { activeClaimHistory } = useGasClaimContext();
 
 	const [now, setNow] = useState(new Date());
 	const [days, setDays] = useState('00');
@@ -14,7 +14,7 @@ const ClaimNotAvailable = () => {
 	const [seconds, setSeconds] = useState('00');
 
 	useEffect(() => {
-		const diff = diffToNextMonday(now);
+		const diff = diffToNextMonth(now);
 		setSeconds(diff.seconds);
 		setMinutes(diff.minutes);
 		setHours(diff.hours);

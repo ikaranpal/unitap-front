@@ -73,6 +73,8 @@ export const GasClaimContext = createContext<{
 	changeIsHighGasFeeModalOpen: EmptyCallback,
 });
 
+export const useGasClaimContext = () => useContext(GasClaimContext);
+
 export function GasClaimProvider({ children }: PropsWithChildren<{}>) {
 	const [chainList, setChainList] = useState<Chain[]>([]);
 	const [searchPhrase, setSearchPhrase] = useState<string>('');

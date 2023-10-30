@@ -1,24 +1,24 @@
-import { useContext, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Text } from 'components/basic/Text/text.style';
-import { DropIconWrapper } from 'pages/gas-tap/components/ClaimModal/claimModal.style';
+import { DropIconWrapper } from 'pages/gas-tap/components/Modals/ClaimModal/claimModal.style';
 import Icon from 'components/basic/Icon/Icon';
 import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/basic/Button/button';
 import { BrightIdModalState, Chain, ClaimReceiptState } from 'types';
 import { getChainClaimIcon, getTxUrl, shortenAddress } from 'utils';
-import { GasClaimContext } from 'hooks/useChainList';
+import { useGasClaimContext } from 'hooks/useChainList';
 import { formatWeiBalance } from 'utils/numbers';
-import WalletAddress from 'pages/gas-tap/components/ClaimModal/walletAddress';
+import WalletAddress from 'pages/gas-tap/components/Modals/ClaimModal/walletAddress';
 import lottie from 'lottie-web';
 import animation from 'assets/animations/GasFee-delivery2.json';
 import Modal from 'components/containers/common/Modal/modal';
-import useWalletActivation from '../../../../hooks/useWalletActivation';
+import useWalletActivation from 'hooks/useWalletActivation';
 import { useWeb3React } from '@web3-react/core';
-import { UserProfileContext } from '../../../../hooks/useUserProfile';
+import { useUserProfileContext } from 'hooks/useUserProfile';
 import ClaimNotAvailable from '../ClaimNotRemaining';
 
 // @ts-ignore
 import ModelViewer from '@metamask/logo';
-import { GlobalContext } from 'hooks/useGlobalContext';
+import { useGlobalContext } from 'hooks/useGlobalContext';
 
 const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 	const { account } = useWeb3React();
@@ -27,15 +27,13 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 	const metamaskLogo = useRef<HTMLDivElement>(null);
 
 	const { tryActivation } = useWalletActivation();
-	const { claim, closeClaimModal, activeClaimReceipt } = useContext(GasClaimContext);
+	const { claim, closeClaimModal, activeClaimReceipt, claimLoading, activeChain } = useGasClaimContext();
 
-	const { openBrightIdModal } = useContext(GlobalContext);
-
-	const { claimLoading } = useContext(GasClaimContext);
+	const { openBrightIdModal } = useGlobalContext();
 
 	const mounted = useRef(false);
 
-	const { userProfile, remainingClaims } = useContext(UserProfileContext);
+	const { userProfile, remainingClaims } = useUserProfileContext();
 
 	useEffect(() => {
 		if (activeClaimReceipt?.status === ClaimReceiptState.PENDING) {
@@ -175,8 +173,6 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 			</>
 		);
 	}
-
-	const { activeChain } = useContext(GasClaimContext);
 
 	function renderInitialBody() {
 		if (!activeChain) {
@@ -361,8 +357,8 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 };
 
 const ClaimModal = () => {
-	const { closeClaimModal, activeChain } = useContext(GasClaimContext);
-	const { brightidModalStatus } = useContext(GlobalContext);
+	const { closeClaimModal, activeChain } = useGasClaimContext();
+	const { brightidModalStatus } = useGlobalContext();
 
 	const isOpen = useMemo(() => {
 		return !!activeChain && brightidModalStatus === BrightIdModalState.CLOSED;

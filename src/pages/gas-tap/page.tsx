@@ -1,14 +1,14 @@
 import { Suspense, lazy, useContext } from 'react';
-import ChainList from './components/Chainlist/chainlist';
-import Header from 'pages/gas-tap/components/Header/header';
-import SearchInput from './components/SearchInput/searchInput';
+import ChainList from './components/Cards/Chainlist/chainlist';
+import Header from 'pages/gas-tap/components/header';
+import SearchInput from './components/searchInput';
 import { Network } from 'types';
 import { GasClaimContext } from 'hooks/useChainList';
 import { ChainType } from 'types';
 
-const ClaimModal = lazy(() => import('./components/ClaimModal/claimModal'));
+const ClaimModal = lazy(() => import('./components/Modals/ClaimModal/claimModal'));
 
-const ClaimNonEVMModal = lazy(() => import('./components/ClaimNonEVMModal/claimNonEVMModal'));
+const ClaimNonEVMModal = lazy(() => import('./components/Modals/ClaimNonEVMModal/claimNonEVMModal'));
 
 const Home = () => {
 	const { searchPhrase } = useContext(GasClaimContext);

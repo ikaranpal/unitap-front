@@ -5,11 +5,12 @@ import Icon from 'components/basic/Icon/Icon';
 import { Chain, ChainType } from 'types';
 import { useWeb3React } from '@web3-react/core';
 import { BigNumber } from '@ethersproject/bignumber';
-import { useNativeCurrencyOnChain } from '../../../../hooks/useNativeCurrency';
+import { useNativeCurrencyOnChain } from '../../../../../hooks/useNativeCurrency';
 import JSBI from 'jsbi';
 import { CurrencyAmount } from '@uniswap/sdk-core';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
-import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
+import { Connection, PublicKey } from '@solana/web3.js';
+import { numberWithCommas } from 'utils/numbers';
 
 interface props {
 	chain: Chain;
@@ -43,10 +44,6 @@ const ChainCard = ({ chain }: props) => {
 	}, [chain, provider]);
 
 	const nativeCurrency = useNativeCurrencyOnChain(Number(chain.chainId));
-
-	function numberWithCommas(x: number) {
-		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	}
 
 	const fundManagerBalanceAmount = useMemo(() => {
 		if (!fundManagerBalance || typeof fundManagerBalance === 'string') return null;

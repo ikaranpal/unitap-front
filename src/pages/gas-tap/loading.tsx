@@ -1,5 +1,5 @@
 import { Filters } from 'pages/gas-tap/page';
-import SearchInput from './components/SearchInput/searchInput';
+import SearchInput from './components/searchInput';
 import { GasClaimContext } from 'hooks/useChainList';
 import { useContext } from 'react';
 

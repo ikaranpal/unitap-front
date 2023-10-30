@@ -2,9 +2,9 @@ import { GasClaimContext } from 'hooks/useChainList';
 import { useContext } from 'react';
 import Home from './page';
 import GasTapLoading from './loading';
-import ProvideGasCard from './components/ProvideGasCard/provideGasCard';
+import ProvideGasCard from './components/Cards/ProvideGasCard/provideGasCard';
 import Footer from 'components/containers/common/Footer/footer';
-import FundContextProvider from './context/fundContext';
+import FundContextProvider from './components/Modals/DonateModal/fundContext';
 
 const GasTapWrapper = () => {
 	const { chainList } = useContext(GasClaimContext);

@@ -1,13 +1,12 @@
-import { useContext } from 'react';
 import Icon from 'components/basic/Icon/Icon';
-import Timer from '../Timer/timer';
-import { UserProfileContext } from 'hooks/useUserProfile';
-import { GasClaimContext } from 'hooks/useChainList';
+import Timer from './timer';
+import { useUserProfileContext } from 'hooks/useUserProfile';
+import { useGasClaimContext } from 'hooks/useChainList';
 import { range } from 'utils';
-import { ClaimReceiptState } from '../../../../types';
+import { ClaimReceiptState } from '../../../types';
 
 const Header = () => {
-	const { userProfile } = useContext(UserProfileContext);
+	const { userProfile } = useUserProfileContext();
 
 	return (
 		<div className="header gas-tap__header h-[202px] rounded-2xl flex flex-col  md:flex-row lg:items-end  md:justify-between overflow-hidden relative p-4 mb-5 border-4 border-gray20">
@@ -23,8 +22,8 @@ const Header = () => {
 };
 
 const Dabes = () => {
-	const { activeClaimHistory, openClaimModal } = useContext(GasClaimContext);
-	const { gastapRoundClaimLimit } = useContext(UserProfileContext);
+	const { activeClaimHistory, openClaimModal } = useGasClaimContext();
+	const { gastapRoundClaimLimit } = useUserProfileContext();
 	return (
 		<div
 			data-testid="claims-chain-list"

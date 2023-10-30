@@ -9,9 +9,9 @@ import { formatChainBalance } from 'utils/numbers';
 import { Text } from 'components/basic/Text/text.style';
 import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/basic/Button/button';
 import { getChainClaimIcon, getTxUrl } from 'utils';
-import { UserProfileContext } from '../../../../hooks/useUserProfile';
+import { UserProfileContext } from 'hooks/useUserProfile';
 import lottie from 'lottie-web';
-import animation from '../../../../assets/animations/GasFee-delivery2.json';
+import animation from 'assets/animations/GasFee-delivery2.json';
 import ClaimNotAvailable from '../ClaimNotRemaining';
 import { GlobalContext } from 'hooks/useGlobalContext';
 
