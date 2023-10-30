@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Footer from '../../components/common/Footer/footer';
+import Footer from '../../components/containers/common/Footer/footer';
 
 const Home = () => {
 	const [copyMessage, setCopyMessage] = useState('');

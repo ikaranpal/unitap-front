@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { LightOutlinedButton } from 'components/basic/Button/button';
-import { ClaimContext } from 'hooks/useChainList';
+import { GasClaimContext } from 'hooks/useChainList';
 import ChainCard from './chainCard';
 import { FundContext } from 'pages/gas-tap/context/fundContext';
 
 const ProvideGasCard = () => {
 	const [chainListIndex, setChainListIndex] = React.useState(0);
-	const { chainList } = useContext(ClaimContext);
+	const { chainList } = useContext(GasClaimContext);
 
 	const { setIsOpen } = useContext(FundContext);
 

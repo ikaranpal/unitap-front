@@ -6,7 +6,7 @@ import { QRCode } from 'react-qrcode-logo';
 
 import { APIError, APIErrorsSource, BrightIdConnectionModalState } from 'types';
 import BrightStatusModal from '../BrightStatusModal/brightStatusModal';
-import Modal from 'components/common/Modal/modal';
+import Modal from 'components/containers/common/Modal/modal';
 import Icon from 'components/basic/Icon/Icon';
 import useGenerateKeys from 'hooks/useGenerateKeys';
 import { sponsorAPI } from 'api';

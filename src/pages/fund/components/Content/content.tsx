@@ -2,10 +2,10 @@ import { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react
 import { ClaimButton } from 'components/basic/Button/button';
 import { ContentCard } from './content.style';
 import Icon from 'components/basic/Icon/Icon';
-import { ClaimContext } from '../../../../hooks/useChainList';
+import { GasClaimContext } from '../../../../hooks/useChainList';
 import { Chain } from '../../../../types';
 import { parseEther } from '@ethersproject/units';
-import Modal from 'components/common/Modal/modal';
+import Modal from 'components/containers/common/Modal/modal';
 import SelectChainModal from '../SelectChainModal/selectChainModal';
 import FundTransactionModal from '../FundTransactionModal/FundTransactionModal';
 import { getChainIcon } from '../../../../utils';
@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 import { fromWei } from 'utils/numbers';
 
 const Content: FC = () => {
-	const { chainList } = useContext(ClaimContext);
+	const { chainList } = useContext(GasClaimContext);
 	const { chainId, provider, account } = useWeb3React();
 	const active = !!account;
 	const { tryActivation } = useWalletActivation();

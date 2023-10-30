@@ -1,5 +1,5 @@
 import Header from './components/Header/Header';
-import Footer from 'components/common/Footer/footer';
+import Footer from 'components/containers/common/Footer/footer';
 import TokensList from './components/TokensList/TokensList';
 import SearchInput from './components/SearchInput/searchInput';
 import ClaimTokenModal from './components/ClaimTokenModal';

@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import Icon from 'components/basic/Icon/Icon';
 import Timer from '../Timer/timer';
 import { UserProfileContext } from 'hooks/useUserProfile';
-import { ClaimContext } from 'hooks/useChainList';
+import { GasClaimContext } from 'hooks/useChainList';
 import { range } from 'utils';
 import { ClaimReceiptState } from '../../../../types';
 
@@ -23,7 +23,7 @@ const Header = () => {
 };
 
 const Dabes = () => {
-	const { activeClaimHistory, openClaimModal } = useContext(ClaimContext);
+	const { activeClaimHistory, openClaimModal } = useContext(GasClaimContext);
 	const { gastapRoundClaimLimit } = useContext(UserProfileContext);
 	return (
 		<div

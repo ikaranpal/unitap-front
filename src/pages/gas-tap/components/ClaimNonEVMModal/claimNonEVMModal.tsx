@@ -1,8 +1,8 @@
 import { useContext, useEffect } from 'react';
 
-import Modal from 'components/common/Modal/modal';
+import Modal from 'components/containers/common/Modal/modal';
 import Icon from 'components/basic/Icon/Icon';
-import { ClaimContext } from 'hooks/useChainList';
+import { GasClaimContext } from 'hooks/useChainList';
 import { ClaimNonEVMModalState, ClaimReceiptState } from 'types';
 
 import { formatChainBalance } from 'utils/numbers';
@@ -18,13 +18,13 @@ import { GlobalContext } from 'hooks/useGlobalContext';
 const lightingChainId = '286621';
 
 const ClaimNonEVMModalContent = () => {
-	const { activeNonEVMChain, activeClaimReceipt } = useContext(ClaimContext);
+	const { activeNonEVMChain, activeClaimReceipt } = useContext(GasClaimContext);
 
 	const { openBrightIdModal } = useContext(GlobalContext);
 
 	const { userProfile, nonEVMWalletAddress, setNonEVMWalletAddress, remainingClaims } = useContext(UserProfileContext);
 
-	const { claimNonEVM, closeClaimNonEVMModal, claimNonEVMLoading } = useContext(ClaimContext);
+	const { claimNonEVM, closeClaimNonEVMModal, claimNonEVMLoading } = useContext(GasClaimContext);
 
 	const handleClaimNonEVMClicked = () => {
 		if (activeNonEVMChain) {
@@ -336,8 +336,8 @@ const ClaimNonEVMModalContent = () => {
 };
 
 const ClaimNonEVMModal = () => {
-	const { activeNonEVMChain } = useContext(ClaimContext);
-	const { claimNonEVMModalStatus, closeClaimNonEVMModal } = useContext(ClaimContext);
+	const { activeNonEVMChain } = useContext(GasClaimContext);
+	const { claimNonEVMModalStatus, closeClaimNonEVMModal } = useContext(GasClaimContext);
 
 	if (!activeNonEVMChain) return null;
 

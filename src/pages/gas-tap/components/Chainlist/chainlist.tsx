@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components/';
 import { DV } from 'components/basic/designVariables';
 import { ClaimButton, ClaimedButton, SecondaryButton } from 'components/basic/Button/button';
-import { ClaimContext } from 'hooks/useChainList';
+import { GasClaimContext } from 'hooks/useChainList';
 import { formatChainBalance, numberWithCommas } from 'utils/numbers';
 import { getChainIcon } from '../../../../utils';
 import useSelectChain from '../../../../hooks/useSelectChain';
@@ -31,7 +31,7 @@ const AddMetamaskButton = styled(SecondaryButton)`
 `;
 
 const ChainList = () => {
-	const { chainList, chainListSearchResult, setSelectedNetwork } = useContext(ClaimContext);
+	const { chainList, chainListSearchResult, setSelectedNetwork } = useContext(GasClaimContext);
 
 	const { isGasTapAvailable } = useContext(UserProfileContext);
 
@@ -96,7 +96,7 @@ type ChainCardProps = {
 };
 
 const ChainCard = ({ chain, isHighlighted }: ChainCardProps) => {
-	const { openClaimModal } = useContext(ClaimContext);
+	const { openClaimModal } = useContext(GasClaimContext);
 	const { setChainId, setIsOpen } = useContext(FundContext);
 	const addAndSwitchToChain = useSelectChain();
 	const { account } = useWeb3React();
@@ -108,7 +108,7 @@ const ChainCard = ({ chain, isHighlighted }: ChainCardProps) => {
 		// navigate(RoutePath.FUND + `?chain=${chainId}`);
 	};
 
-	const { activeClaimHistory } = useContext(ClaimContext);
+	const { activeClaimHistory } = useContext(GasClaimContext);
 
 	return (
 		<div>

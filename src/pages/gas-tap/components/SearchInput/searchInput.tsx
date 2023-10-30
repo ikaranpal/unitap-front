@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { ClaimContext } from 'hooks/useChainList';
+import { GasClaimContext } from 'hooks/useChainList';
 import Input from 'components/basic/Input/input';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ type SearchInputProps = {
 
 const SearchInput = ({ className = '' }: SearchInputProps) => {
 	const [searchPhraseInput, setSearchPhraseInput] = useState<string>('');
-	const { changeSearchPhrase } = useContext(ClaimContext);
+	const { changeSearchPhrase } = useContext(GasClaimContext);
 
 	const location = useLocation();
 	const navigate = useNavigate();

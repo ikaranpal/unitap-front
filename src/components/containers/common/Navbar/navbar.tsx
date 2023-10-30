@@ -10,11 +10,11 @@ import { shortenAddress } from 'utils';
 import { DesktopNav, MobileNav } from './navbar.style';
 import { useNavigate } from 'react-router-dom';
 import RoutePath from 'routes';
-import useWalletActivation from '../../../hooks/useWalletActivation';
+import useWalletActivation from '../../../../hooks/useWalletActivation';
 import { useWeb3React } from '@web3-react/core';
 import Icon from 'components/basic/Icon/Icon';
 import NavbarDropdown from './navbarDropdown';
-import { useUnitapPass } from '../../../hooks/pass/useUnitapPass';
+import { useUnitapPass } from '../../../../hooks/pass/useUnitapPass';
 import { GlobalContext } from 'hooks/useGlobalContext';
 
 const Navbar = () => {
@@ -42,7 +42,7 @@ const Navbar = () => {
 			<Icon
 				alt="unitap"
 				className="navbar__logo cursor-pointer"
-				iconSrc="assets/images/navbar/navbar_logo_v1.3.svg"
+				iconSrc="/assets/images/navbar/navbar_logo_v1.3.svg"
 				width="auto"
 				height="32px"
 				mrAuto
@@ -108,7 +108,7 @@ const RenderUnipassCount = () => {
 					<Icon
 						alt="unitap-pass"
 						className="mr-5"
-						iconSrc="assets/images/navbar/up-icon.svg"
+						iconSrc="/assets/images/navbar/up-icon.svg"
 						width="auto"
 						height="23px"
 					/>
@@ -122,7 +122,7 @@ const RenderUnipassCount = () => {
 					<Icon
 						className="mr-5"
 						alt="unitap-pass-disabled"
-						iconSrc="assets/images/navbar/up-icon-disable.svg"
+						iconSrc="/assets/images/navbar/up-icon-disable.svg"
 						width="auto"
 						height="23px"
 					/>
@@ -138,7 +138,7 @@ const RenderNavbarDropdown = () => {
 
 	return (
 		<span className="navbar__dropdown cursor-pointer" onClick={() => setIsDropdownVisible(!isDropdownVisible)}>
-			<Icon iconSrc="assets/images/navbar/navbar-dropdown-icon.svg" width="31px" height="31px" />
+			<Icon iconSrc="/assets/images/navbar/navbar-dropdown-icon.svg" width="31px" height="31px" />
 			{isDropdownVisible && <NavbarDropdown className="navbar__dropdown__component" />}
 		</span>
 	);
@@ -156,7 +156,7 @@ const RenderNavbarConnectionStatus = () => {
 	return (
 		<div className="navbar-connection-status flex rounded-lg h-8 items-center justify-between bg-gray40 pr-0.5 mr-3">
 			<Icon
-				iconSrc="./assets/images/navbar/bright-icon.svg"
+				iconSrc="/assets/images/navbar/bright-icon.svg"
 				width="16px"
 				height="16px"
 				className={`mx-3 ${!isBrightIdConnected && 'opacity-50'}`}

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import Header from './components/Header/Header';
-import Footer from 'components/common/Footer/footer';
+import Footer from 'components/containers/common/Footer/footer';
 import Collapse from './components/Collapse/Collapse';
 import NFTTimer from './components/NFTTimer/nftTimer';
 import MintNFTCard from './components/MintNFTCard/mintNftCard';

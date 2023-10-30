@@ -6,7 +6,7 @@ import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from '
 import { Chain, ClaimReceiptState, Permission, PermissionType } from 'types';
 import { shortenAddress } from 'utils';
 import WalletAddress from 'pages/gas-tap/components/ClaimModal/walletAddress';
-import Modal from 'components/common/Modal/modal';
+import Modal from 'components/containers/common/Modal/modal';
 import useWalletActivation from 'hooks/useWalletActivation';
 import { useWeb3React } from '@web3-react/core';
 import { UserProfileContext } from 'hooks/useUserProfile';

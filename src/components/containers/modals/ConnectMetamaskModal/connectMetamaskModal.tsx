@@ -4,7 +4,7 @@ import { UserProfileContext } from 'hooks/useUserProfile';
 
 import { ClaimButton } from 'components/basic/Button/button';
 import BrightStatusModal from '../BrightStatusModal/brightStatusModal';
-import Modal from 'components/common/Modal/modal';
+import Modal from 'components/containers/common/Modal/modal';
 import Icon from 'components/basic/Icon/Icon';
 import useGenerateKeys from 'hooks/useGenerateKeys';
 import { GlobalContext } from 'hooks/useGlobalContext';

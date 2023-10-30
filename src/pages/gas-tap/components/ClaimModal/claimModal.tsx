@@ -5,12 +5,12 @@ import Icon from 'components/basic/Icon/Icon';
 import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/basic/Button/button';
 import { BrightIdModalState, Chain, ClaimReceiptState } from 'types';
 import { getChainClaimIcon, getTxUrl, shortenAddress } from 'utils';
-import { ClaimContext } from 'hooks/useChainList';
+import { GasClaimContext } from 'hooks/useChainList';
 import { formatWeiBalance } from 'utils/numbers';
 import WalletAddress from 'pages/gas-tap/components/ClaimModal/walletAddress';
 import lottie from 'lottie-web';
 import animation from 'assets/animations/GasFee-delivery2.json';
-import Modal from 'components/common/Modal/modal';
+import Modal from 'components/containers/common/Modal/modal';
 import useWalletActivation from '../../../../hooks/useWalletActivation';
 import { useWeb3React } from '@web3-react/core';
 import { UserProfileContext } from '../../../../hooks/useUserProfile';
@@ -27,11 +27,11 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 	const metamaskLogo = useRef<HTMLDivElement>(null);
 
 	const { tryActivation } = useWalletActivation();
-	const { claim, closeClaimModal, activeClaimReceipt } = useContext(ClaimContext);
+	const { claim, closeClaimModal, activeClaimReceipt } = useContext(GasClaimContext);
 
 	const { openBrightIdModal } = useContext(GlobalContext);
 
-	const { claimLoading } = useContext(ClaimContext);
+	const { claimLoading } = useContext(GasClaimContext);
 
 	const mounted = useRef(false);
 
@@ -176,7 +176,7 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 		);
 	}
 
-	const { activeChain } = useContext(ClaimContext);
+	const { activeChain } = useContext(GasClaimContext);
 
 	function renderInitialBody() {
 		if (!activeChain) {
@@ -361,7 +361,7 @@ const ClaimModalBody = ({ chain }: { chain: Chain }) => {
 };
 
 const ClaimModal = () => {
-	const { closeClaimModal, activeChain } = useContext(ClaimContext);
+	const { closeClaimModal, activeChain } = useContext(GasClaimContext);
 	const { brightidModalStatus } = useContext(GlobalContext);
 
 	const isOpen = useMemo(() => {

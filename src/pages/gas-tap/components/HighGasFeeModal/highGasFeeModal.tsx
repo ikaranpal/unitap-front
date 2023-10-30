@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { ClaimButton } from 'components/basic/Button/button';
-import Modal from 'components/common/Modal/modal';
-import { ClaimContext } from 'hooks/useChainList';
+import Modal from 'components/containers/common/Modal/modal';
+import { GasClaimContext } from 'hooks/useChainList';
 import Icon from 'components/basic/Icon/Icon';
 import { formatWeiBalance } from '../../../../utils/numbers';
 
 const HighGasFeeModalContent = () => {
-	const { changeIsHighGasFeeModalOpen } = useContext(ClaimContext);
+	const { changeIsHighGasFeeModalOpen } = useContext(GasClaimContext);
 
 	return (
 		<div
@@ -31,8 +31,8 @@ const HighGasFeeModalContent = () => {
 };
 
 const HighGasFeeModal = () => {
-	const { isHighGasFeeModalOpen, changeIsHighGasFeeModalOpen } = useContext(ClaimContext);
-	const { activeChain, activeNonEVMChain } = useContext(ClaimContext);
+	const { isHighGasFeeModalOpen, changeIsHighGasFeeModalOpen } = useContext(GasClaimContext);
+	const { activeChain, activeNonEVMChain } = useContext(GasClaimContext);
 
 	const chain = activeChain || activeNonEVMChain;
 

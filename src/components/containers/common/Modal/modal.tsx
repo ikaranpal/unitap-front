@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { ModalChildrenWrapper, ModalContent, ModalWrapper } from 'components/common/Modal/modal.style';
+import { ModalChildrenWrapper, ModalContent, ModalWrapper } from 'components/containers/common/Modal/modal.style';
 import { Spaceman } from 'constants/spaceman';
 import Icon from 'components/basic/Icon/Icon';
-import { APIErrorsSource } from '../../../types';
-import { ErrorsContext } from '../../../context/ErrorsProvider';
+import { APIErrorsSource } from '../../../../types';
+import { ErrorsContext } from '../../../../context/ErrorsProvider';
 
 type props = {
 	title?: string;

@@ -1,10 +1,10 @@
 import { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { ClaimButton } from 'components/basic/Button/button';
 import Icon from 'components/basic/Icon/Icon';
-import { ClaimContext } from 'hooks/useChainList';
+import { GasClaimContext } from 'hooks/useChainList';
 import { Chain, ChainType } from 'types';
 import { parseEther } from '@ethersproject/units';
-import Modal from 'components/common/Modal/modal';
+import Modal from 'components/containers/common/Modal/modal';
 import { getChainIcon } from 'utils';
 import { calculateGasMargin, USER_DENIED_REQUEST_ERROR_CODE } from 'utils/web3';
 import useWalletActivation from 'hooks/useWalletActivation';
@@ -17,7 +17,7 @@ import { submitDonationTxHash } from 'api';
 import { UserProfileContext } from 'hooks/useUserProfile';
 
 const Content: FC<{ initialChainId?: number }> = ({ initialChainId }) => {
-	const { chainList: originalChainList } = useContext(ClaimContext);
+	const { chainList: originalChainList } = useContext(GasClaimContext);
 	const { userToken } = useContext(UserProfileContext);
 	const { chainId, provider, account } = useWeb3React();
 	const active = !!account;
