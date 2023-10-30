@@ -1,5 +1,5 @@
 import Icon from 'components/basic/Icon/Icon';
-import Modal from 'components/common/Modal/modal';
+import Modal from 'components/containers/common/Modal/modal';
 import { PrizeTapContext } from 'hooks/prizeTap/prizeTapContext';
 import { FC, useCallback, useContext, useMemo, useState } from 'react';
 import { LineaRaffleEntry } from '../types';

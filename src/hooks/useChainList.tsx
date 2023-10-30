@@ -17,7 +17,7 @@ import { searchChainList, searchChainListSimple } from 'utils/hook/searchChainLi
 import getCorrectAddress from '../utils/walletAddress';
 import { EmptyCallback } from 'utils';
 
-export const ClaimContext = createContext<{
+export const GasClaimContext = createContext<{
 	chainList: Chain[];
 	chainListSearchResult: Chain[];
 	chainListSearchSimpleResult: Chain[];
@@ -73,7 +73,9 @@ export const ClaimContext = createContext<{
 	changeIsHighGasFeeModalOpen: EmptyCallback,
 });
 
-export function ClaimProvider({ children }: PropsWithChildren<{}>) {
+export const useGasClaimContext = () => useContext(GasClaimContext);
+
+export function GasClaimProvider({ children }: PropsWithChildren<{}>) {
 	const [chainList, setChainList] = useState<Chain[]>([]);
 	const [searchPhrase, setSearchPhrase] = useState<string>('');
 
@@ -225,7 +227,7 @@ export function ClaimProvider({ children }: PropsWithChildren<{}>) {
 	};
 
 	return (
-		<ClaimContext.Provider
+		<GasClaimContext.Provider
 			value={{
 				chainList,
 				chainListSearchResult,
@@ -256,6 +258,6 @@ export function ClaimProvider({ children }: PropsWithChildren<{}>) {
 			}}
 		>
 			{children}
-		</ClaimContext.Provider>
+		</GasClaimContext.Provider>
 	);
 }

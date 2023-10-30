@@ -10,7 +10,7 @@ import useNativeCurrency from '../../../../hooks/useNativeCurrency';
 import useSelectChain from 'hooks/useSelectChain';
 import { useWeb3React } from '@web3-react/core';
 import { SupportedChainId } from '../../../../constants/chains';
-import { ClaimContext } from 'hooks/useChainList';
+import { GasClaimContext } from 'hooks/useChainList';
 import { Chain, TransactionState } from 'types';
 import useWalletActivation from 'hooks/useWalletActivation';
 import { getUnitapPassChainId } from '../../../../utils/env';
@@ -65,7 +65,7 @@ const MintNFTCard = () => {
 
 	const { tryActivation } = useWalletActivation();
 
-	const { chainList } = useContext(ClaimContext);
+	const { chainList } = useContext(GasClaimContext);
 
 	const chainScanLink = useMemo(() => {
 		if (submittedTxHash) {

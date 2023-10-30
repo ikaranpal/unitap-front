@@ -1,5 +1,5 @@
 import Icon from 'components/basic/Icon/Icon';
-import Footer from 'components/common/Footer/footer';
+import Footer from 'components/containers/common/Footer/footer';
 
 const About = () => {
 	return (

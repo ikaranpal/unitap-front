@@ -1,24 +1,24 @@
-import { ClaimContext } from 'hooks/useChainList';
-import { useContext } from 'react';
+import { useGasClaimContext } from 'hooks/useChainList';
 import Home from './page';
 import GasTapLoading from './loading';
-import ProvideGasCard from './components/ProvideGasCard/provideGasCard';
-import Footer from 'components/common/Footer/footer';
-import FundContextProvider from './context/fundContext';
+import FundContextProvider from './components/Modals/FundGasModal';
 import { MetaData } from 'types';
+import ProvideGasCard from './components/Cards/ProvideGasCard/provideGasCard';
+import Footer from 'components/containers/common/Footer/footer';
+import FundGasModal from './components/Modals/FundGasModal';
 
 const GasTapWrapper = () => {
-	const { chainList } = useContext(ClaimContext);
+	const { chainList } = useGasClaimContext();
 
 	return (
 		<>
-			<FundContextProvider>
+			<FundGasModal>
 				<div className="content-wrapper">
 					{chainList.length ? <Home /> : <GasTapLoading />}
 					<ProvideGasCard />
 				</div>
 				<Footer />
-			</FundContextProvider>
+			</FundGasModal>
 		</>
 	);
 };

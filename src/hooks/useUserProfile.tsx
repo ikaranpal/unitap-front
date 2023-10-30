@@ -13,11 +13,6 @@ import { RefreshContext } from 'context/RefreshContext';
 import { AxiosError } from 'axios';
 import { ErrorsContext } from '../context/ErrorsProvider';
 
-// TODO:
-//  	total claims since last monday field renamed
-//    gas tap monthly check if anything needs modifying
-//    settings field names changed
-
 export const UserProfileContext = createContext<
 	Partial<Settings> & {
 		userProfile: UserProfile | null;
@@ -43,6 +38,8 @@ export const UserProfileContext = createContext<
 	userToken: null,
 	setNonEVMWalletAddress: () => {},
 });
+
+export const useUserProfileContext = () => useContext(UserProfileContext);
 
 export function UserProfileProvider({ children }: PropsWithChildren<{}>) {
 	const [userProfile, setUserProfile] = useState<UserProfile | null>(null);

@@ -1,10 +1,10 @@
 import { Filters } from 'pages/gas-tap/page';
-import SearchInput from './components/SearchInput/searchInput';
-import { ClaimContext } from 'hooks/useChainList';
+import SearchInput from './components/searchInput';
+import { GasClaimContext } from 'hooks/useChainList';
 import { useContext } from 'react';
 
 const GasTapLoading = () => {
-	const { searchPhrase } = useContext(ClaimContext);
+	const { searchPhrase } = useContext(GasClaimContext);
 
 	return (
 		<div>

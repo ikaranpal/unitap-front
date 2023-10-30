@@ -7,7 +7,7 @@ import { Text } from 'components/basic/Text/text.style';
 import { ClaimButton, LightOutlinedButtonNew, SecondaryGreenColorButton } from 'components/basic/Button/button';
 import { UserProfileContext } from '../../../../hooks/useUserProfile';
 import { TokenTapContext } from 'hooks/token-tap/tokenTapContext';
-import { DropIconWrapper } from 'pages/gas-tap/components/ClaimModal/claimModal.style';
+import { DropIconWrapper } from 'pages/gas-tap/components/Modals/ClaimModal/claimModal.style';
 import animation from '../../../../assets/animations/GasFee-delivery2.json';
 import { GlobalContext } from 'hooks/useGlobalContext';
 import TokenPermissions from '../permissions';

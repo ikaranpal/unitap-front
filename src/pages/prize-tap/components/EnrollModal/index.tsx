@@ -1,12 +1,12 @@
 import { useCallback, useContext, useMemo } from 'react';
 import { Text } from 'components/basic/Text/text.style';
-import { DropIconWrapper } from 'pages/gas-tap/components/ClaimModal/claimModal.style';
+import { DropIconWrapper } from 'pages/gas-tap/components/Modals/ClaimModal/claimModal.style';
 import Icon from 'components/basic/Icon/Icon';
 import { ClaimButton } from 'components/basic/Button/button';
 import { Chain } from 'types';
 import { getTxUrl, shortenAddress } from 'utils';
-import WalletAddress from 'pages/gas-tap/components/ClaimModal/walletAddress';
-import Modal from 'components/common/Modal/modal';
+import WalletAddress from 'pages/gas-tap/components/Modals/ClaimModal/walletAddress';
+import Modal from 'components/containers/common/Modal/modal';
 import useWalletActivation from '../../../../hooks/useWalletActivation';
 import { useWeb3React } from '@web3-react/core';
 import { UserProfileContext } from '../../../../hooks/useUserProfile';

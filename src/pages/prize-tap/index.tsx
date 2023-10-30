@@ -1,5 +1,5 @@
 import Header from './components/Header/header';
-import Footer from 'components/common/Footer/footer';
+import Footer from 'components/containers/common/Footer/footer';
 import RafflesList from './components/RafflesList/RafflesList';
 import EnrollModal from './components/EnrollModal';
 import LineaWinnersModal from './components/LiniaRaffle/LineaWinnersModal';

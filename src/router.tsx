@@ -1,5 +1,5 @@
 import ScrollToTop from 'components/basic/ScrollToTop/scrollToTop';
-import { Component, FC, PropsWithChildren, useEffect } from 'react';
+import { FC, Fragment, PropsWithChildren, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MetaData } from 'types';
 
@@ -45,6 +45,22 @@ const DocumentTitle: FC<MetaData> = ({ description, title }) => {
 
 	return null;
 };
+// const loadingRoutes: { [key: string]: { component: FC; path: string } } = {};
+
+const providers: { [key: string]: { component: FC } } = {};
+
+routes.forEach((route) => {
+	if (route.path.endsWith('/providers')) {
+		const index = route.path.indexOf('providers');
+
+		providers[route.path.slice(0, index)] = route;
+	}
+	// else if (route.path.endsWith('/loading')) {
+	// 	const index = route.path.indexOf('loading');
+
+	// 	loadingRoutes[route.path.slice(0, index)] = route;
+	// }
+});
 
 const Router: FC<PropsWithChildren> = ({ children }) => {
 	return (
@@ -52,18 +68,26 @@ const Router: FC<PropsWithChildren> = ({ children }) => {
 			<ScrollToTop />
 			{children}
 			<Routes>
-				{routes.map(({ path, component: Component, metadata }, key) => (
-					<Route
-						key={key}
-						path={path}
-						element={
-							<>
-								<DocumentTitle description={metadata?.description} title={metadata?.title} />
-								<Component />
-							</>
-						}
-					/>
-				))}
+				{routes
+					.filter((route) => !route.path.endsWith('/loading'))
+					.map(({ path, component: Component, metadata }, key) => {
+						let Wrapper: FC<PropsWithChildren> = Fragment;
+
+						if (providers[path]) Wrapper = providers[path].component;
+
+						return (
+							<Route
+								key={key}
+								path={path}
+								element={
+									<Wrapper>
+										<DocumentTitle description={metadata?.description} title={metadata?.title} />
+										<Component />
+									</Wrapper>
+								}
+							/>
+						);
+					})}
 			</Routes>
 		</BrowserRouter>
 	);

@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, createContext, useState } from 'react';
+import { FC, PropsWithChildren, createContext, useContext, useState } from 'react';
 import { BrightIdModalState, HaveBrightIdAccountModalState, BrightIdConnectionModalState } from 'types';
 import { EmptyCallback } from 'utils';
 
@@ -25,6 +25,8 @@ export const GlobalContext = createContext<GlobalContextType>({
 	closeBrightIdConnectionModal: EmptyCallback,
 	brightIdConnectionModalStatus: BrightIdConnectionModalState.CLOSED,
 });
+
+export const useGlobalContext = () => useContext(GlobalContext);
 
 export const GlobalContextProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [brightidModalStatus, setBrightidModalStatus] = useState<BrightIdModalState>(BrightIdModalState.CLOSED);
