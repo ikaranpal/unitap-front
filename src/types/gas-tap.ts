@@ -54,3 +54,25 @@ export type ClaimReceipt = {
 	amount: number;
 	status: ClaimReceiptState;
 };
+
+export enum ClaimBoxState {
+	CLOSED = '-5',
+	WALLET_NOT_CONNECTED = '-4',
+	BRIGHTID_NOT_VERIFIED = '-3',
+	BRIGHTID_NOT_CONNECTED = '-6',
+	INITIAL = '-2',
+	REQUEST = '-1',
+	PENDING = '0',
+	VERIFIED = '1',
+	REJECTED = '2',
+}
+
+export enum ClaimNonEVMModalState {
+	CLOSED = '0',
+	OPENED = '1',
+}
+
+export type ClaimBoxStateContainer = {
+	status: ClaimBoxState;
+	lastFailPk: number | null;
+};

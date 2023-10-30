@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { claimTokenAPI, getClaimedTokensListAPI, getTokensListAPI, updateClaimFinished } from '../../api';
-import { ClaimedToken, PK, Token, TokenClaimPayload } from '../../types';
+import { ClaimedToken, PK, Token, TokenClaimPayload } from 'types';
 import { RefreshContext } from '../../context/RefreshContext';
 import { useWeb3React } from '@web3-react/core';
 import { useEVMTokenTapContract } from '../useContract';
