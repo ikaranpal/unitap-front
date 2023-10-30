@@ -3,7 +3,6 @@ import { AddressZero } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
 import { Web3Provider } from '@ethersproject/providers';
 import MulticallJson from '@uniswap/v3-periphery/artifacts/contracts/lens/UniswapInterfaceMulticall.sol/UniswapInterfaceMulticall.json';
-import { useWeb3React } from '@web3-react/core';
 import { UnitapPassBatchSaleMain, UnitapPassMain, UnitapEVMTokenTap, UnitapPrizeTap } from '../abis/types';
 import UnitapPassBatchSale_ABI from '../abis/UnitapPassBatchSaleMain.json';
 import UnitapPass_ABI from '../abis/UnitapPassMain.json';
@@ -22,6 +21,7 @@ import { SupportedChainId } from '../constants/chains';
 import { getUnitapPassChainId } from 'utils/env';
 import PrizeTap_ABI from '../abis/UnitapPrizeTap.json';
 import PrizeTap_721_ABI from '../abis/UnitapPrizeTap.json';
+import { useWalletAccount, useWalletNetwork, useWalletProvider } from 'utils/hook/wallet';
 
 const { abi: MulticallABI } = MulticallJson;
 
@@ -32,7 +32,11 @@ export function useContract<T extends Contract = Contract>(
 	withSignerIfPossible = true,
 	targetChainId?: SupportedChainId,
 ): T | null {
-	const { provider, account, chainId } = useWeb3React();
+	const { address } = useWalletAccount();
+	const { chain } = useWalletNetwork();
+	const provider = useWalletProvider();
+
+	const chainId = chain?.id;
 
 	return useMemo(() => {
 		if (!addressOrAddressMap || !ABI || !provider || !chainId) return null;
@@ -43,12 +47,18 @@ export function useContract<T extends Contract = Contract>(
 		else address = addressOrAddressMap[chainId];
 		if (!address) return null;
 		try {
-			return getContract(address, ABI, provider, withSignerIfPossible && account ? account : undefined, targetChainId);
+			return getContract(
+				address,
+				ABI,
+				provider as any,
+				withSignerIfPossible && address ? address : undefined,
+				targetChainId,
+			);
 		} catch (error) {
 			console.error('Failed to get contract', error);
 			return null;
 		}
-	}, [addressOrAddressMap, ABI, provider, chainId, withSignerIfPossible, account, targetChainId]) as T;
+	}, [addressOrAddressMap, ABI, provider, chainId, withSignerIfPossible, address, targetChainId]) as T;
 }
 
 export function getProviderOrSigner(library: any, account?: string): any {

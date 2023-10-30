@@ -8,7 +8,6 @@ import { shortenAddress } from 'utils';
 import WalletAddress from 'pages/gas-tap/components/Modals/ClaimModal/walletAddress';
 import Modal from 'components/containers/common/Modal/modal';
 import useWalletActivation from 'hooks/useWalletActivation';
-import { useWeb3React } from '@web3-react/core';
 import { UserProfileContext } from 'hooks/useUserProfile';
 import { TokenTapContext } from 'hooks/token-tap/tokenTapContext';
 import { switchChain } from 'utils/switchChain';
@@ -20,11 +19,16 @@ import animation from 'assets/animations/GasFee-delivery2.json';
 // @ts-ignore
 import ModelViewer from '@metamask/logo';
 import { GlobalContext } from 'hooks/useGlobalContext';
+import { useWalletAccount, useWalletConnect, useWalletNetwork } from 'utils/hook/wallet';
 import TokenPermissions from '../permissions';
 
 const ClaimTokenModalBody = ({ chain }: { chain: Chain }) => {
-	const { account, chainId, connector } = useWeb3React();
-	const walletConnected = !!account;
+	const { address, isConnected } = useWalletAccount();
+	const { chain: activatedChain } = useWalletNetwork();
+	const { connectors } = useWalletConnect();
+
+	const chainId = activatedChain?.id;
+
 	const metamaskLogo = useRef<HTMLDivElement>(null);
 
 	const [isPermissionsVerified, setIsPermissionsVerified] = useState(false);
@@ -228,7 +232,7 @@ const ClaimTokenModalBody = ({ chain }: { chain: Chain }) => {
 				</p>
 
 				<ClaimButton
-					onClick={() => switchChain(connector, chain)}
+					onClick={() => switchChain(connectors[0], chain)}
 					width="100%"
 					className="!w-full"
 					fontSize="16px"
@@ -284,7 +288,7 @@ const ClaimTokenModalBody = ({ chain }: { chain: Chain }) => {
 				<Text width="100%" fontSize="14">
 					Wallet Address
 				</Text>
-				<WalletAddress fontSize="12">{walletConnected ? shortenAddress(account) : ''}</WalletAddress>
+				<WalletAddress fontSize="12">{isConnected ? shortenAddress(address) : ''}</WalletAddress>
 
 				<ClaimButton
 					onClick={() => handleClaimToken()}
@@ -475,7 +479,7 @@ const ClaimTokenModalBody = ({ chain }: { chain: Chain }) => {
 		if (claimTokenWithMetamaskResponse?.state === 'Done' || collectedToken?.status === 'Verified')
 			return renderSuccessBody();
 
-		if (!walletConnected) return renderWalletNotConnectedBody();
+		if (!isConnected) return renderWalletNotConnectedBody();
 
 		if (!chainId || chainId.toString() !== selectedTokenForClaim?.chain.chainId)
 			return renderWrongNetworkBody(selectedTokenForClaim.chain);

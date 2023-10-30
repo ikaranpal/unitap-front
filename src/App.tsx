@@ -2,7 +2,8 @@ import './App.css';
 
 import ApplicationUpdater from 'state/application/updater';
 import TransactionUpdater from 'state/transactions/updater';
-import { MulticallUpdater } from 'lib/state/multicall';
+
+import 'typeface-jetbrains-mono';
 
 import Router from 'router';
 import Layout from 'layout';
@@ -19,7 +20,7 @@ function Updaters() {
 		<>
 			<ApplicationUpdater />
 			<TransactionUpdater />
-			<MulticallUpdater />
+			{/* <MulticallUpdater /> */}
 		</>
 	);
 }

@@ -8,9 +8,9 @@ import {
 } from '../../api';
 import { EnrollmentSignature, Prize } from '../../types';
 import { RefreshContext } from '../../context/RefreshContext';
-import { useWeb3React } from '@web3-react/core';
 import { useUnitapPrizeCallback } from './useUnitapPrizeCallback';
 import { UserProfileContext } from 'hooks/useUserProfile';
+import { useWalletAccount, useWalletProvider } from 'utils/hook/wallet';
 import { NullCallback } from 'utils';
 import { LineaRaffleEntry } from 'pages/prize-tap/components/types';
 
@@ -68,7 +68,11 @@ const PrizeTapProvider = ({ children }: { children: ReactNode }) => {
 	const [claimOrEnrollSignatureLoading, setClaimOrEnrollSignatureLoading] = useState<boolean>(false);
 	const [selectedRaffleForEnroll, setSelectedRaffleForEnroll] = useState<Prize | null>(null);
 	const [claimOrEnrollLoading, setClaimOrEnrollLoading] = useState<boolean>(false);
-	const { provider, account } = useWeb3React();
+
+	const { address } = useWalletAccount();
+
+	const provider = useWalletProvider();
+
 	const [lineaEnrolledUsers, setLineaEnrolledUsers] = useState<LineaRaffleEntry[]>([]);
 	const [isLineaCheckEnrolledModalOpen, setIsLineaCheckEnrolledModalOpen] = useState(false);
 	const [enrollOrClaimPayload, setEnrollOrClaimPayload] = useState<EnrollmentSignature | null>(null);
@@ -208,7 +212,7 @@ const PrizeTapProvider = ({ children }: { children: ReactNode }) => {
 				setClaimOrEnrollSignatureLoading(false);
 			}
 		};
-		if (method == 'Enroll' && account) {
+		if (method == 'Enroll' && address) {
 			getSignature();
 		}
 		if (method == 'Claim') {
@@ -221,7 +225,7 @@ const PrizeTapProvider = ({ children }: { children: ReactNode }) => {
 				},
 			});
 		}
-	}, [selectedRaffleForEnroll, userProfile, method, account]);
+	}, [selectedRaffleForEnroll, userProfile, method, address]);
 
 	const handleClaimPrize = useCallback(async () => {
 		if (!selectedRaffleForEnroll || claimOrEnrollLoading) return;

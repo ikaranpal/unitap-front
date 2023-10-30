@@ -3,12 +3,12 @@ import { useEffect, useMemo, useState } from 'react';
 import Icon from 'components/basic/Icon/Icon';
 import { Chain } from '../../../../types';
 import { getChainIcon } from '../../../../utils';
-import { useWeb3React } from '@web3-react/core';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useNativeCurrencyOnChain } from '../../../../hooks/useNativeCurrency';
 import JSBI from 'jsbi';
 import { CurrencyAmount } from '@uniswap/sdk-core';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
+import { useWalletProvider } from 'utils/hook/wallet';
 
 interface ChainItemProps {
 	chain: Chain;
@@ -20,7 +20,7 @@ interface ChainItemProps {
 const ChainItem = (props: ChainItemProps) => {
 	const { selected, chain, onClick } = props;
 	const icon = getChainIcon(chain);
-	const { provider } = useWeb3React();
+	const provider = useWalletProvider();
 	const [fundManagerBalance, setFundManagerBalance] = useState<BigNumber | null>(null);
 
 	useEffect(() => {

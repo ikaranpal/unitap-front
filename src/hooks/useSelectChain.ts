@@ -4,10 +4,11 @@ import { addPopup } from 'state/application/reducer';
 import { useAppDispatch } from 'state/hooks';
 import { switchChain } from 'utils/switchChain';
 import { Chain } from '../types';
+import { useWalletAccount } from 'utils/hook/wallet';
 
 export default function useSelectChain() {
 	const dispatch = useAppDispatch();
-	const { connector } = useWeb3React();
+	const { connector } = useWalletAccount();
 
 	return useCallback(
 		async (targetChain: Chain) => {

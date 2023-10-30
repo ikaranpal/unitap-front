@@ -1,31 +1,33 @@
-import { useWeb3React } from '@web3-react/core'
-import useDebounce from 'hooks/useDebounce'
-import useIsWindowVisible from 'hooks/useIsWindowVisible'
-import { useEffect, useState } from 'react'
-import { useAppDispatch } from 'state/hooks'
-import { supportedChainId } from 'utils/supportedChainId'
+import useDebounce from 'hooks/useDebounce';
+import useIsWindowVisible from 'hooks/useIsWindowVisible';
+import { useEffect, useState } from 'react';
+import { useAppDispatch } from 'state/hooks';
+import { supportedChainId } from 'utils/supportedChainId';
 
-import { updateChainId } from './reducer'
+import { updateChainId } from './reducer';
+import { useWalletAccount, useWalletNetwork } from 'utils/hook/wallet';
 
 export default function Updater(): null {
-  const { chainId, provider } = useWeb3React()
-  const dispatch = useAppDispatch()
-  const windowVisible = useIsWindowVisible()
+	const { connector } = useWalletAccount();
+	const { chain } = useWalletNetwork();
 
-  const [activeChainId, setActiveChainId] = useState(chainId)
+	const dispatch = useAppDispatch();
+	const windowVisible = useIsWindowVisible();
 
-  useEffect(() => {
-    if (provider && chainId && windowVisible) {
-      setActiveChainId(chainId)
-    }
-  }, [dispatch, chainId, provider, windowVisible])
+	const [activeChainId, setActiveChainId] = useState(chain?.id);
 
-  const debouncedChainId = useDebounce(activeChainId, 100)
+	useEffect(() => {
+		if (connector && chain?.id && windowVisible) {
+			setActiveChainId(chain.id);
+		}
+	}, [dispatch, chain?.id, connector, windowVisible]);
 
-  useEffect(() => {
-    const chainId = debouncedChainId ? supportedChainId(debouncedChainId) ?? null : null
-    dispatch(updateChainId({ chainId }))
-  }, [dispatch, debouncedChainId])
+	const debouncedChainId = useDebounce(activeChainId, 100);
 
-  return null
+	useEffect(() => {
+		const chainId = debouncedChainId ? supportedChainId(debouncedChainId) ?? null : null;
+		dispatch(updateChainId({ chainId }));
+	}, [dispatch, debouncedChainId]);
+
+	return null;
 }

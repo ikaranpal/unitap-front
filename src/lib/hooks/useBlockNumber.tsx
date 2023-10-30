@@ -1,6 +1,6 @@
-import { useWeb3React } from '@web3-react/core';
 import useIsWindowVisible from 'hooks/useIsWindowVisible';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useWalletAccount, useWalletNetwork, useWalletProvider } from 'utils/hook/wallet';
 
 const MISSING_PROVIDER = Symbol();
 const BlockNumberContext = createContext<
@@ -9,6 +9,8 @@ const BlockNumberContext = createContext<
 	  }
 	| typeof MISSING_PROVIDER
 >(MISSING_PROVIDER);
+
+// TODO: refactor please
 
 function useBlockNumberContext() {
 	const blockNumber = useContext(BlockNumberContext);
@@ -24,58 +26,57 @@ export default function useBlockNumber(): number | undefined {
 }
 
 export function BlockNumberProvider({ children }: { children: ReactNode }) {
-	const { chainId: activeChainId, provider } = useWeb3React();
+	const { chain } = useWalletNetwork();
+
+	const provider = useWalletProvider();
+
 	const [{ chainId, block }, setChainBlock] = useState<{ chainId?: number; block?: number }>({
-		chainId: activeChainId,
+		chainId: chain?.id,
 	});
 
 	const onBlock = useCallback(
 		(block: number) => {
 			setChainBlock((chainBlock) => {
-				if (chainBlock.chainId === activeChainId) {
+				if (chainBlock.chainId === chain?.id) {
 					if (!chainBlock.block || chainBlock.block < block) {
-						return { chainId: activeChainId, block };
+						return { chainId: chain?.id, block };
 					}
 				}
 				return chainBlock;
 			});
 		},
-		[activeChainId, setChainBlock],
+		[chain?.id, setChainBlock],
 	);
 
 	const windowVisible = useIsWindowVisible();
 	useEffect(() => {
 		let stale = false;
 
-		if (provider && activeChainId && windowVisible) {
+		if (provider && chain?.id && windowVisible) {
 			// If chainId hasn't changed, don't clear the block. This prevents re-fetching still valid data.
-			setChainBlock((chainBlock) => (chainBlock.chainId === activeChainId ? chainBlock : { chainId: activeChainId }));
+
+			setChainBlock((chainBlock) => (chainBlock.chainId === chain?.id ? chainBlock : { chainId: chain?.id }));
 
 			provider
 				.getBlockNumber()
-				.then((block) => {
+				.then((block: any) => {
 					if (!stale) onBlock(block);
 				})
-				.catch((error) => {
-					console.error(`Failed to get block number for chainId ${activeChainId}`, error);
+				.catch((error: any) => {
+					console.error(`Failed to get block number for chainId ${chain.id}`, error);
 				});
-
-			provider.on('block', onBlock);
-
-			return () => {
-				stale = true;
-				provider.removeListener('block', onBlock);
-			};
 		}
-
-		return void 0;
-	}, [activeChainId, provider, onBlock, setChainBlock, windowVisible]);
+		return () => {
+			stale = true;
+		};
+	}, [chain?.id, provider, onBlock, setChainBlock, windowVisible]);
 
 	const value = useMemo(
 		() => ({
-			value: chainId === activeChainId ? block : undefined,
+			value: chainId === chain?.id ? block : undefined,
 		}),
-		[activeChainId, block, chainId],
+		[chain?.id, block, chainId],
 	);
+
 	return <BlockNumberContext.Provider value={value}>{children}</BlockNumberContext.Provider>;
 }

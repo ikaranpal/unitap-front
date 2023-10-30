@@ -11,14 +11,14 @@ import Markdown from '../Markdown';
 import styled from 'styled-components/';
 import { DV } from 'components/basic/designVariables';
 import { SecondaryButton, NoCurrencyButton, ClaimButton, ClaimedButton } from 'components/basic/Button/button';
+import { useWalletAccount } from 'utils/hook/wallet';
 
 const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHighlighted }) => {
 	const { openClaimModal, claimedTokensList, claimingTokenPk } = useContext(TokenTapContext);
 
-	const { account } = useWeb3React();
-	const isPermissionVerified = usePermissionResolver();
+	const { isConnected } = useWalletAccount();
 
-	const active = !!account;
+	const isPermissionVerified = usePermissionResolver();
 
 	const [showAllPermissions, setShowAllPermissions] = useState(false);
 
@@ -91,7 +91,7 @@ const TokenCard: FC<{ token: Token; isHighlighted?: boolean }> = ({ token, isHig
 							<div className="w-full sm:w-auto items-center sm:items-end">
 								{token.chain.chainName === 'Lightning' || (
 									<AddMetamaskButton
-										disabled={!active}
+										disabled={!isConnected}
 										onClick={addToken}
 										className="font-medium hover:cursor-pointer mx-auto sm:mr-4 text-sm !w-[220px] sm:!w-auto"
 									>

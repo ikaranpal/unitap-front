@@ -17,11 +17,14 @@ import usePermissionResolver from 'hooks/token-tap/usePermissionResolver';
 import Tooltip from 'components/basic/Tooltip';
 import RafflePermissions from '../permissions';
 import { Link } from 'react-router-dom';
+import { useWalletAccount, useWalletNetwork } from 'utils/hook/wallet';
 
 const EnrollModalBody = ({ chain }: { chain: Chain }) => {
-	const { account, chainId, connector } = useWeb3React();
-	const walletConnected = !!account;
-	const isPermissionVerified = usePermissionResolver();
+	const { address, isConnected, connector } = useWalletAccount();
+
+	const { chain: activeChain } = useWalletNetwork();
+
+	const chainId = activeChain?.id;
 
 	const { tryActivation } = useWalletActivation();
 	const {
@@ -201,7 +204,7 @@ const EnrollModalBody = ({ chain }: { chain: Chain }) => {
 				</p>
 
 				<ClaimButton
-					onClick={() => switchChain(connector, chain)}
+					onClick={() => connector && switchChain(connector, chain)}
 					width="100%"
 					className="!w-full"
 					fontSize="16px"
@@ -258,7 +261,7 @@ const EnrollModalBody = ({ chain }: { chain: Chain }) => {
 					<Text width="100%" fontSize="14">
 						Wallet Address
 					</Text>
-					<WalletAddress fontSize="12">{walletConnected ? shortenAddress(account) : ''}</WalletAddress>
+					<WalletAddress fontSize="12">{isConnected ? shortenAddress(address) : ''}</WalletAddress>
 					{!selectedRaffleForEnroll?.userEntry?.txHash ? (
 						<ClaimButton
 							onClick={() => handleEnroll()}
@@ -313,7 +316,7 @@ const EnrollModalBody = ({ chain }: { chain: Chain }) => {
 				<Text width="100%" fontSize="14">
 					Wallet Address
 				</Text>
-				<WalletAddress fontSize="12">{walletConnected ? shortenAddress(account) : ''}</WalletAddress>
+				<WalletAddress fontSize="12">{isConnected ? shortenAddress(address) : ''}</WalletAddress>
 				<ClaimButton
 					onClick={() => handleClaimPrize()}
 					width="100%"
@@ -502,7 +505,7 @@ const EnrollModalBody = ({ chain }: { chain: Chain }) => {
 
 		if (!userProfile) return renderBrightNotConnectedBody();
 
-		if (!walletConnected) return renderWalletNotConnectedBody();
+		if (!isConnected) return renderWalletNotConnectedBody();
 
 		if (claimOrEnrollWithMetamaskResponse?.state === 'Done') return renderSuccessBody();
 

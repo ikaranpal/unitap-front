@@ -9,6 +9,8 @@ import { createRoot } from 'react-dom/client';
 import { StrictMode } from 'react';
 import Providers from 'providers';
 
+import './polyfills';
+
 if (process.env.NODE_ENV === 'production') {
 	Sentry.init({
 		dsn: 'https://ebbf4d36ea304eeeb94604f18648407c@o262681.ingest.sentry.io/6422961',

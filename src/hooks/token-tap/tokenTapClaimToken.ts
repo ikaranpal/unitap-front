@@ -1,14 +1,17 @@
 import { UnitapEVMTokenTap } from 'abis/types';
-import { BigNumber, BigNumberish, BytesLike } from 'ethers';
-import { JsonRpcProvider, TransactionResponse } from '@ethersproject/providers';
+import { BigNumber, BytesLike } from 'ethers';
+import { TransactionResponse } from '@ethersproject/providers';
 import { MintTransactionInfo, TransactionInfo, TransactionType } from 'state/transactions/types';
 import isZero from 'utils/isZero';
 import { calculateGasMargin } from 'utils/web3';
+import { PublicClient } from 'viem';
+import { callProvider, estimateGas, useWalletSigner } from 'utils/hook/wallet';
+import { Chain } from 'types';
 
 interface Call {
 	address: string;
 	calldata: string;
-	value: string;
+	value: bigint;
 }
 
 interface CallEstimate {
@@ -17,7 +20,7 @@ interface CallEstimate {
 
 interface SuccessfulCall extends CallEstimate {
 	call: Call;
-	gasEstimate: BigNumber;
+	gasEstimate: bigint;
 }
 
 interface FailedCall extends CallEstimate {
@@ -28,15 +31,17 @@ interface FailedCall extends CallEstimate {
 export const claimTokenCallback = async (
 	user: string,
 	token: string,
-	amount: BigNumberish,
-	nonce: BigNumberish,
+	amount: number | string,
+	nonce: number | string,
 	signature: BytesLike,
 	evmTokenTapContract: UnitapEVMTokenTap,
 	account: string,
 	_chainId: number,
-	provider: JsonRpcProvider,
-	addTransaction: (response: TransactionResponse, info: TransactionInfo) => void,
+	provider: PublicClient,
+	signer: ReturnType<typeof useWalletSigner>,
+	addTransaction: (hash: string, info: TransactionInfo) => void,
 	claimAddress: string,
+	chain: Chain,
 ) => {
 	const info: MintTransactionInfo = {
 		type: TransactionType.MINT,
@@ -49,11 +54,11 @@ export const claimTokenCallback = async (
 				evmTokenTapContract.interface.encodeFunctionData('claimToken', [
 					user,
 					token,
-					BigNumber.from(amount.toString()),
+					BigInt(amount),
 					nonce,
 					signature,
 				]) ?? '',
-			value: '0x0',
+			value: BigInt(0),
 		},
 	];
 
@@ -63,16 +68,20 @@ export const claimTokenCallback = async (
 
 			const tx =
 				!value || isZero(value)
-					? { from: account, to: address, data: calldata }
+					? { account: address, to: account, data: calldata }
 					: {
-							from: account,
-							to: address,
+							account: address,
+							to: account,
 							data: calldata,
-							value,
+							value: value,
 					  };
 
-			return provider
-				.estimateGas(tx)
+			return estimateGas(provider, {
+				from: tx.account,
+				to: tx.to,
+				data: calldata,
+				value: BigInt(value),
+			})
 				.then((gasEstimate) => {
 					return {
 						call,
@@ -82,8 +91,12 @@ export const claimTokenCallback = async (
 				.catch((gasError) => {
 					console.debug('Gas estimate failed, trying eth_call to extract error', call);
 
-					return provider
-						.call(tx)
+					return callProvider(provider, {
+						from: tx.account,
+						to: tx.to,
+						data: calldata,
+						value: BigInt(value),
+					})
 						.then((result) => {
 							console.debug('Unexpected successful call after failed estimate gas', call, gasError, result);
 							return { call, error: 'Unexpected issue with estimating the gas. Please try again' };
@@ -114,13 +127,33 @@ export const claimTokenCallback = async (
 		call: { address, calldata, value },
 	} = bestCallOption;
 
-	return provider
-		.getSigner()
-		.sendTransaction({
-			from: account,
-			to: address,
-			data: calldata,
-			...('gasEstimate' in bestCallOption ? { gasLimit: calculateGasMargin(bestCallOption.gasEstimate) } : {}),
+	// console.log({
+	// 	id: Number(chain.chainId),
+	// 	name: chain.chainName,
+	// 	nativeCurrency: {
+	// 		decimals: chain.decimals,
+	// 		name: chain.nativeCurrencyName,
+	// 		symbol: chain.symbol,
+	// 	},
+	// 	network: chain.chainName,
+	// 	rpcUrls: {
+	// 		default: {
+	// 			http: [chain.rpcUrl],
+	// 		},
+	// 		public: {
+	// 			http: [chain.rpcUrl],
+	// 		},
+	// 	},
+	// });
+
+	return signer
+		?.sendTransaction({
+			account: account as any,
+			to: address as any,
+			data: calldata as any,
+			...('gasEstimate' in bestCallOption
+				? { gasLimit: calculateGasMargin(BigNumber.from(bestCallOption.gasEstimate)) }
+				: {}),
 			...(value && !isZero(value) ? { value } : {}),
 		})
 		.then((response) => {
@@ -128,6 +161,7 @@ export const claimTokenCallback = async (
 			return response;
 		})
 		.catch((error) => {
+			console.log(error);
 			// if the user rejected the tx, pass this along
 			if (error?.code === 4001) {
 				throw new Error(`Transaction rejected`);
